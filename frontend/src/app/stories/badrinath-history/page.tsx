@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowLeftIcon, MessageCircle, Sparkles, BookOpen, MapPin, Clock } from 'lucide-react'
-import { useNaradAIStore, useUIStore } from '@/store'
+import { useNaradAIStore, useUIStore } from '../../../store'
 
 const BadrinathHistoryStory: React.FC = () => {
   const { startSession, messages, setInitialInput } = useNaradAIStore()

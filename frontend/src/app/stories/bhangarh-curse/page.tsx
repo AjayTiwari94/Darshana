@@ -13,7 +13,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { HeartIcon as HeartSolidIcon, BookmarkIcon as BookmarkSolidIcon } from '@heroicons/react/24/solid'
 import { Sparkles } from 'lucide-react'
-import { useNaradAIStore, useUIStore } from '@/store'
+import { useNaradAIStore, useUIStore } from '../../../store'
 import Link from 'next/link'
 
 const BhangarhCurseStory = () => {

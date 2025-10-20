@@ -18,7 +18,7 @@ import {
 import { HeartIcon as HeartSolidIcon, BookmarkIcon as BookmarkSolidIcon } from '@heroicons/react/24/solid'
 import { Sparkles, Volume2, VolumeX, BookOpen, MapPin, Calendar, User } from 'lucide-react'
 import Link from 'next/link'
-import { useNaradAIStore, useUIStore } from '@/store'
+import { useNaradAIStore, useUIStore } from '../../../store'
 
 const ChintpurniBeliefsPage = () => {
   const { startSession, messages, setInitialInput } = useNaradAIStore()

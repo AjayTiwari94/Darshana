@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { apiCall } from '@/lib/api'
+import { apiCall } from '../../../lib/api'
 import { usePathname } from 'next/navigation'
 import { 
   BookOpenIcon, 
@@ -16,8 +16,8 @@ import {
 } from '@heroicons/react/24/outline'
 import { HeartIcon as HeartSolidIcon, BookmarkIcon as BookmarkSolidIcon } from '@heroicons/react/24/solid'
 import Link from 'next/link'
-import StoryTypeSwitcher from '@/components/stories/StoryTypeSwitcher'
-import AnimatedStoryContent from '@/components/stories/AnimatedStoryContent'
+import StoryTypeSwitcher from '../../../components/stories/StoryTypeSwitcher'
+import AnimatedStoryContent from '../../../components/stories/AnimatedStoryContent'
 
 // Define the story type
 type StoryType = 'history' | 'mythology' | 'belief' | 'horror' | 'folklore' | 'legend'
