@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline'
-import { apiCall } from '@/lib/api'
+import { apiCall } from '../../../lib/api'
 
 interface FormData {
   firstName: string

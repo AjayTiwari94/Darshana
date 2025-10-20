@@ -1,6 +1,8 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import { useNaradAIStore } from '../../store'
+import { useUIStore } from '../../store'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
@@ -13,7 +15,6 @@ import {
   FireIcon
 } from '@heroicons/react/24/outline'
 import { Sparkles } from 'lucide-react'
-import { useNaradAIStore, useUIStore } from '@/store'
 
 // Define the story types
 type StoryType = 'history' | 'myths' | 'beliefs' | 'folk' | 'horror'
