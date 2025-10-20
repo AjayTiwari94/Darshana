@@ -10,8 +10,6 @@ import {
   QrCodeIcon,
   ArrowLeftIcon
 } from '@heroicons/react/24/outline'
-import html2canvas from 'html2canvas'
-import html2pdf from 'html2pdf.js'
 
 interface TicketData {
   bookingId: string
@@ -92,9 +90,13 @@ const TicketDetailsPage: React.FC = () => {
   }
 
   // Function to generate and download PDF ticket
-  const downloadPDF = () => {
+  const downloadPDF = async () => {
     const element = document.getElementById('ticket-to-print')
     if (element) {
+      // Dynamically import the libraries
+      const html2pdfModule = await import('html2pdf.js')
+      const html2pdf = html2pdfModule.default
+      
       // Store original content
       const originalInnerHtml = element.innerHTML
       
@@ -188,6 +190,10 @@ const TicketDetailsPage: React.FC = () => {
         if (sendButton) {
           sendButton.innerHTML = '<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Sending...'
         }
+        
+        // Dynamically import html2canvas
+        const html2canvasModule = await import('html2canvas')
+        const html2canvas = html2canvasModule.default
         
         // Capture screenshot of the ticket with reduced quality to minimize payload
         const canvas = await html2canvas(element, {

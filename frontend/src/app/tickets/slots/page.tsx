@@ -16,12 +16,6 @@ import {
   ArrowLeftIcon
 } from '@heroicons/react/24/outline'
 
-// Add html2canvas for screenshot capture
-import html2canvas from 'html2canvas'
-
-// Add this import for PDF generation
-import html2pdf from 'html2pdf.js'
-
 interface Monument {
   _id: string
   name: string

@@ -56,6 +56,6 @@
     "url": "https://github.com/AjayTiwari94/Darshana.git"
   },
   "engines": {
-    "node": "18.x"
+    "node": "22.x"
   }
 }

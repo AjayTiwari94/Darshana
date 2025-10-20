@@ -15,12 +15,6 @@ import {
   QrCodeIcon
 } from '@heroicons/react/24/outline'
 
-// Add html2canvas for screenshot capture
-import html2canvas from 'html2canvas'
-
-// Add this import for PDF generation
-import html2pdf from 'html2pdf.js'
-
 // Add print styles
 import './print-styles.css'
 
@@ -338,9 +332,13 @@ const TicketBooking = () => {
   }
 
   // Function to generate and download PDF ticket
-  const downloadPDF = () => {
+  const downloadPDF = async () => {
     const element = document.getElementById('ticket-to-print')
     if (element) {
+      // Dynamically import html2pdf
+      const html2pdfModule = await import('html2pdf.js')
+      const html2pdf = html2pdfModule.default
+      
       // Store original content
       const originalInnerHtml = element.innerHTML
       
@@ -407,48 +405,6 @@ const TicketBooking = () => {
     }
   }
 
-  // Function to download PDF from backend
-  const downloadBackendPDF = async () => {
-    if (!completedBooking) return
-    
-    try {
-      const ticketId = completedBooking._id || completedBooking.id
-      if (!ticketId) {
-        // Fallback to HTML-based PDF generation
-        downloadPDF()
-        return
-      }
-      
-      // Use the correct backend URL
-      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000'
-      const response = await fetch(`${backendUrl}/api/tickets/${ticketId}/download`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/pdf',
-        },
-      })
-      
-      if (response.ok) {
-        const blob = await response.blob()
-        const url = window.URL.createObjectURL(blob)
-        const a = document.createElement('a')
-        a.href = url
-        a.download = `darshana-ticket-${completedBooking.bookingId || 'booking'}.pdf`
-        document.body.appendChild(a)
-        a.click()
-        window.URL.revokeObjectURL(url)
-        document.body.removeChild(a)
-      } else {
-        // Fallback to HTML-based PDF generation
-        downloadPDF()
-      }
-    } catch (error) {
-      console.error('Failed to download PDF from backend:', error)
-      // Fallback to HTML-based PDF generation
-      downloadPDF()
-    }
-  }
-
   // Function to capture screenshot of ticket and send via WhatsApp
   const sendScreenshotTicket = async () => {
     const element = document.getElementById('ticket-to-print')
@@ -473,6 +429,10 @@ const TicketBooking = () => {
           sendButton.innerHTML = '<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Sending...'
 
         }
+
+        // Dynamically import html2canvas
+        const html2canvasModule = await import('html2canvas')
+        const html2canvas = html2canvasModule.default
 
         // Capture screenshot of the ticket
         const canvas = await html2canvas(element, {
