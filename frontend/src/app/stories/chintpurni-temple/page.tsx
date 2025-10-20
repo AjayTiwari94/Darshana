@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { ArrowLeftIcon, MessageCircle, Sparkles } from 'lucide-react'
-import { useNaradAIStore, useUIStore } from '../../../store'
+import { useNaradAIStore, useUIStore } from '@/store'
 
 const ChintpurniTempleStory: React.FC = () => {
   const { startSession, messages, setInitialInput } = useNaradAIStore()
