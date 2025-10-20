@@ -5,7 +5,8 @@
       "src": "package.json",
       "use": "@vercel/next",
       "config": {
-        "includeFiles": ["next.config.js"]
+        "includeFiles": ["next.config.js"],
+        "zeroConfig": true
       }
     }
   ],
