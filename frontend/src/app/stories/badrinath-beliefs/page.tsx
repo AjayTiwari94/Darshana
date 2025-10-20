@@ -15,7 +15,7 @@ const BadrinathBeliefsStory: React.FC = () => {
   const handleTalkToNarad = () => {
     // Start a new session if one doesn't exist
     if (messages.length === 0) {
-      startSession()
+      startSession('badrinath-beliefs-session')
     }
     
     // Set initial input with a query about the story

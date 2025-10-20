@@ -15,11 +15,11 @@ const GoldenTempleStory: React.FC = () => {
   const handleTalkToNarad = () => {
     // Start a new session if one doesn't exist
     if (messages.length === 0) {
-      startSession()
+      startSession('golden-temple-history-session')
     }
     
     // Set initial input with a query about the story
-    setInitialInput("Tell me more about the history and spiritual significance of the Golden Temple in Amritsar")
+    setInitialInput("Tell me more about the history of the Golden Temple (Harmandir Sahib) and its significance in Sikhism")
     
     // Open the AI chat
     setNaradAIOpen(true)

@@ -30,11 +30,11 @@ const CulturalStoryCard: React.FC<CulturalStoryCardProps> = ({
     
     // Start a new session if one doesn't exist
     if (messages.length === 0) {
-      startSession()
+      startSession('cultural-story-card-session')
     }
     
     // Set initial input with a query about the story
-    setInitialInput(`Tell me more about cultural stories about ${place}, ${state}. ${description}`)
+    setInitialInput(`Tell me more about cultural stories related to ${place} in ${state}. This location has ${storyCount} stories and is described as: ${description}`)
     
     // Open the AI chat
     setNaradAIOpen(true)

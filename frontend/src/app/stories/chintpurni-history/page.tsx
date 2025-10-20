@@ -77,11 +77,11 @@ const ChintpurniHistoryPage = () => {
   const handleTalkToNarad = () => {
     // Start a new session if one doesn't exist
     if (messages.length === 0) {
-      startSession()
+      startSession('chintpurni-history-session')
     }
     
     // Set initial input with a query about the story
-    setInitialInput("Tell me more about the history and significance of Chintpurni Temple")
+    setInitialInput("Tell me more about the rich history of Chintpurni Temple and its evolution over the centuries")
     
     // Open the AI chat
     setNaradAIOpen(true)

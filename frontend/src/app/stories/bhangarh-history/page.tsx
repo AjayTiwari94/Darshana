@@ -87,11 +87,11 @@ const BhangarhHistoryStory = () => {
   const handleTalkToNarad = () => {
     // Start a new session if one doesn't exist
     if (messages.length === 0) {
-      startSession()
+      startSession('bhangarh-history-session')
     }
     
     // Set initial input with a query about the story
-    setInitialInput("Tell me more about the history and significance of Bhangarh Fort")
+    setInitialInput("Tell me more about the fascinating history of Bhangarh Fort and why it's considered one of India's most mysterious historical sites")
     
     // Open the AI chat
     setNaradAIOpen(true)

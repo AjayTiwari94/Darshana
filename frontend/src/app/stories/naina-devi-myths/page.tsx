@@ -77,11 +77,11 @@ const NainaDeviMythsPage = () => {
   const handleTalkToNarad = () => {
     // Start a new session if one doesn't exist
     if (messages.length === 0) {
-      startSession()
+      startSession('naina-devi-myths-session')
     }
     
     // Set initial input with a query about the story
-    setInitialInput("Tell me more about the mythological legends associated with Naina Devi Temple, particularly the story of Goddess Sati's eyes")
+    setInitialInput("Tell me more about the myths and legends associated with Naina Devi Temple and the goddess Sati")
     
     // Open the AI chat
     setNaradAIOpen(true)

@@ -15,11 +15,11 @@ const KedarnathHistoryStory: React.FC = () => {
   const handleTalkToNarad = () => {
     // Start a new session if one doesn't exist
     if (messages.length === 0) {
-      startSession()
+      startSession('kedarnath-history-session')
     }
     
     // Set initial input with a query about the story
-    setInitialInput("Tell me more about the history and spiritual significance of Kedarnath Temple")
+    setInitialInput("Tell me more about the ancient history of Kedarnath Temple and its importance as one of the twelve Jyotirlingas")
     
     // Open the AI chat
     setNaradAIOpen(true)

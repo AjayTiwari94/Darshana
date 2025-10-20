@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowLeftIcon, MessageCircle, Sparkles, BookOpen, MapPin, Clock } from 'lucide-react'
 import { useNaradAIStore, useUIStore } from '@/store'
 
-const KonarkSunTempleStory: React.FC = () => {
+const KonarkSunTempleHistoryStory: React.FC = () => {
   const { startSession, messages, setInitialInput } = useNaradAIStore()
   const { setNaradAIOpen } = useUIStore()
   const [showAIButton, setShowAIButton] = useState(true)
@@ -15,11 +15,11 @@ const KonarkSunTempleStory: React.FC = () => {
   const handleTalkToNarad = () => {
     // Start a new session if one doesn't exist
     if (messages.length === 0) {
-      startSession()
+      startSession('konark-sun-temple-history-session')
     }
     
     // Set initial input with a query about the story
-    setInitialInput("Tell me more about the architectural marvel and historical significance of Konark Sun Temple")
+    setInitialInput("Tell me more about the history and architecture of the Konark Sun Temple, also known as the Black Pagoda")
     
     // Open the AI chat
     setNaradAIOpen(true)
@@ -366,14 +366,14 @@ const KonarkSunTempleStory: React.FC = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  Architecture
+                  History
                 </motion.span>
                 <motion.span 
                   className="px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  UNESCO Site
+                  Architecture
                 </motion.span>
                 <motion.span 
                   className="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm"
@@ -409,7 +409,7 @@ const KonarkSunTempleStory: React.FC = () => {
           transition={{ duration: 0.5, delay: 2.2 }}
         >
           <p className="text-gray-600">
-            Want to know more about Konark Sun Temple and its architectural brilliance? 
+            Want to know more about the Konark Sun Temple's fascinating history and architecture? 
             <button 
               onClick={handleTalkToNarad}
               className="ml-2 text-amber-600 hover:text-amber-800 font-medium flex items-center justify-center gap-1 inline-flex"
@@ -424,4 +424,4 @@ const KonarkSunTempleStory: React.FC = () => {
   )
 }
 
-export default KonarkSunTempleStory
+export default KonarkSunTempleHistoryStory

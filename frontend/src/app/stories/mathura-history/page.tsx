@@ -77,11 +77,11 @@ const MathuraHistoryPage = () => {
   const handleTalkToNarad = () => {
     // Start a new session if one doesn't exist
     if (messages.length === 0) {
-      startSession()
+      startSession('mathura-history-session')
     }
     
     // Set initial input with a query about the story
-    setInitialInput("Tell me more about the history and significance of Mathura as Lord Krishna's birthplace")
+    setInitialInput("Tell me more about the ancient history of Mathura and its evolution over the centuries as an important cultural and religious center")
     
     // Open the AI chat
     setNaradAIOpen(true)

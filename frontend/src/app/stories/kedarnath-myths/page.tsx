@@ -15,11 +15,11 @@ const KedarnathMythsStory: React.FC = () => {
   const handleTalkToNarad = () => {
     // Start a new session if one doesn't exist
     if (messages.length === 0) {
-      startSession()
+      startSession('kedarnath-myths-session')
     }
     
     // Set initial input with a query about the story
-    setInitialInput("Tell me more about the myths and legends associated with Kedarnath Temple, particularly the story of Lord Shiva and the Pandavas")
+    setInitialInput("Tell me more about the myths and legends associated with Kedarnath Temple and Lord Shiva")
     
     // Open the AI chat
     setNaradAIOpen(true)

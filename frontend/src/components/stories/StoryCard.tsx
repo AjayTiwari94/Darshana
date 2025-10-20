@@ -71,7 +71,7 @@ const StoryCard: React.FC<StoryCardProps> = ({ story, className = '' }) => {
     
     // Start a new session if one doesn't exist
     if (messages.length === 0) {
-      startSession()
+      startSession('story-card-session')
     }
     
     // Set initial input with a query about the story

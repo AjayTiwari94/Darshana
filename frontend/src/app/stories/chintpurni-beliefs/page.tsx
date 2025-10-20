@@ -77,11 +77,11 @@ const ChintpurniBeliefsPage = () => {
   const handleTalkToNarad = () => {
     // Start a new session if one doesn't exist
     if (messages.length === 0) {
-      startSession()
+      startSession('chintpurni-beliefs-session')
     }
     
     // Set initial input with a query about the story
-    setInitialInput("Tell me more about the spiritual beliefs and significance of Chintpurni Temple")
+    setInitialInput("Tell me more about the spiritual beliefs associated with Chintpurni Temple and its significance in Hindu mythology")
     
     // Open the AI chat
     setNaradAIOpen(true)

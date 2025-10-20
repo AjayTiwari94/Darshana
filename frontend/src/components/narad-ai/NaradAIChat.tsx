@@ -181,9 +181,9 @@ const processFormatting = (elements: (string | JSX.Element)[], marker: string, t
 const NaradAIChatComponent = () => {
   const router = useRouter()
   const { 
-    session, 
+    sessionId,
     messages, 
-    isActive, 
+    isSessionActive: isActive, 
     isLoading, 
     sendMessage, 
     startSession, 
@@ -192,7 +192,7 @@ const NaradAIChatComponent = () => {
     setError: setStoreError
   } = useNaradAIStore()
   
-  const { naradAIOpen, setNaradAIOpen } = useUIStore()
+  const { isNaradAIOpen: naradAIOpen, setNaradAIOpen } = useUIStore()
   
   const [inputMessage, setInputMessage] = useState('')
   const [isMinimized, setIsMinimized] = useState(false)
@@ -461,7 +461,7 @@ const NaradAIChatComponent = () => {
     // Start session if not active
     if (!isActive) {
       console.log('Starting new session')
-      startSession()
+      startSession('narad-ai-message-session')
     }
     
     try {
@@ -740,6 +740,16 @@ const NaradAIChatComponent = () => {
     { value: 'ta', label: 'தமிழ்' },
     { value: 'te', label: 'తెలుగు' }
   ], []);
+
+  const handleClick = () => {
+    // Start a new session if one doesn't exist
+    if (!isActive) {
+      startSession('narad-ai-chat-session')
+    }
+    
+    // Open the AI chat
+    setNaradAIOpen(true)
+  }
 
   return (
     <div className={`fixed inset-0 z-50 ${naradAIOpen ? 'block' : 'hidden'}`}>

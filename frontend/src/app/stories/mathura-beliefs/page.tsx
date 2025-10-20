@@ -77,11 +77,11 @@ const MathuraBeliefsPage = () => {
   const handleTalkToNarad = () => {
     // Start a new session if one doesn't exist
     if (messages.length === 0) {
-      startSession()
+      startSession('mathura-beliefs-session')
     }
     
     // Set initial input with a query about the story
-    setInitialInput("Tell me more about the spiritual beliefs and divine leelas of Lord Krishna in Mathura")
+    setInitialInput("Tell me more about the spiritual beliefs associated with Mathura and its significance as the birthplace of Lord Krishna")
     
     // Open the AI chat
     setNaradAIOpen(true)

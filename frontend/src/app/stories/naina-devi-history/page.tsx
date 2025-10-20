@@ -77,11 +77,11 @@ const NainaDeviHistoryPage = () => {
   const handleTalkToNarad = () => {
     // Start a new session if one doesn't exist
     if (messages.length === 0) {
-      startSession()
+      startSession('naina-devi-history-session')
     }
     
     // Set initial input with a query about the story
-    setInitialInput("Tell me more about the history and significance of Naina Devi Temple")
+    setInitialInput("Tell me more about the history of Naina Devi Temple and its significance as a Shakti Peetha")
     
     // Open the AI chat
     setNaradAIOpen(true)

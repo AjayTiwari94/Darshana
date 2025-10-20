@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { useAuthStore } from '@/store'
+import { useAuthStore } from '@/store/authStore'
 import { useRouter } from 'next/navigation'
 import { API_BASE_URL } from '@/lib/api'
 import AdminDashboard from '../../components/admin/AdminDashboard'
@@ -240,15 +240,15 @@ const UserDashboard: React.FC = () => {
         <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
           <div className="flex items-center space-x-4">
             <div className="h-16 w-16 bg-orange-100 rounded-full flex items-center justify-center">
-              {user?.avatar ? (
-                <img src={user.avatar} alt="Profile" className="h-16 w-16 rounded-full object-cover" />
+              {(user as any)?.avatar ? (
+                <img src={(user as any).avatar} alt="Profile" className="h-16 w-16 rounded-full object-cover" />
               ) : (
                 <UserIcon className="h-8 w-8 text-orange-600" />
               )}
             </div>
             <div className="flex-1">
               <h1 className="text-2xl font-bold text-gray-900">
-                Welcome back, {user?.firstName}!
+                Welcome back, {(user as any)?.firstName || 'User'}!
               </h1>
               <p className="text-gray-600">
                 Continue your journey through India's cultural heritage

@@ -6,18 +6,18 @@ import { motion } from 'framer-motion'
 import { useNaradAIStore, useUIStore } from '@/store'
 
 const NaradAIButton = () => {
-  const { isActive, startSession } = useNaradAIStore()
-  const { naradAIOpen, setNaradAIOpen } = useUIStore()
+  const { isSessionActive, startSession } = useNaradAIStore()
+  const { isNaradAIOpen, setNaradAIOpen } = useUIStore()
 
   const handleClick = () => {
-    if (!isActive) {
-      startSession()
+    if (!isSessionActive) {
+      startSession('narad-ai-button-session')
     }
     setNaradAIOpen(true)
   }
 
   // Conditionally render the button
-  if (naradAIOpen) {
+  if (isNaradAIOpen) {
     return null
   }
 
@@ -45,7 +45,7 @@ const NaradAIButton = () => {
       
       {/* Icon */}
       <div className="relative z-10">
-        {isActive ? (
+        {isSessionActive ? (
           <Bot size={20} className="animate-pulse" />
         ) : (
           <MessageCircle size={20} />
@@ -53,7 +53,7 @@ const NaradAIButton = () => {
       </div>
       
       {/* Active Indicator */}
-      {isActive && (
+      {isSessionActive && (
         <motion.div
           className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-white"
           initial={{ scale: 0 }}

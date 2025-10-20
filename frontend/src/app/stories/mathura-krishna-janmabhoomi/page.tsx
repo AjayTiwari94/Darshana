@@ -14,11 +14,11 @@ const MathuraKrishnaJanmabhoomiStory: React.FC = () => {
   const handleTalkToNarad = () => {
     // Start a new session if one doesn't exist
     if (messages.length === 0) {
-      startSession()
+      startSession('mathura-krishna-janmabhoomi-session')
     }
     
     // Set initial input with a query about the story
-    setInitialInput("Tell me more about the significance of Mathura as Lord Krishna's birthplace")
+    setInitialInput("Tell me more about Krishna Janmabhoomi in Mathura and its significance as the birthplace of Lord Krishna")
     
     // Open the AI chat
     setNaradAIOpen(true)

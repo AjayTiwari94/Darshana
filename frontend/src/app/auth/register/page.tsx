@@ -153,10 +153,11 @@ const RegisterPage = () => {
     try {
       const response = await apiCall('/api/auth/register', {
         method: 'POST',
-        body: JSON.stringify(formData)
+        body: formData
       })
       
-      const data = await response.json()
+      // The apiCall function already returns parsed JSON data
+      const data = response
       
       if (data.success) {
         router.push('/auth/login?message=Registration successful! Please log in.')

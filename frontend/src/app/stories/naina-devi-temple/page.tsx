@@ -14,11 +14,11 @@ const NainaDeviTempleStory: React.FC = () => {
   const handleTalkToNarad = () => {
     // Start a new session if one doesn't exist
     if (messages.length === 0) {
-      startSession()
+      startSession('naina-devi-temple-session')
     }
     
     // Set initial input with a query about the story
-    setInitialInput("Tell me more about the history and significance of Naina Devi Temple")
+    setInitialInput("Tell me more about Naina Devi Temple, its architecture, and what makes it a significant Shakti Peetha")
     
     // Open the AI chat
     setNaradAIOpen(true)

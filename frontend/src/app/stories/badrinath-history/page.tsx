@@ -15,11 +15,11 @@ const BadrinathHistoryStory: React.FC = () => {
   const handleTalkToNarad = () => {
     // Start a new session if one doesn't exist
     if (messages.length === 0) {
-      startSession()
+      startSession('badrinath-history-session')
     }
     
     // Set initial input with a query about the story
-    setInitialInput("Tell me more about the history and spiritual significance of Badrinath Temple")
+    setInitialInput("Tell me more about the rich history of Badrinath Temple and its significance as one of the Char Dham pilgrimage sites")
     
     // Open the AI chat
     setNaradAIOpen(true)

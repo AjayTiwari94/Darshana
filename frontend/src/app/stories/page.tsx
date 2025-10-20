@@ -23,7 +23,7 @@ import { HeartIcon as HeartSolidIcon, BookmarkIcon as BookmarkSolidIcon } from '
 import { Sparkles, MessageCircle } from 'lucide-react'
 import Link from 'next/link'
 import { apiCall } from '../../lib/api'
-import { useNaradAIStore, useUIStore } from '../../store'
+import { useNaradAIStore, useUIStore } from '@/store'
 
 interface Story {
   _id: string
@@ -113,7 +113,7 @@ const StorytellingHub: React.FC = () => {
   const handleTalkToNarad = () => {
     // Start a new session if one doesn't exist
     if (messages.length === 0) {
-      startSession()
+      startSession('stories-page-session')
     }
     
     // Set initial input with a general query about the stories
@@ -598,7 +598,7 @@ const StorytellingHub: React.FC = () => {
                     e.stopPropagation()
                     // Start a new session if one doesn't exist
                     if (messages.length === 0) {
-                      startSession()
+                      startSession('cultural-story-card-session')
                     }
                     
                     // Set initial input with a query about the story
@@ -710,7 +710,7 @@ const StorytellingHub: React.FC = () => {
                   e.stopPropagation()
                   // Start a new session if one doesn't exist
                   if (messages.length === 0) {
-                    startSession()
+                    startSession('story-card-session')
                   }
                   
                   // Set initial input with a query about the story

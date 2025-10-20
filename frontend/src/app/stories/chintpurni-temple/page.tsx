@@ -14,11 +14,11 @@ const ChintpurniTempleStory: React.FC = () => {
   const handleTalkToNarad = () => {
     // Start a new session if one doesn't exist
     if (messages.length === 0) {
-      startSession()
+      startSession('chintpurni-temple-session')
     }
     
     // Set initial input with a query about the story
-    setInitialInput("Tell me more about the history and significance of Chintpurni Temple")
+    setInitialInput("Tell me more about Chintpurni Temple, its architecture, and what makes it a significant pilgrimage site")
     
     // Open the AI chat
     setNaradAIOpen(true)
