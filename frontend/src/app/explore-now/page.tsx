@@ -4,8 +4,8 @@ import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowLeftIcon, Sparkles, CompassIcon, MapIcon, NavigationIcon } from 'lucide-react'
 import Link from 'next/link'
-import { useNaradAIStore, useUIStore } from '@/store'
-import PageTransition from '@/components/common/PageTransition'
+import { useNaradAIStore, useUIStore } from '../../store'
+import PageTransition from '../components/common/PageTransition'
 
 const ExploreNowPage: React.FC = () => {
   const { startSession, messages } = useNaradAIStore()

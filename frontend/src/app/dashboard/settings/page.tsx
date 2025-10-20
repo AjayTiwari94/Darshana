@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { useAuthStore } from '@/store'
+import { useAuthStore } from '../../store'
 import { useRouter } from 'next/navigation'
 import { User, Mail, Lock, Bell, Globe, Palette, Shield, CreditCard, Trash2, Save, Eye, EyeOff } from 'lucide-react'
 

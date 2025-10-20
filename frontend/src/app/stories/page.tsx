@@ -22,8 +22,8 @@ import {
 import { HeartIcon as HeartSolidIcon, BookmarkIcon as BookmarkSolidIcon } from '@heroicons/react/24/solid'
 import { Sparkles, MessageCircle } from 'lucide-react'
 import Link from 'next/link'
-import { apiCall } from '@/lib/api'
-import { useNaradAIStore, useUIStore } from '@/store'
+import { apiCall } from '../../lib/api'
+import { useNaradAIStore, useUIStore } from '../../store'
 
 interface Story {
   _id: string

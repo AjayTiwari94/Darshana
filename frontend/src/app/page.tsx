@@ -1,22 +1,22 @@
 import React from 'react'
 import dynamic from 'next/dynamic'
-import Header from '@/components/layout/Header'
-import Hero from '@/components/home/Hero'
+import Header from '../components/layout/Header'
+import Hero from '../components/home/Hero'
 
 // Lazy load non-critical components
-const Features = dynamic(() => import('@/components/home/Features'), {
+const Features = dynamic(() => import('../components/home/Features'), {
   loading: () => <div className="h-96 bg-gray-100 animate-pulse rounded-lg" />
 })
-const PopularMonuments = dynamic(() => import('@/components/home/PopularMonuments'), {
+const PopularMonuments = dynamic(() => import('../components/home/PopularMonuments'), {
   loading: () => <div className="h-96 bg-gray-100 animate-pulse rounded-lg" />
 })
-const TrendingStories = dynamic(() => import('@/components/home/TrendingStories'), {
+const TrendingStories = dynamic(() => import('../components/home/TrendingStories'), {
   loading: () => <div className="h-96 bg-gray-100 animate-pulse rounded-lg" />
 })
-const ImageCarousel = dynamic(() => import('@/components/home/ImageCarousel'), {
+const ImageCarousel = dynamic(() => import('../components/home/ImageCarousel'), {
   loading: () => <div className="h-screen bg-red-500">Carousel Loading...</div>
 })
-const Footer = dynamic(() => import('@/components/layout/Footer'), {
+const Footer = dynamic(() => import('../components/layout/Footer'), {
   loading: () => <div className="h-48 bg-gray-100 animate-pulse" />
 })
 

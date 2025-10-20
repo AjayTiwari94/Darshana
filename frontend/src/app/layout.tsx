@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import { Providers } from './providers'
-import NaradAIChat from '@/components/narad-ai/NaradAIChat'
-import NaradAIButton from '@/components/narad-ai/NaradAIButton'
+import NaradAIChat from '../components/narad-ai/NaradAIChat'
+import NaradAIButton from '../components/narad-ai/NaradAIButton'
 
 export const viewport: Viewport = {
   width: 'device-width',

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Search, X, MapPin, Clock, TrendingUp } from 'lucide-react'
-import { useUIStore } from '@/store'
+import { useUIStore } from '../store'
 
 const SearchModal = () => {
   const { searchModalOpen, setSearchModalOpen } = useUIStore()
