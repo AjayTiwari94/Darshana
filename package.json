@@ -46,7 +46,7 @@
   },
   "homepage": "https://github.com/AjayTiwari94/Darshana#readme",
   "engines": {
-    "node": ">=16.0.0"
+    "node": "18.x"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
