@@ -11,40 +11,18 @@ interface PageTransitionProps {
 const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
   const pathname = usePathname()
 
-  const pageVariants = {
-    initial: {
-      opacity: 0,
-      y: 20,
-      scale: 0.96
-    },
-    in: {
-      opacity: 1,
-      y: 0,
-      scale: 1
-    },
-    out: {
-      opacity: 0,
-      y: -20,
-      scale: 1.04
-    }
-  }
-
-  const pageTransition = {
-    type: "tween",
-    ease: [0.25, 0.46, 0.45, 0.94], // Custom smooth cubic-bezier
-    duration: 0.5
-  }
-
   return (
-    <AnimatePresence mode="wait" initial={false}>
+    <AnimatePresence mode="wait">
       <motion.div
         key={pathname}
-        initial="initial"
-        animate="in"
-        exit="out"
-        variants={pageVariants}
-        transition={pageTransition}
-        className="min-h-screen"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{
+          duration: 0.4,
+          ease: [0.4, 0.0, 0.2, 1]
+        }}
+        className="w-full"
       >
         {children}
       </motion.div>

@@ -4,9 +4,7 @@ import React from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { 
-  MapPin, 
   Mail, 
-  Phone, 
   Facebook, 
   Twitter, 
   Instagram, 
@@ -23,7 +21,7 @@ const Footer = () => {
       links: [
         { name: 'Monuments', href: '/monuments' },
         { name: 'Stories', href: '/stories' },
-        { name: 'Virtual Visit', href: '/virtual-visit' },
+        { name: 'Virtual Visit', href: '/virtual-visits' },
         { name: 'Treasure Hunt', href: '/treasure-hunt' },
         { name: 'AR/VR Experiences', href: '/ar-vr' }
       ]
@@ -31,7 +29,7 @@ const Footer = () => {
     {
       title: 'Services',
       links: [
-        { name: 'Narad AI Guide', href: '/narad-ai' },
+        { name: 'Narad AI Guide', href: '/ai-test' },
         { name: 'Book Tickets', href: '/tickets' },
         { name: 'Travel Planning', href: '/travel' },
         { name: 'Group Tours', href: '/group-tours' },
@@ -78,7 +76,7 @@ const Footer = () => {
               <div className="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-xl">D</span>
               </div>
-              <span className="font-display font-bold text-2xl">Darshana</span>
+              <span className="font-sans font-bold text-2xl">Darshana</span>
             </Link>
             
             <p className="text-gray-300 leading-relaxed max-w-md">
@@ -90,15 +88,7 @@ const Footer = () => {
             <div className="space-y-3">
               <div className="flex items-center space-x-3 text-sm text-gray-300">
                 <Mail size={16} className="text-primary-400" />
-                <span>hello@darshana.com</span>
-              </div>
-              <div className="flex items-center space-x-3 text-sm text-gray-300">
-                <Phone size={16} className="text-primary-400" />
-                <span>+91 98765 43210</span>
-              </div>
-              <div className="flex items-center space-x-3 text-sm text-gray-300">
-                <MapPin size={16} className="text-primary-400" />
-                <span>New Delhi, India</span>
+                <span>tiwari.ajay936@outlook.com</span>
               </div>
             </div>
 
@@ -195,7 +185,7 @@ const Footer = () => {
             </div>
             
             <div className="flex items-center space-x-2 text-sm text-gray-400">
-              <span>© 2024 Darshana. Made with</span>
+              <span>© 2025 Darshana. Made with</span>
               <Heart size={16} className="text-red-500 fill-current" />
               <span>in India</span>
             </div>

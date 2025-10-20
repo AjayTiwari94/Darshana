@@ -2,68 +2,91 @@
 
 import React from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { MapPin, Star, Clock, Users, Camera, Ticket } from 'lucide-react'
-
-const PopularMonuments = () => {
+  // Static home monuments
   const monuments = [
     {
-      id: '1',
+      id: 'taj',
       name: 'Taj Mahal',
       location: 'Agra, Uttar Pradesh',
       rating: 4.8,
       reviews: 15420,
       visitTime: '2-3 hours',
-      image: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?w=500',
+      image: '/images/taj-mahal.jpg',
       description: 'Symbol of eternal love and architectural marvel',
       stories: 23,
       arExperiences: 5,
       treasureHunts: 3,
-      ticketPrice: '₹50'
+      ticketPrice: '₹50',
+      primaryStoryId: undefined
     },
     {
-      id: '2',
+      id: 'red-fort',
       name: 'Red Fort',
       location: 'Delhi',
       rating: 4.6,
       reviews: 8930,
       visitTime: '3-4 hours',
-      image: 'https://imgcld.yatra.com/ytimages/image/upload/v1461929855/Delhi-Red_Fort1.jpg',
+      image: '/images/red-fort.jpg',
       description: 'Mughal architecture and seat of power',
       stories: 18,
       arExperiences: 4,
       treasureHunts: 2,
-      ticketPrice: '₹35'
+      ticketPrice: '₹35',
+      primaryStoryId: undefined
     },
     {
-      id: '3',
+      id: 'hampi',
       name: 'Hampi',
       location: 'Karnataka',
       rating: 4.7,
       reviews: 5670,
       visitTime: 'Full day',
-      image: 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=500',
+      image: '/images/hampi.jpg',
       description: 'Ancient Vijayanagara Empire ruins',
       stories: 31,
       arExperiences: 8,
       treasureHunts: 5,
-      ticketPrice: '₹40'
+      ticketPrice: '₹40',
+      primaryStoryId: undefined
     },
     {
-      id: '4',
-      name: 'Ajanta Caves',
-      location: 'Maharashtra',
-      rating: 4.9,
-      reviews: 3450,
-      visitTime: '4-5 hours',
-      image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=500',
-      description: 'Ancient Buddhist rock-cut caves',
+      id: 'amer-fort',
+      name: 'Amer Fort',
+      location: 'Jaipur, Rajasthan',
+      rating: 4.6,
+      reviews: 12500,
+      visitTime: '3-4 hours',
+      image: '/images/amer-fort.jpg',
+      description: 'Majestic sandstone and marble fort with stunning Rajput architecture',
       stories: 15,
-      arExperiences: 6,
+      arExperiences: 4,
       treasureHunts: 2,
-      ticketPrice: '₹30'
+      ticketPrice: '₹50',
+      primaryStoryId: undefined
+    },
+    {
+      id: 'bhangarh',
+      name: 'Bhangarh Fort',
+      location: 'Alwar, Rajasthan',
+      rating: 4.5,
+      reviews: 2340,
+      visitTime: '2-3 hours',
+      image: '/images/bhangarhfort.jpg',
+      description: 'Mysterious haunted fort with rich history',
+      stories: 12,
+      arExperiences: 3,
+      treasureHunts: 1,
+      ticketPrice: '₹25',
+      primaryStoryId: undefined
     }
   ]
+
+
+const PopularMonuments = () => {
+  
 
   return (
     <section className="py-20 bg-gray-50">
@@ -82,7 +105,7 @@ const PopularMonuments = () => {
               Popular Destinations
             </span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-display font-bold text-gray-900 mb-6">
+          <h2 className="text-4xl md:text-5xl font-sans font-bold text-gray-900 mb-6">
             Must-Visit
             <span className="text-gradient"> Monuments</span>
           </h2>
@@ -92,7 +115,7 @@ const PopularMonuments = () => {
         </motion.div>
 
         {/* Monuments Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
           {monuments.map((monument, index) => (
             <motion.div
               key={monument.id}
@@ -102,13 +125,19 @@ const PopularMonuments = () => {
               viewport={{ once: true }}
               className="group cursor-pointer"
             >
-              <div className="card overflow-hidden hover:shadow-xl transition-all duration-300 transform group-hover:-translate-y-2 p-0">
+              <Link
+                href={`/monuments/${monument.id}`}
+                className="block"
+              >
+                <div className="card overflow-hidden hover:shadow-xl transition-all duration-300 transform group-hover:-translate-y-2 p-0">
                 {/* Image */}
                 <div className="relative h-48 overflow-hidden">
-                  <img
+                  <Image
                     src={monument.image}
                     alt={monument.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-300"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   
@@ -181,7 +210,8 @@ const PopularMonuments = () => {
                     <span className="text-lg font-bold text-primary-600">{monument.ticketPrice}</span>
                   </div>
                 </div>
-              </div>
+                </div>
+              </Link>
             </motion.div>
           ))}
         </div>

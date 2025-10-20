@@ -7,7 +7,7 @@ import { ArrowLeftIcon, MessageCircle, Sparkles, BookOpen, MapPin, Clock, User }
 import { useNaradAIStore, useUIStore } from '@/store'
 
 const KedarnathHistoryStory: React.FC = () => {
-  const { startSession, messages } = useNaradAIStore()
+  const { startSession, messages, setInitialInput } = useNaradAIStore()
   const { setNaradAIOpen } = useUIStore()
   const [showAIButton, setShowAIButton] = useState(true)
   const [readingProgress, setReadingProgress] = useState(0)
@@ -18,8 +18,8 @@ const KedarnathHistoryStory: React.FC = () => {
       startSession()
     }
     
-    // Set context for the current story
-    const storyContext = "The user is reading about the history of Kedarnath Temple, one of the twelve Jyotirlingas dedicated to Lord Shiva. The story covers its historical origins, architectural marvel, spiritual significance, and modern pilgrimage experience."
+    // Set initial input with a query about the story
+    setInitialInput("Tell me more about the history and spiritual significance of Kedarnath Temple")
     
     // Open the AI chat
     setNaradAIOpen(true)

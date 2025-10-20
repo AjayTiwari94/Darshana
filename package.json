@@ -1,7 +1,7 @@
 {
   "name": "darshana-platform",
   "version": "1.0.0",
-  "description": "Digital Cultural & Historical Storytelling Platform",
+  "description": "Digital Cultural & Historical Storytelling Platform - Explore India's rich heritage through AI-powered storytelling, AR/VR experiences, and interactive cultural journeys",
   "main": "index.js",
   "scripts": {
     "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\" \"npm run dev:ai\"",
@@ -29,7 +29,11 @@
     "AI",
     "AR/VR",
     "tourism",
-    "education"
+    "education",
+    "indian-culture",
+    "mythology",
+    "history",
+    "voice-assistant"
   ],
   "author": "Darshana Team",
   "license": "MIT",
@@ -38,9 +42,9 @@
     "url": "https://github.com/AjayTiwari94/Darshana.git"
   },
   "bugs": {
-    "url": "https://github.com/your-username/darshana-platform/issues"
+    "url": "https://github.com/AjayTiwari94/Darshana/issues"
   },
-  "homepage": "https://github.com/your-username/darshana-platform#readme",
+  "homepage": "https://github.com/AjayTiwari94/Darshana#readme",
   "engines": {
     "node": ">=16.0.0"
   },
@@ -50,6 +54,7 @@
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "html2pdf.js": "^0.12.0",
+    "next": "^14.0.0",
     "pdfkit": "^0.17.2",
     "qrcode-terminal": "^0.12.0",
     "whatsapp-web.js": "^1.34.1"

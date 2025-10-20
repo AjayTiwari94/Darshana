@@ -1,45 +1,49 @@
 'use client'
 
 import React from 'react'
+import Link from 'next/link'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { BookOpen, Clock, User, TrendingUp } from 'lucide-react'
-
-const TrendingStories = () => {
+  // Static home stories
   const stories = [
     {
-      id: '1',
+      id: 'bhangarh-curse',
       title: 'The Curse of Bhangarh Fort',
       type: 'Horror',
       monument: 'Bhangarh Fort',
       duration: '8 min read',
       author: 'Narad AI',
-      image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400',
-      description: 'Discover the haunting legends that make Bhangarh one of India\'s most mysterious places.',
+      image: '/images/bhangarhfort.jpg',
+      description: "Discover the haunting legends that make Bhangarh one of India's most mysterious places.",
       trending: true
     },
     {
-      id: '2',
-      title: 'The Love Story Behind Taj Mahal',
-      type: 'Mythology',
-      monument: 'Taj Mahal',
-      duration: '12 min read',
-      author: 'Cultural Expert',
-      image: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?w=400',
-      description: 'The romantic tale of Shah Jahan and Mumtaz that inspired the world\'s most beautiful monument.',
+      id: 'kedarnath-history',
+      title: 'The Sacred Kedarnath Temple',
+      type: 'History',
+      monument: 'Kedarnath Temple',
+      duration: '8 min read',
+      author: 'Ajay Tiwari',
+      image: '/images/Kedarnath.jpg',
+      description: 'Discover the ancient history of one of the twelve Jyotirlingas dedicated to Lord Shiva',
       trending: false
     },
     {
-      id: '3',
-      title: 'The Monkey Army of Hampi',
-      type: 'Legend',
-      monument: 'Hampi',
+      id: 'kedarnath-myths',
+      title: 'The Legend of Kedarnath',
+      type: 'Mythology',
+      monument: 'Kedarnath Temple',
       duration: '6 min read',
-      author: 'Folklore Researcher',
-      image: 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=400',
-      description: 'How Hanuman\'s army helped build the bridge to Lanka in this ancient Ramayana site.',
+      author: 'Ajay Tiwari',
+      image: '/images/Kedarnath.jpg',
+      description: 'The divine mythological tale of Lord Shiva and the Pandavas from the Mahabharata',
       trending: true
     }
   ]
+
+
+const TrendingStories = () => {
 
   return (
     <section className="py-20 bg-white">
@@ -58,7 +62,7 @@ const TrendingStories = () => {
               Trending Now
             </span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-display font-bold text-gray-900 mb-6">
+          <h2 className="text-4xl md:text-5xl font-sans font-bold text-gray-900 mb-6">
             Stories That
             <span className="text-gradient"> Captivate</span>
           </h2>
@@ -78,13 +82,16 @@ const TrendingStories = () => {
               viewport={{ once: true }}
               className="group cursor-pointer"
             >
-              <div className="card overflow-hidden hover:shadow-xl transition-all duration-300 transform group-hover:-translate-y-2">
+              <Link href={`/stories/${story.id}`} className="block">
+                <div className="card overflow-hidden hover:shadow-xl transition-all duration-300 transform group-hover:-translate-y-2">
                 {/* Image */}
                 <div className="relative h-48 overflow-hidden mb-6">
-                  <img
+                  <Image
                     src={story.image}
                     alt={story.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-300"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                   
@@ -134,7 +141,8 @@ const TrendingStories = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+                </div>
+              </Link>
             </motion.article>
           ))}
         </div>
@@ -147,9 +155,9 @@ const TrendingStories = () => {
           viewport={{ once: true }}
           className="text-center mt-12"
         >
-          <button className="btn-outline hover:shadow-lg transition-all duration-300">
+          <Link href="/stories" className="btn-outline hover:shadow-lg transition-all duration-300">
             Explore All Stories
-          </button>
+          </Link>
         </motion.div>
       </div>
     </section>

@@ -16,12 +16,18 @@ const connectDB = async () => {
       connectionType = 'MongoDB Atlas (Cloud)'
     }
     
+    // If USE_ATLAS is explicitly set to false, force local MongoDB
+    if (process.env.USE_ATLAS === 'false') {
+      mongoURI = localURI
+      connectionType = 'Local MongoDB (forced)'
+    }
+    
     const isAtlas = mongoURI.includes('mongodb+srv://')
     
     const connectionOptions = {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      serverSelectionTimeoutMS: isAtlas ? 15000 : 3000, // Longer timeout for Atlas
+      serverSelectionTimeoutMS: isAtlas ? 15000 : 5000, // Shorter timeout for local
       retryWrites: true,
       w: 'majority'
     }
@@ -69,6 +75,8 @@ const connectDB = async () => {
     logger.info('🔧 User data will not be persisted')
     logger.info('📖 See MONGODB_ATLAS_SETUP.md for cloud setup or install_mongodb.bat for local setup')
     
+    // Force mock mode for development when database connection fails
+    logger.info('🔧 Falling back to mock mode for development')
     global.useDatabase = false
   }
 }

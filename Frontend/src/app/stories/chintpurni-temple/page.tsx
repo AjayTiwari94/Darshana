@@ -7,7 +7,7 @@ import { ArrowLeftIcon, MessageCircle, Sparkles } from 'lucide-react'
 import { useNaradAIStore, useUIStore } from '@/store'
 
 const ChintpurniTempleStory: React.FC = () => {
-  const { startSession, messages } = useNaradAIStore()
+  const { startSession, messages, setInitialInput } = useNaradAIStore()
   const { setNaradAIOpen } = useUIStore()
   const [showAIButton, setShowAIButton] = useState(true)
 
@@ -17,8 +17,8 @@ const ChintpurniTempleStory: React.FC = () => {
       startSession()
     }
     
-    // Set context for the current story
-    const storyContext = "The user is reading about the Chintpurni Temple, one of the 51 Shaktipeeths dedicated to Goddess Shakti. The story covers its historical origins, spiritual significance, and modern pilgrimage experience."
+    // Set initial input with a query about the story
+    setInitialInput("Tell me more about the history and significance of Chintpurni Temple")
     
     // Open the AI chat
     setNaradAIOpen(true)

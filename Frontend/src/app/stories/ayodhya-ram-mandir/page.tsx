@@ -7,7 +7,7 @@ import { ArrowLeftIcon, MessageCircle, Sparkles, BookOpen, MapPin, Clock } from 
 import { useNaradAIStore, useUIStore } from '@/store'
 
 const AyodhyaRamMandirStory: React.FC = () => {
-  const { startSession, messages } = useNaradAIStore()
+  const { startSession, messages, setInitialInput } = useNaradAIStore()
   const { setNaradAIOpen } = useUIStore()
   const [showAIButton, setShowAIButton] = useState(true)
   const [readingProgress, setReadingProgress] = useState(0)
@@ -18,8 +18,8 @@ const AyodhyaRamMandirStory: React.FC = () => {
       startSession()
     }
     
-    // Set context for the current story
-    const storyContext = "The user is reading about the Ayodhya Ram Mandir, the birthplace of Lord Rama. The story covers its historical origins, spiritual significance, and modern significance."
+    // Set initial input with a query about the story
+    setInitialInput("Tell me more about the significance of Ram Mandir in Ayodhya and its connection to Lord Rama")
     
     // Open the AI chat
     setNaradAIOpen(true)

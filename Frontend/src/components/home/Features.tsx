@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { 
   MessageCircle, 
@@ -98,7 +99,7 @@ const Features = () => {
               Platform Features
             </span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-display font-bold text-gray-900 mb-6">
+          <h2 className="text-4xl md:text-5xl font-sans font-bold text-gray-900 mb-6">
             Reimagining Cultural
             <span className="text-gradient"> Exploration</span>
           </h2>
@@ -124,39 +125,41 @@ const Features = () => {
                 variants={itemVariants}
                 className="group relative"
               >
-                <div className="card h-full hover:shadow-xl transition-all duration-300 transform group-hover:-translate-y-2">
-                  {/* Icon with Gradient Background */}
-                  <div className="relative mb-6">
-                    <div className={`w-16 h-16 rounded-xl bg-gradient-to-r ${feature.color} p-4 group-hover:scale-110 transition-transform duration-300`}>
-                      <IconComponent size={32} className="text-white" />
+                <Link href="/guide" className="block h-full">
+                  <div className="card h-full hover:shadow-xl transition-all duration-300 transform group-hover:-translate-y-2 p-6 rounded-xl">
+                    {/* Icon with Gradient Background */}
+                    <div className="relative mb-6">
+                      <div className={`w-16 h-16 rounded-xl bg-gradient-to-r ${feature.color} p-4 group-hover:scale-110 transition-transform duration-300`}>
+                        <IconComponent size={32} className="text-white" />
+                      </div>
+                      <div className="absolute top-0 left-0 w-16 h-16 rounded-xl bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </div>
-                    <div className="absolute top-0 left-0 w-16 h-16 rounded-xl bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  </div>
 
-                  {/* Content */}
-                  <div className="space-y-4">
-                    <h3 className="text-xl font-bold text-gray-900 group-hover:text-primary-600 transition-colors duration-300">
-                      {feature.title}
-                    </h3>
-                    
-                    <p className="text-gray-600 leading-relaxed">
-                      {feature.description}
-                    </p>
+                    {/* Content */}
+                    <div className="space-y-4">
+                      <h3 className="text-xl font-bold text-gray-900 group-hover:text-primary-600 transition-colors duration-300">
+                        {feature.title}
+                      </h3>
+                      
+                      <p className="text-gray-600 leading-relaxed">
+                        {feature.description}
+                      </p>
 
-                    {/* Highlights */}
-                    <div className="space-y-2">
-                      {feature.highlights.map((highlight, idx) => (
-                        <div key={idx} className="flex items-center text-sm text-gray-500">
-                          <div className="w-1.5 h-1.5 bg-primary-600 rounded-full mr-3" />
-                          {highlight}
-                        </div>
-                      ))}
+                      {/* Highlights */}
+                      <div className="space-y-2">
+                        {feature.highlights.map((highlight, idx) => (
+                          <div key={idx} className="flex items-center text-sm text-gray-500">
+                            <div className="w-1.5 h-1.5 bg-primary-600 rounded-full mr-3" />
+                            {highlight}
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Hover Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary-50 to-secondary-50 opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl" />
-                </div>
+                    {/* Hover Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary-50 to-secondary-50 opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl" />
+                  </div>
+                </Link>
               </motion.div>
             )
           })}
@@ -170,10 +173,10 @@ const Features = () => {
           viewport={{ once: true }}
           className="text-center mt-16"
         >
-          <div className="inline-flex items-center space-x-4 bg-primary-600 text-white px-8 py-4 rounded-full hover:bg-primary-700 transition-colors duration-300 cursor-pointer group">
+          <Link href="/guide" className="inline-flex items-center space-x-4 bg-primary-600 text-white px-8 py-4 rounded-full hover:bg-primary-700 transition-colors duration-300 group">
             <HeadphonesIcon size={20} className="group-hover:scale-110 transition-transform duration-300" />
-            <span className="font-semibold">Experience All Features</span>
-          </div>
+            <span className="font-semibold">Learn How to Use All Features</span>
+          </Link>
         </motion.div>
       </div>
     </section>

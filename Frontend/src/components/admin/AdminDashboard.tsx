@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from 'react'
 import { useAuthStore } from '@/store'
-import { apiCall } from '@/lib/api'
+import { apiCall, API_BASE_URL } from '@/lib/api'
+import { useRouter } from 'next/navigation'
 import { 
   UsersIcon,
   DocumentTextIcon,
@@ -47,6 +48,22 @@ interface ContentReview {
 
 const AdminDashboard: React.FC = () => {
   const { user, token } = useAuthStore()
+  const router = useRouter()
+
+  // Redirect non-admin users to user dashboard
+  useEffect(() => {
+    console.log('Admin dashboard check - user:', user, 'role:', user?.role);
+    if (!user) {
+      // User not authenticated, redirect to login
+      console.log('User not authenticated, redirecting to login');
+      router.push('/auth/login')
+    } else if (user.role !== 'admin') {
+      // User is not admin, redirect to user dashboard
+      console.log('User is not admin, redirecting to user dashboard');
+      router.push('/dashboard')
+    }
+  }, [user, router])
+
   const [stats, setStats] = useState<AdminStats>({
     totalUsers: 0,
     totalStories: 0,
@@ -73,26 +90,62 @@ const AdminDashboard: React.FC = () => {
         throw new Error('No authentication token available')
       }
 
+      // Log the token for debugging (first 10 chars only)
+      console.log('Using token (first 10 chars):', token.substring(0, Math.min(10, token.length)));
+      
       const headers = {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
       }
 
+      console.log('Fetching admin data with token:', token.substring(0, Math.min(10, token.length)) + '...')
+
       // Fetch admin statistics
       const [statsRes, activityRes, pendingRes] = await Promise.all([
-        fetch('http://localhost:5000/api/admin/stats', { headers }),
-        fetch('http://localhost:5000/api/admin/activity', { headers }),
-        fetch('http://localhost:5000/api/admin/pending-content', { headers })
+        fetch(`${API_BASE_URL}/api/admin/stats`, { headers }),
+        fetch(`${API_BASE_URL}/api/admin/activity`, { headers }),
+        fetch(`${API_BASE_URL}/api/admin/pending-content`, { headers })
       ])
 
+      console.log('Admin API Responses:', { 
+        stats: { status: statsRes.status, ok: statsRes.ok },
+        activity: { status: activityRes.status, ok: activityRes.ok },
+        pending: { status: pendingRes.status, ok: pendingRes.ok }
+      })
+
+      // Check if responses are ok, if not throw errors
       if (!statsRes.ok) {
-        throw new Error(`Stats API error: ${statsRes.status}`)
+        let errorText = '';
+        try {
+          const errorData = await statsRes.json();
+          errorText = errorData.message || await statsRes.text();
+        } catch (e) {
+          errorText = await statsRes.text();
+        }
+        console.error('Stats API error response:', errorText);
+        throw new Error(`Stats API error: ${statsRes.status} - ${errorText}`)
       }
       if (!activityRes.ok) {
-        throw new Error(`Activity API error: ${activityRes.status}`)
+        let errorText = '';
+        try {
+          const errorData = await activityRes.json();
+          errorText = errorData.message || await activityRes.text();
+        } catch (e) {
+          errorText = await activityRes.text();
+        }
+        console.error('Activity API error response:', errorText);
+        throw new Error(`Activity API error: ${activityRes.status} - ${errorText}`)
       }
       if (!pendingRes.ok) {
-        throw new Error(`Pending content API error: ${pendingRes.status}`)
+        let errorText = '';
+        try {
+          const errorData = await pendingRes.json();
+          errorText = errorData.message || await pendingRes.text();
+        } catch (e) {
+          errorText = await pendingRes.text();
+        }
+        console.error('Pending content API error response:', errorText);
+        throw new Error(`Pending content API error: ${pendingRes.status} - ${errorText}`)
       }
 
       const [statsData, activityData, pendingData] = await Promise.all([
@@ -100,6 +153,8 @@ const AdminDashboard: React.FC = () => {
         activityRes.json(),
         pendingRes.json()
       ])
+
+      console.log('Admin API Data:', { statsData, activityData, pendingData })
 
       if (statsData.success) {
         setStats(statsData.data)
@@ -111,9 +166,11 @@ const AdminDashboard: React.FC = () => {
         setPendingContent(pendingData.data)
       }
       
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to fetch admin data:', error)
-      setError('Failed to load admin data. Please try again.')
+      // Show a more user-friendly error message
+      const errorMessage = error.message || 'Failed to load the dashboard. Please check your connection and try again.'
+      setError(errorMessage)
       
       // Fallback to mock data if API fails
       setStats({
@@ -129,13 +186,13 @@ const AdminDashboard: React.FC = () => {
     }
   }
 
-  const handleContentAction = async (contentId: string, action: 'approved' | 'rejected', type: 'story' | 'monument') => {
+  const handleContentAction = async (contentId: string, action: 'approved' | 'rejected', type: 'story' | 'monument' | 'user_report') => {
     try {
       if (!token) {
         throw new Error('No authentication token available')
       }
 
-      const response = await fetch(`http://localhost:5000/api/admin/content/${contentId}/status`, {
+      const response = await fetch(`${API_BASE_URL}/api/admin/content/${contentId}/status`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -212,7 +269,7 @@ const AdminDashboard: React.FC = () => {
           </div>
           {error && (
             <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
-              <p className="text-red-700 text-sm">{error}</p>
+              <p className="text-red-700 text-sm">Failed to load the dashboard. Please try again.</p>
               <button 
                 onClick={() => setError('')}
                 className="mt-2 text-red-600 hover:text-red-800 text-xs underline"

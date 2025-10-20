@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
-import { MapPinIcon, BookOpenIcon } from '@heroicons/react/24/outline'
+import { MapPinIcon, BookOpenIcon, SparklesIcon } from '@heroicons/react/24/outline'
+import { useNaradAIStore, useUIStore } from '@/store'
 
 interface CulturalStoryCardProps {
   place: string
@@ -20,10 +20,31 @@ const CulturalStoryCard: React.FC<CulturalStoryCardProps> = ({
   imageUrl,
   className = '' 
 }) => {
+  const { startSession, messages, setInitialInput } = useNaradAIStore()
+  const { setNaradAIOpen } = useUIStore()
+  const [showAIButton, setShowAIButton] = useState(false)
+
+  const handleTalkToNarad = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    
+    // Start a new session if one doesn't exist
+    if (messages.length === 0) {
+      startSession()
+    }
+    
+    // Set initial input with a query about the story
+    setInitialInput(`Tell me more about cultural stories about ${place}, ${state}. ${description}`)
+    
+    // Open the AI chat
+    setNaradAIOpen(true)
+  }
+
   return (
-    <motion.div
-      whileHover={{ y: -5 }}
-      className={`bg-white rounded-2xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-300 hover:shadow-2xl ${className}`}
+    <div
+      className={`bg-white rounded-2xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-300 hover:shadow-2xl hover:scale-105 hover:-translate-y-1 ease-in-out relative ${className}`}
+      onMouseEnter={() => setShowAIButton(true)}
+      onMouseLeave={() => setShowAIButton(false)}
     >
       <div className="relative h-48 overflow-hidden">
         {imageUrl ? (
@@ -44,6 +65,16 @@ const CulturalStoryCard: React.FC<CulturalStoryCardProps> = ({
         <div className="absolute bottom-4 right-4 bg-white bg-opacity-90 px-3 py-1 rounded-full text-sm font-medium text-gray-800">
           {storyCount} stories
         </div>
+        
+        {/* AI Button with simple fade in/out */}
+        {showAIButton && (
+          <button
+            className="absolute top-4 left-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white p-2 rounded-full shadow-lg opacity-100 transition-opacity duration-200"
+            onClick={handleTalkToNarad}
+          >
+            <SparklesIcon className="h-4 w-4" />
+          </button>
+        )}
       </div>
       
       <div className="p-6">
@@ -68,7 +99,7 @@ const CulturalStoryCard: React.FC<CulturalStoryCardProps> = ({
           </span>
         </div>
       </div>
-    </motion.div>
+    </div>
   )
 }
 

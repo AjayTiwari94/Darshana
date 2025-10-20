@@ -7,7 +7,7 @@ import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline'
 
 const LoginPage: React.FC = () => {
   const router = useRouter()
-  const { login } = useAuthStore()
+  const { login, logout } = useAuthStore()
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -30,8 +30,11 @@ const LoginPage: React.FC = () => {
     setError('')
 
     try {
+      // Clear any existing auth state before logging in
+      logout()
+      
       await login(formData.email, formData.password)
-      router.push('/dashboard')
+      router.push('/') // Redirect to home page instead of dashboard
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed')
     } finally {

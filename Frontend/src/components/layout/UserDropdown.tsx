@@ -12,7 +12,8 @@ import {
   Bell,
   HelpCircle,
   LayoutDashboard,
-  Shield
+  Shield,
+  HeadphonesIcon
 } from 'lucide-react'
 import { useAuthStore } from '@/store'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -20,11 +21,22 @@ import LogoutConfirmation from '@/components/common/LogoutConfirmation'
 
 const UserDropdown = () => {
   const router = useRouter()
-  const { user, logout } = useAuthStore()
+  const { user, logout, refreshUser } = useAuthStore()
   const [isOpen, setIsOpen] = useState(false)
   const [isLoggingOut, setIsLoggingOut] = useState(false)
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
+
+  // Log user data for debugging
+  useEffect(() => {
+    console.log('User data in UserDropdown:', user)
+  }, [user])
+
+  // Refresh user data when component mounts
+  useEffect(() => {
+    console.log('Refreshing user data in UserDropdown')
+    refreshUser()
+  }, [refreshUser])
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -69,23 +81,55 @@ const UserDropdown = () => {
     setIsOpen(false)
   }
 
+  // Redirect admin users to admin dashboard automatically
+  useEffect(() => {
+    console.log('Checking user role for redirect:', user?.role)
+    if (user?.role === 'admin' && window.location.pathname === '/dashboard') {
+      console.log('Redirecting admin user to admin dashboard')
+      router.push('/admin')
+    }
+  }, [user, router])
+
+  // Generate display name with fallbacks
+  const getDisplayName = () => {
+    console.log('Getting display name for user:', user)
+    if (user?.name && user.name !== 'undefined') return user.name
+    if (user?.firstName && user?.lastName) return `${user.firstName} ${user.lastName}`
+    if (user?.firstName) return user.firstName
+    if (user?.email) return user.email.split('@')[0]
+    return 'User'
+  }
+
+  // Get user role with fallback
+  const getUserRole = () => {
+    console.log('Getting user role:', user?.role)
+    if (user?.role) return user.role
+    return 'member'
+  }
+
   const menuItems = [
     {
-      icon: UserCircle,
-      label: 'Profile',
-      href: '/dashboard',
-      description: 'View and edit your profile'
+      icon: LayoutDashboard,
+      label: 'Dashboard',
+      href: user?.role === 'admin' ? '/admin' : '/dashboard',
+      description: 'Access your dashboard'
+    },
+    {
+      icon: HeadphonesIcon,
+      label: 'User Guide',
+      href: '/guide',
+      description: 'Learn how to use all features'
     },
     {
       icon: Settings,
       label: 'Settings',
-      href: '/dashboard/settings',
+      href: user?.role === 'admin' ? '/admin/settings' : '/dashboard/settings',
       description: 'Account and privacy settings'
     },
     {
       icon: Bell,
       label: 'Notifications',
-      href: '/dashboard/notifications',
+      href: user?.role === 'admin' ? '/admin/notifications' : '/dashboard/notifications',
       description: 'Manage your notifications'
     },
     {
@@ -107,7 +151,7 @@ const UserDropdown = () => {
         {user?.avatar ? (
           <img
             src={user.avatar}
-            alt={user.name || 'User'}
+            alt={getDisplayName()}
             className="w-8 h-8 rounded-full object-cover"
           />
         ) : (
@@ -117,10 +161,10 @@ const UserDropdown = () => {
         )}
         <div className="hidden sm:block">
           <span className="text-sm font-medium text-gray-700">
-            {user?.name || `${user?.firstName} ${user?.lastName}` || 'User'}
+            {getDisplayName()}
           </span>
           <div className="flex items-center">
-            <span className="text-xs text-gray-500 capitalize">{user?.role || 'Member'}</span>
+            <span className="text-xs text-gray-500 capitalize">{getUserRole()}</span>
             <ChevronDown 
               size={12} 
               className={`ml-1 text-gray-400 transition-transform duration-200 ${
@@ -147,7 +191,7 @@ const UserDropdown = () => {
                 {user?.avatar ? (
                   <img
                     src={user.avatar}
-                    alt={user.name || 'User'}
+                    alt={getDisplayName()}
                     className="w-10 h-10 rounded-full object-cover"
                   />
                 ) : (
@@ -157,64 +201,37 @@ const UserDropdown = () => {
                 )}
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-gray-900 truncate">
-                    {user?.name || `${user?.firstName} ${user?.lastName}` || 'User'}
+                    {getDisplayName()}
                   </p>
                   <p className="text-xs text-gray-500 truncate">
                     {user?.email || 'user@example.com'}
                   </p>
                   <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800 capitalize">
-                    {user?.role || 'Member'}
+                    {getUserRole()}
                   </span>
                 </div>
               </div>
             </div>
 
-            {/* Dashboard Switch (for admin users) */}
-            {user?.role === 'admin' && (
-              <div className="px-4 py-2 border-b border-gray-100">
-                <div className="flex space-x-2">
-                  <button
-                    onClick={switchToUserDashboard}
-                    className={`flex-1 flex items-center justify-center px-3 py-2 text-xs rounded-lg transition-colors ${
-                      window.location.pathname.startsWith('/dashboard') && !window.location.pathname.startsWith('/admin')
-                        ? 'bg-primary-100 text-primary-800'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                  >
-                    <LayoutDashboard size={14} className="mr-1" />
-                    User Dashboard
-                  </button>
-                  <button
-                    onClick={switchToAdminDashboard}
-                    className={`flex-1 flex items-center justify-center px-3 py-2 text-xs rounded-lg transition-colors ${
-                      window.location.pathname.startsWith('/admin')
-                        ? 'bg-primary-100 text-primary-800'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                  >
-                    <Shield size={14} className="mr-1" />
-                    Admin Dashboard
-                  </button>
-                </div>
-              </div>
-            )}
-
             {/* Menu Items */}
             <div className="py-1">
-              {menuItems.map((item) => (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  onClick={() => setIsOpen(false)}
-                  className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-150"
-                >
-                  <item.icon size={16} className="text-gray-400 mr-3" />
-                  <div className="flex-1">
-                    <p className="text-sm font-medium text-gray-900">{item.label}</p>
-                    <p className="text-xs text-gray-500">{item.description}</p>
-                  </div>
-                </Link>
-              ))}
+              {menuItems
+                .filter(item => !(user?.role === 'admin' && window.location.pathname.startsWith('/admin') && 
+                  (item.label === 'Settings' || item.label === 'Notifications')))
+                .map((item) => (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-150"
+                  >
+                    <item.icon size={16} className="text-gray-400 mr-3" />
+                    <div className="flex-1">
+                      <p className="text-sm font-medium text-gray-900">{item.label}</p>
+                      <p className="text-xs text-gray-500">{item.description}</p>
+                    </div>
+                  </Link>
+                ))}
             </div>
 
             {/* Logout Section */}
@@ -238,7 +255,7 @@ const UserDropdown = () => {
             onClose={() => setShowLogoutConfirm(false)}
             onConfirm={handleLogout}
             isLoading={isLoggingOut}
-            userName={user?.name || `${user?.firstName} ${user?.lastName}` || 'User'}
+            userName={getDisplayName()}
           />
         )}
       </AnimatePresence>

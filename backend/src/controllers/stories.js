@@ -503,6 +503,38 @@ const uploadStoryMedia = asyncHandler(async (req, res) => {
   })
 })
 
+// @desc    View story (track view)
+// @route   POST /api/stories/:id/view
+// @access  Public
+const viewStory = asyncHandler(async (req, res) => {
+  const story = await Story.findById(req.params.id)
+
+  if (!story) {
+    return res.status(404).json({
+      success: false,
+      message: 'Story not found'
+    })
+  }
+
+  // Add view interaction
+  if (req.user) {
+    // For authenticated users, track the view with user ID
+    await story.addInteraction(req.user.id, 'view')
+  } else {
+    // For anonymous users, just increment the view count
+    story.statistics.views += 1
+    await story.save()
+  }
+
+  res.status(200).json({
+    success: true,
+    message: 'View tracked successfully',
+    data: {
+      views: story.statistics.views
+    }
+  })
+})
+
 module.exports = {
   getStories,
   getStory,
@@ -516,5 +548,6 @@ module.exports = {
   rateStory,
   bookmarkStory,
   getStoryAnalytics,
-  uploadStoryMedia
+  uploadStoryMedia,
+  viewStory
 }

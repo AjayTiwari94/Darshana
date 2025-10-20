@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef } from 'react'
+import { useRouter } from 'next/navigation'
 import { 
   EyeIcon,
   DevicePhoneMobileIcon,
@@ -48,6 +49,7 @@ interface VRExperience {
 }
 
 const VirtualVisits: React.FC = () => {
+  const router = useRouter()
   const [experiences, setExperiences] = useState<VRExperience[]>([])
   const [selectedExperience, setSelectedExperience] = useState<VRExperience | null>(null)
   const [currentView, setCurrentView] = useState<'gallery' | 'viewer'>('gallery')
@@ -159,10 +161,17 @@ const VirtualVisits: React.FC = () => {
       {currentView === 'gallery' ? (
         <div className="relative">
           {/* Hero Section */}
-          <div className="relative h-96 bg-gradient-to-r from-purple-900 to-blue-900 flex items-center justify-center">
-            <div className="text-center">
-              <h1 className="text-5xl font-bold mb-4">Virtual Heritage Tours</h1>
-              <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+          <div 
+            className="relative h-96 bg-cover bg-center bg-no-repeat flex items-center justify-center"
+            style={{
+              backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.2)), url('/images/virtual1.png')"
+            }}
+          >
+            <div className="text-center text-white">
+              <h1 className="text-5xl font-bold mb-4 drop-shadow-2xl" style={{ textShadow: '3px 3px 6px rgba(0,0,0,0.9), 0 0 12px rgba(0,0,0,0.8), 0 0 20px rgba(0,0,0,0.6)' }}>
+                Virtual Heritage Tours
+              </h1>
+              <p className="text-xl text-gray-200 max-w-2xl mx-auto drop-shadow-lg" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.8), 0 0 12px rgba(0,0,0,0.6)' }}>
                 Experience India's magnificent monuments through immersive AR/VR technology. 
                 Travel through time from anywhere in the world.
               </p>
@@ -172,25 +181,49 @@ const VirtualVisits: React.FC = () => {
           {/* Experience Categories */}
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-              <div className="bg-gray-800 rounded-lg p-6 text-center">
+              <div
+                className="bg-gray-800 rounded-lg p-6 text-center cursor-pointer hover:bg-gray-750 transition-colors transform transition-transform duration-200 hover:scale-105 hover:shadow-lg"
+                onClick={() => router.push('/360-tours')}
+                role="button"
+                aria-label="Explore 360° Tours"
+                title="Explore 360° Tours"
+              >
                 <EyeIcon className="h-12 w-12 text-blue-400 mx-auto mb-4" />
                 <h3 className="text-lg font-semibold mb-2">360° Tours</h3>
                 <p className="text-gray-400 text-sm">Immersive panoramic experiences</p>
               </div>
-              <div className="bg-gray-800 rounded-lg p-6 text-center">
-                <CameraIcon className="h-12 w-12 text-green-400 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold mb-2">AR Overlays</h3>
-                <p className="text-gray-400 text-sm">Interactive augmented reality</p>
+              <div className="relative bg-gradient-to-br from-gray-600 to-gray-700 rounded-lg p-6 text-center shadow-lg opacity-60">
+                <div className="absolute inset-0 bg-gradient-to-br from-gray-500/20 to-gray-600/20 rounded-lg"></div>
+                <CameraIcon className="h-12 w-12 text-gray-400 mx-auto mb-4 relative z-10" />
+                <h3 className="text-lg font-semibold mb-2 text-gray-300 relative z-10">AR Overlays</h3>
+                <p className="text-gray-500 text-sm relative z-10">Interactive augmented reality</p>
+                <div className="absolute inset-0 flex items-center justify-center z-20">
+                  <div className="bg-gradient-to-r from-cyan-500/90 to-blue-500/90 text-white px-4 py-2 rounded-full text-sm font-medium transform -rotate-12 shadow-lg">
+                    Coming Soon
+                  </div>
+                </div>
               </div>
-              <div className="bg-gray-800 rounded-lg p-6 text-center">
-                <DevicePhoneMobileIcon className="h-12 w-12 text-purple-400 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold mb-2">Mobile VR</h3>
-                <p className="text-gray-400 text-sm">Smartphone-based virtual reality</p>
+              <div className="relative bg-gradient-to-br from-gray-600 to-gray-700 rounded-lg p-6 text-center shadow-lg opacity-60">
+                <div className="absolute inset-0 bg-gradient-to-br from-gray-500/20 to-gray-600/20 rounded-lg"></div>
+                <DevicePhoneMobileIcon className="h-12 w-12 text-gray-400 mx-auto mb-4 relative z-10" />
+                <h3 className="text-lg font-semibold mb-2 text-gray-300 relative z-10">Mobile VR</h3>
+                <p className="text-gray-500 text-sm relative z-10">Smartphone-based virtual reality</p>
+                <div className="absolute inset-0 flex items-center justify-center z-20">
+                  <div className="bg-gradient-to-r from-purple-500/90 to-pink-500/90 text-white px-4 py-2 rounded-full text-sm font-medium transform -rotate-12 shadow-lg">
+                    Coming Soon
+                  </div>
+                </div>
               </div>
-              <div className="bg-gray-800 rounded-lg p-6 text-center">
-                <SpeakerWaveIcon className="h-12 w-12 text-yellow-400 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold mb-2">Audio Guides</h3>
-                <p className="text-gray-400 text-sm">Expert narrated experiences</p>
+              <div className="relative bg-gradient-to-br from-gray-600 to-gray-700 rounded-lg p-6 text-center shadow-lg opacity-60">
+                <div className="absolute inset-0 bg-gradient-to-br from-gray-500/20 to-gray-600/20 rounded-lg"></div>
+                <SpeakerWaveIcon className="h-12 w-12 text-gray-400 mx-auto mb-4 relative z-10" />
+                <h3 className="text-lg font-semibold mb-2 text-gray-300 relative z-10">Audio Guides</h3>
+                <p className="text-gray-500 text-sm relative z-10">Expert narrated experiences</p>
+                <div className="absolute inset-0 flex items-center justify-center z-20">
+                  <div className="bg-gradient-to-r from-yellow-500/90 to-orange-500/90 text-white px-4 py-2 rounded-full text-sm font-medium transform -rotate-12 shadow-lg">
+                    Coming Soon
+                  </div>
+                </div>
               </div>
             </div>
 

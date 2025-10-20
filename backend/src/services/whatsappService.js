@@ -5,6 +5,10 @@ const logger = require('../utils/logger')
 const fs = require('fs')
 const path = require('path')
 
+// Add PDF generation library
+const PDFDocument = require('pdfkit')
+const QRCode = require('qrcode')
+
 class WhatsAppService {
   constructor() {
     // Third-party API configuration - Choose one of these options:
@@ -29,7 +33,7 @@ class WhatsAppService {
     this.thirdPartyApiKey = process.env.WHATSAPP_THIRD_PARTY_KEY || 'your_api_key'
     
     // Current provider: 'twilio', 'business_api', 'ultramsg', 'third_party', or 'demo'
-    this.provider = process.env.WHATSAPP_PROVIDER || 'demo'
+    this.provider = process.env.WHATSAPP_PROVIDER || 'ultramsg'
   }
 
   /**
@@ -61,38 +65,27 @@ class WhatsAppService {
    * @returns {string} - Formatted WhatsApp message
    */
   generateTicketMessage(ticketData) {
-    const message = `🎫 *DARSHANA HERITAGE - DIGITAL TICKET*\n` +
-      `═══════════════════════════════════\n\n` +
-      `🏛️ *MONUMENT:* ${ticketData.monument.name}\n` +
-      `📍 *LOCATION:* ${ticketData.monument.location}\n\n` +
-      `🎫 *BOOKING DETAILS:*\n` +
-      `• Booking ID: *${ticketData.bookingId}\n` +
-      `• Status: *${ticketData.status}*\n` +
-      `• Booked on: ${ticketData.bookingDate} at ${ticketData.bookingTime}\n\n` +
-      `📅 *VISIT INFORMATION:*\n` +
-      `• Date: *${ticketData.visitDate}\n` +
-      `• Time: *${ticketData.timeSlot.startTime} - ${ticketData.timeSlot.endTime}\n\n` +
-      `👥 *VISITOR DETAILS (${ticketData.visitors.length} person${ticketData.visitors.length > 1 ? 's' : ''}):*\n` +
-      ticketData.visitors.map((v, i) => 
-        `${i + 1}. *${v.name}* (${v.age} yrs, ${v.nationality})`
-      ).join('\n') +
-      `\n\n💰 *PAYMENT DETAILS:*\n` +
-      `• Total Amount: *₹${ticketData.totalAmount.toFixed(2)}\n` +
-      `• Payment ID: ${ticketData.paymentId}\n` +
-      `• Payment Method: ${ticketData.paymentMethod}\n\n` +
-      `⚠️ *IMPORTANT INSTRUCTIONS:*\n` +
-      `• Keep this ticket safe and accessible\n` +
-      `• Show this ticket at the monument entrance\n` +
-      `• Carry a valid photo ID for verification\n` +
-      `• Arrive 15 minutes before your time slot\n` +
-      `• Tickets are non-refundable\n\n` +
-      `📱 *Need help?*\n` +
-      `Contact: +91-9876543210\n` +
-      `Email: support@darshana.com\n` +
-      `Website: www.darshana.com\n\n` +
-      `Thank you for choosing Darshana! 🙏`
+    // Format visit date to be more readable
+    const visitDate = new Date(ticketData.visitDate).toLocaleDateString('en-IN', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
 
-    return message
+    const message = 
+`📱 *DARSHANA TICKET CONFIRMED* 🏛️
+
+🎫 ID: ${ticketData.bookingId}
+🏯 ${ticketData.monument.name}
+📅 ${visitDate}
+⏰ ${ticketData.timeSlot.startTime}-${ticketData.timeSlot.endTime}
+💰 ₹${ticketData.totalAmount.toFixed(2)}
+
+📥 Show this QR code at the entrance
+
+🙏 Thank you for choosing Darshana!`;
+      
+    return message;
   }
 
   /**
@@ -101,21 +94,25 @@ class WhatsAppService {
    * @returns {string} - Formatted short WhatsApp message
    */
   generateScreenshotCaption(ticketData) {
-    const downloadUrl = process.env.BASE_URL || 'http://localhost:5000';
-    
-    const message = `🌆 *DARSHANA TICKET CONFIRMED* 🏛️\n\n` +
-      `🎫 ID: ${ticketData.bookingId}\n` +
-      `🏯 ${ticketData.monument.name}\n` +
-      `📅 ${ticketData.visitDate}\n` +
-      `⏰ ${ticketData.timeSlot.startTime}-${ticketData.timeSlot.endTime}\n` +
-      `💰 ₹${ticketData.totalAmount.toFixed(2)}\n\n` +
-      `🔗 PDF ticket: ticket_${ticketData.bookingId}.pdf\n` +
-      `🔗 Download: ${downloadUrl}/ticket-download/${ticketData.bookingId}\n\n` +
-      `• Show this ticket at monument entry\n` +
-      `• Carry valid photo ID proof\n` +
-      `• Arrive 15 minutes before your time slot\n` +
-      `• Ticket valid only for mentioned date & time\n\n` +
-      `🙏 Thank you for choosing Darshana!`;
+    // Format visit date to be more readable
+    const visitDate = new Date(ticketData.visitDate).toLocaleDateString('en-IN', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
+
+    const message = 
+`📱 *DARSHANA TICKET CONFIRMED* 🏛️
+
+🎫 ID: ${ticketData.bookingId}
+🏯 ${ticketData.monument.name}
+📅 ${visitDate}
+⏰ ${ticketData.timeSlot.startTime}-${ticketData.timeSlot.endTime}
+💰 ₹${ticketData.totalAmount.toFixed(2)}
+
+📥 Show this QR code at the entrance
+
+🙏 Thank you for choosing Darshana!`;
       
     return message;
   }
@@ -137,6 +134,145 @@ class WhatsAppService {
     }
     
     return `DARSHANA-TICKET:${JSON.stringify(qrData)}`
+  }
+
+  /**
+   * Generate PDF ticket
+   * @param {Object} ticketData - Ticket information
+   * @returns {Promise<string>} - Path to generated PDF file
+   */
+  async generatePDFTicket(ticketData) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        // Create temp directory if it doesn't exist
+        const tempDir = path.join(process.cwd(), 'temp')
+        if (!fs.existsSync(tempDir)) {
+          fs.mkdirSync(tempDir, { recursive: true })
+        }
+
+        // Generate unique filename
+        const filename = `ticket_${ticketData.bookingId || Date.now()}.pdf`
+        const filepath = path.join(tempDir, filename)
+
+        // Create PDF document with better formatting
+        const doc = new PDFDocument({
+          size: 'A4',
+          margin: 30  // Reduced margin from 50 to 30 to fit more content
+        })
+
+        // Pipe the PDF to a writable stream
+        const stream = fs.createWriteStream(filepath)
+        doc.pipe(stream)
+
+        // Add header with decorative elements
+        doc.fontSize(20).fillColor('#8B4513').text('DARSHANA HERITAGE', { align: 'center' })
+        doc.fontSize(14).fillColor('#A0522D').text('Digital Ticket', { align: 'center' })
+        doc.moveDown()
+        doc.fontSize(10).fillColor('#000000').text('========================================', { align: 'center' })
+        doc.moveDown()
+
+        // Format dates
+        const visitDate = new Date(ticketData.visitDate).toLocaleDateString('en-IN', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+
+        const bookingDate = new Date(ticketData.bookingDate).toLocaleDateString('en-IN');
+
+        // Monument Information with better formatting
+        doc.fontSize(14).fillColor('#8B4513').text('MONUMENT DETAILS', { underline: true })
+        doc.moveDown(0.5)
+        doc.fontSize(10).fillColor('#000000').text(`🏛️ Name: ${ticketData.monument.name}`)
+        doc.text(`📍 Location: ${ticketData.monument.location}`)
+        doc.moveDown(0.5)
+
+        // Booking Information
+        doc.fontSize(14).fillColor('#8B4513').text('BOOKING INFORMATION', { underline: true })
+        doc.moveDown(0.5)
+        doc.fontSize(10).fillColor('#000000').text(`🎫 Booking ID: ${ticketData.bookingId}`)
+        doc.text(`📅 Booked on: ${bookingDate}`)
+        doc.text(`⏰ Booked at: ${ticketData.bookingTime}`)
+        doc.text(`✅ Status: ${ticketData.status}`)
+        doc.moveDown(0.5)
+
+        // Visit Information
+        doc.fontSize(14).fillColor('#8B4513').text('VISIT INFORMATION', { underline: true })
+        doc.moveDown(0.5)
+        doc.fontSize(10).fillColor('#000000').text(`📅 Date: ${visitDate}`)
+        doc.text(`⏰ Time Slot: ${ticketData.timeSlot.startTime} - ${ticketData.timeSlot.endTime}`)
+        doc.moveDown(0.5)
+
+        // Visitor Details
+        doc.fontSize(14).fillColor('#8B4513').text(`VISITOR DETAILS (${ticketData.visitors.length} person${ticketData.visitors.length > 1 ? 's' : ''})`, { underline: true })
+        doc.moveDown(0.5)
+        ticketData.visitors.forEach((visitor, index) => {
+          doc.fontSize(10).fillColor('#000000').text(`${index + 1}. ${visitor.name} (${visitor.age} yrs, ${visitor.nationality})`)
+        })
+        doc.moveDown(0.5)
+
+        // Payment Details
+        doc.fontSize(14).fillColor('#8B4513').text('PAYMENT DETAILS', { underline: true })
+        doc.moveDown(0.5)
+        doc.fontSize(10).fillColor('#000000').text(`💰 Total Amount: ₹${ticketData.totalAmount.toFixed(2)}`)
+        doc.text(`💳 Payment ID: ${ticketData.paymentId}`)
+        doc.text(`💳 Payment Method: ${ticketData.paymentMethod}`)
+        doc.moveDown(0.5)
+
+        // Generate QR Code
+        const qrData = this.generateQRCodeData(ticketData)
+        try {
+          const qrCodeDataUrl = await QRCode.toDataURL(qrData)
+          const qrCodeImg = qrCodeDataUrl.split(',')[1]
+          const imgBuffer = Buffer.from(qrCodeImg, 'base64')
+          
+          doc.fontSize(14).fillColor('#8B4513').text('QR CODE FOR ENTRY', { underline: true })
+          doc.moveDown(0.5)
+          doc.image(imgBuffer, {
+            fit: [100, 100],  // Reduced QR code size from 150x150 to 100x100
+            align: 'center',
+            valign: 'center'
+          })
+        } catch (qrError) {
+          logger.warn('⚠️ Failed to generate QR code for PDF:', qrError)
+          doc.fontSize(10).fillColor('#000000').text('QR Code: Unable to generate', { align: 'center' })
+        }
+
+        doc.moveDown(0.5)
+        doc.fontSize(12).fillColor('#8B4513').text('IMPORTANT INSTRUCTIONS:', { underline: true })
+        doc.moveDown(0.5)
+        doc.fontSize(8).fillColor('#000000').text(
+          '• Show this ticket at monument entry\n' +
+          '• Carry valid photo ID proof\n' +
+          '• Arrive 15 minutes before your time slot\n' +
+          '• Ticket valid only for mentioned date & time\n' +
+          '• This is a digital ticket - no refunds\n' +
+          '• Visit darshana.in for more information'
+        )
+
+        // Footer
+        doc.moveDown()
+        doc.fontSize(8).fillColor('#666666').text('Thank you for choosing Darshana Heritage!', { align: 'center' })
+        doc.text('Experience India\'s rich cultural heritage with us', { align: 'center' })
+
+        // Finalize PDF file
+        doc.end()
+
+        stream.on('finish', () => {
+          logger.info(`✅ PDF ticket generated successfully: ${filepath}`)
+          resolve(filepath)
+        })
+
+        stream.on('error', (err) => {
+          logger.error('❌ Failed to generate PDF ticket:', err)
+          reject(err)
+        })
+      } catch (error) {
+        logger.error('❌ PDF generation error:', error)
+        reject(error)
+      }
+    })
   }
 
   /**
@@ -293,9 +429,15 @@ class WhatsAppService {
 
     } catch (error) {
       logger.error('❌ UltraMsg WhatsApp API error:', error.response?.data || error.message)
-      throw new Error(`UltraMsg API error: ${error.response?.data?.error || error.message}`)
+      // More detailed error handling for UltraMsg
+      let errorMessage = error.response?.data?.error || error.message
+      if (errorMessage.includes('non-payment') || errorMessage.includes('Stopped')) {
+        errorMessage = 'Your UltraMsg instance has been stopped due to non-payment. Please activate your subscription to send messages.'
+      }
+      throw new Error(`UltraMsg API error: ${errorMessage}`)
     }
   }
+
   async sendViaThirdParty(phoneNumber, message) {
     try {
       const response = await axios.post(
@@ -528,14 +670,18 @@ class WhatsAppService {
       // Generate caption for the screenshot
       const captionMessage = this.generateScreenshotCaption(ticketData)
       
-      // Send the image with caption
+      // Read the image file as base64
+      const imageBuffer = fs.readFileSync(imagePath);
+      const base64Image = imageBuffer.toString('base64');
+      
+      // Send the image with caption as base64 data
       const imageFormData = new URLSearchParams()
       imageFormData.append('token', this.ultraMsgToken)
       imageFormData.append('to', phoneNumber)
-      imageFormData.append('image', `http://localhost:5000/temp/${path.basename(imagePath)}`)
+      imageFormData.append('image', `data:image/png;base64,${base64Image}`)
       imageFormData.append('caption', captionMessage) // Add caption to the image
 
-      await axios.post(
+      const response = await axios.post(
         `${this.ultraMsgApiUrl}/messages/image`,
         imageFormData,
         {
@@ -565,7 +711,12 @@ class WhatsAppService {
 
     } catch (error) {
       logger.error('❌ UltraMsg WhatsApp API error:', error.response?.data || error.message)
-      throw new Error(`UltraMsg API error: ${error.response?.data?.error || error.message}`)
+      // More detailed error handling for UltraMsg
+      let errorMessage = error.response?.data?.error || error.message
+      if (errorMessage.includes('non-payment') || errorMessage.includes('Stopped')) {
+        errorMessage = 'Your UltraMsg instance has been stopped due to non-payment. Please activate your subscription to send messages.'
+      }
+      throw new Error(`UltraMsg API error: ${errorMessage}`)
     }
   }
 

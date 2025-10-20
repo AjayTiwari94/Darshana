@@ -7,13 +7,18 @@ import { useNaradAIStore, useUIStore } from '@/store'
 
 const NaradAIButton = () => {
   const { isActive, startSession } = useNaradAIStore()
-  const { setNaradAIOpen } = useUIStore()
+  const { naradAIOpen, setNaradAIOpen } = useUIStore()
 
   const handleClick = () => {
     if (!isActive) {
       startSession()
     }
     setNaradAIOpen(true)
+  }
+
+  // Conditionally render the button
+  if (naradAIOpen) {
+    return null
   }
 
   return (

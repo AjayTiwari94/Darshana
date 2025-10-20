@@ -395,6 +395,32 @@ const getMonumentStats = asyncHandler(async (req, res) => {
   })
 })
 
+// @desc    View monument (track view)
+// @route   POST /api/monuments/:id/view
+// @access  Public
+const viewMonument = asyncHandler(async (req, res) => {
+  const monument = await Monument.findById(req.params.id)
+
+  if (!monument) {
+    return res.status(404).json({
+      success: false,
+      message: 'Monument not found'
+    })
+  }
+
+  // Increment view count
+  monument.statistics.totalVisits += 1
+  await monument.save()
+
+  res.status(200).json({
+    success: true,
+    message: 'View tracked successfully',
+    data: {
+      totalVisits: monument.statistics.totalVisits
+    }
+  })
+})
+
 module.exports = {
   getMonuments,
   getMonument,
@@ -406,5 +432,6 @@ module.exports = {
   addARAsset,
   addVRExperience,
   rateMonument,
-  getMonumentStats
+  getMonumentStats,
+  viewMonument
 }

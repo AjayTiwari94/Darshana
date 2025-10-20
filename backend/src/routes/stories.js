@@ -13,7 +13,8 @@ const {
   rateStory,
   bookmarkStory,
   getStoryAnalytics,
-  uploadStoryMedia
+  uploadStoryMedia,
+  viewStory
 } = require('../controllers/stories')
 
 const { protect, authorize, optionalAuth } = require('../middleware/auth')
@@ -56,6 +57,9 @@ router.get('/search', optionalAuth, searchStories)
 router.get('/featured', getFeaturedStories)
 router.get('/monument/:monumentId', optionalAuth, getStoriesByMonument)
 router.get('/:id', optionalAuth, getStory)
+
+// View tracking endpoint
+router.post('/:id/view', optionalAuth, viewStory)
 
 // Protected routes
 router.post('/', protect, storyValidation, validateRequest, createStory)

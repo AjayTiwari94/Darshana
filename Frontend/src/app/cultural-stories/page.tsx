@@ -34,7 +34,7 @@ interface CulturalStory {
 }
 
 const CulturalStoriesPage: React.FC = () => {
-  const { startSession, messages } = useNaradAIStore()
+  const { startSession, messages, setInitialInput } = useNaradAIStore()
   const { setNaradAIOpen } = useUIStore()
   const [activeStory, setActiveStory] = useState<string | null>(null)
   const [activeStoryType, setActiveStoryType] = useState<StoryType>('history')
@@ -54,7 +54,7 @@ const CulturalStoriesPage: React.FC = () => {
       duration: 8,
       period: '8th Century AD',
       narrator: 'Ajay Tiwari',
-      imageUrl: '/images/Kedarnath.jpg',
+      imageUrl: '/images/sacred_places/Kedarnath.jpg',
       contentPreview: 'Nestled in the majestic Garhwal Himalayas at an altitude of 3,583 meters...'
     },
     {
@@ -66,7 +66,7 @@ const CulturalStoriesPage: React.FC = () => {
       state: 'Uttarakhand',
       duration: 6,
       narrator: 'Ajay Tiwari',
-      imageUrl: '/images/Kedarnath.jpg',
+      imageUrl: '/images/sacred_places/Kedarnath.jpg',
       contentPreview: 'According to the Mahabharata, after the great war of Kurukshetra...'
     },
     {
@@ -79,7 +79,7 @@ const CulturalStoriesPage: React.FC = () => {
       duration: 9,
       period: '8th Century AD',
       narrator: 'Ajay Tiwari',
-      imageUrl: '/images/Badrinath.webp',
+      imageUrl: '/images/sacred_places/Badrinath.jpg',
       contentPreview: 'The Badrinath Temple, located in the picturesque town of Badrinath...'
     },
     {
@@ -91,7 +91,7 @@ const CulturalStoriesPage: React.FC = () => {
       state: 'Uttarakhand',
       duration: 7,
       narrator: 'Ajay Tiwari',
-      imageUrl: '/images/Badrinath.webp',
+      imageUrl: '/images/sacred_places/Badrinath.jpg',
       contentPreview: 'Badrinath is considered one of the holiest pilgrimage sites for Hindus...'
     },
     {
@@ -104,7 +104,7 @@ const CulturalStoriesPage: React.FC = () => {
       duration: 12,
       period: '2nd Millennium BC',
       narrator: 'Ajay Tiwari',
-      imageUrl: '/images/Ayodhya.jpg',
+      imageUrl: '/images/sacred_places/Ayodhya.jpg',
       contentPreview: 'Ayodhya, located on the banks of the sacred Sarayu river...'
     },
     {
@@ -116,7 +116,7 @@ const CulturalStoriesPage: React.FC = () => {
       state: 'Uttar Pradesh',
       duration: 15,
       narrator: 'Ajay Tiwari',
-      imageUrl: '/images/Ayodhya.jpg',
+      imageUrl: '/images/sacred_places/Ayodhya.jpg',
       contentPreview: 'The Ramayana, one of the greatest epics of ancient India...'
     },
     {
@@ -129,7 +129,7 @@ const CulturalStoriesPage: React.FC = () => {
       duration: 10,
       period: '6th Century BC',
       narrator: 'Ajay Tiwari',
-      imageUrl: '/images/Mathura.jpg',
+      imageUrl: '/images/sacred_places/Mathura.jpg',
       contentPreview: 'Mathura, located on the banks of the Yamuna river...'
     },
     {
@@ -141,7 +141,7 @@ const CulturalStoriesPage: React.FC = () => {
       state: 'Uttar Pradesh',
       duration: 8,
       narrator: 'Ajay Tiwari',
-      imageUrl: '/images/Mathura.jpg',
+      imageUrl: '/images/sacred_places/Mathura.jpg',
       contentPreview: 'Mathura is revered as the birthplace of Lord Krishna...'
     },
     {
@@ -154,7 +154,7 @@ const CulturalStoriesPage: React.FC = () => {
       duration: 11,
       period: '8th Century AD',
       narrator: 'Ajay Tiwari',
-      imageUrl: '/images/Naina-Devi.jpg',
+      imageUrl: '/images/sacred_places/Naina-Devi.jpg',
       contentPreview: 'Perched on a hilltop on the borders with Punjab, Naina Devi is an important Shaktipeeth pilgrimage center...'
     },
     {
@@ -166,7 +166,7 @@ const CulturalStoriesPage: React.FC = () => {
       state: 'Himachal Pradesh',
       duration: 9,
       narrator: 'Ajay Tiwari',
-      imageUrl: '/images/Naina-Devi.jpg',
+      imageUrl: '/images/sacred_places/Naina-Devi.jpg',
       contentPreview: 'Believers hold that as the dead body of Sati dismembered during an all consuming cosmic Tandav dance of Lord Shiva...'
     },
     {
@@ -179,7 +179,7 @@ const CulturalStoriesPage: React.FC = () => {
       duration: 10,
       period: 'Ancient Times',
       narrator: 'Ajay Tiwari',
-      imageUrl: '/images/chintpurni.jpeg',
+      imageUrl: '/images/sacred_places/chintpurni.jpg',
       contentPreview: 'A deeply revered Shaktipeeth township, Chintpurni is a major pilgrimage centre that attracts lakhs of people every year...'
     },
     {
@@ -191,7 +191,7 @@ const CulturalStoriesPage: React.FC = () => {
       state: 'Himachal Pradesh',
       duration: 8,
       narrator: 'Ajay Tiwari',
-      imageUrl: '/images/chintpurni.jpeg',
+      imageUrl: '/images/sacred_places/chintpurni.jpg',
       contentPreview: 'Believers hold that as the dead body of Sati dismembered during an all consuming cosmic Tandav dance of Lord Shiva...'
     }
   ]
@@ -233,8 +233,8 @@ const CulturalStoriesPage: React.FC = () => {
       startSession()
     }
     
-    // Set context for the current story
-    const storyContext = "The user is browsing cultural stories about sacred places in India including Kedarnath, Badrinath, Ayodhya, Mathura, Naina Devi, and Chintpurni. These stories cover history, myths, and spiritual beliefs."
+    // Set initial input with a query about the story
+    setInitialInput("The user is browsing cultural stories about sacred places in India including Kedarnath, Badrinath, Ayodhya, Mathura, Naina Devi, and Chintpurni. These stories cover history, myths, and spiritual beliefs.")
     
     // Open the AI chat
     setNaradAIOpen(true)
@@ -388,8 +388,8 @@ const CulturalStoriesPage: React.FC = () => {
                       alt={place}
                       className="w-full h-full object-cover"
                       onError={(e) => {
-                        const target = e.target as HTMLImageElement
-                        target.src = '/placeholder-story.jpg'
+                        const target = e.target as HTMLImageElement;
+                        target.src = '/placeholder-story.jpg';
                       }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
@@ -415,8 +415,8 @@ const CulturalStoriesPage: React.FC = () => {
                               startSession()
                             }
                             
-                            // Set context for the current story
-                            const storyContext = `The user is interested in stories about ${place}, a sacred place in India.`
+                            // Set initial input with a query about the story
+                            setInitialInput(`The user is interested in stories about ${place}, a sacred place in India.`)
                             
                             // Open the AI chat
                             setNaradAIOpen(true)
@@ -531,8 +531,8 @@ const CulturalStoriesPage: React.FC = () => {
                       alt={story.title}
                       className="w-full h-48 object-cover"
                       onError={(e) => {
-                        const target = e.target as HTMLImageElement
-                        target.src = '/placeholder-story.jpg'
+                        const target = e.target as HTMLImageElement;
+                        target.src = '/placeholder-story.jpg';
                       }}
                     />
                     <div className={`absolute inset-0 bg-gradient-to-r ${storyTypeColors[story.type]} opacity-70`}></div>
@@ -557,8 +557,8 @@ const CulturalStoriesPage: React.FC = () => {
                               startSession()
                             }
                             
-                            // Set context for the current story
-                            const storyContext = `The user is interested in the story: ${story.title}. ${story.description}`
+                            // Set initial input with a query about the story
+                            setInitialInput(`The user is interested in the story: ${story.title}. ${story.description}`)
                             
                             // Open the AI chat
                             setNaradAIOpen(true)

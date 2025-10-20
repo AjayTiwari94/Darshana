@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Speech API Male Voice Finder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        .voice-list {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .voice-item {
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 4px;
+            background-color: white;
+            border-left: 4px solid #4CAF50;
+        }
+        .male-voice {
+            border-left-color: #2196F3;
+            background-color: #e3f2fd;
+        }
+        .female-voice {
+            border-left-color: #e91e63;
+            background-color: #fce4ec;
+        }
+        .info {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Web Speech API Male Voice Finder</h1>
+        
+        <div class="info">
+            <p>This tool helps you find male voices available in your browser's Web Speech API implementation.</p>
+            <p>Click "Load Voices" to see all available voices, then select a male voice to test it.</p>
+        </div>
+        
+        <button id="loadVoices">Load Voices</button>
+        <button id="speakBtn" disabled>Speak Test Text</button>
+        
+        <select id="voiceSelect" disabled>
+            <option value="">Select a voice...</option>
+        </select>
+        
+        <textarea id="textToSpeak" placeholder="Enter text to speak...">Hello! I'm Narad, your AI Cultural Guide. This is a test of a male voice using the Web Speech API.</textarea>
+        
+        <div class="voice-list">
+            <h3>Available Voices:</h3>
+            <div id="voicesList">Click "Load Voices" to see available voices</div>
+        </div>
+    </div>
+
+    <script>
+        let voices = [];
+        const synth = window.speechSynthesis;
+        
+        // DOM elements
+        const loadVoicesBtn = document.getElementById('loadVoices');
+        const speakBtn = document.getElementById('speakBtn');
+        const voiceSelect = document.getElementById('voiceSelect');
+        const textToSpeak = document.getElementById('textToSpeak');
+        const voicesList = document.getElementById('voicesList');
+        
+        // Function to load voices
+        function loadVoices() {
+            voices = synth.getVoices();
+            console.log('Available voices:', voices);
+            
+            // Clear previous options
+            voiceSelect.innerHTML = '<option value="">Select a voice...</option>';
+            voicesList.innerHTML = '';
+            
+            if (voices.length === 0) {
+                voicesList.innerHTML = '<p>No voices available. Please ensure your browser supports Web Speech API.</p>';
+                return;
+            }
+            
+            // Populate voice select dropdown and list
+            voices.forEach((voice, index) => {
+                // Add to dropdown
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = `${voice.name} (${voice.lang})`;
+                voiceSelect.appendChild(option);
+                
+                // Add to list display
+                const voiceItem = document.createElement('div');
+                voiceItem.className = `voice-item ${isMaleVoice(voice) ? 'male-voice' : isFemaleVoice(voice) ? 'female-voice' : ''}`;
+                voiceItem.innerHTML = `
+                    <strong>${voice.name}</strong> (${voice.lang})
+                    <br><small>Default: ${voice.default ? 'Yes' : 'No'}, 
+                    ${isMaleVoice(voice) ? 'Male' : isFemaleVoice(voice) ? 'Female' : 'Gender Unknown'}</small>
+                `;
+                voicesList.appendChild(voiceItem);
+            });
+            
+            // Enable controls
+            voiceSelect.disabled = false;
+            speakBtn.disabled = false;
+        }
+        
+        // Function to detect if a voice is likely male
+        function isMaleVoice(voice) {
+            const name = voice.name.toLowerCase();
+            
+            // Common indicators of male voices
+            const maleIndicators = [
+                'male', 'man', 'boy', 
+                // Common Indian male names
+                'ramesh', 'raj', 'kumar', 'singh', 'prakash', 'mohan', 'deepak', 
+                'rahul', 'arjun', 'vijay', 'suresh', 'anil', 'ashok', 'ravi', 
+                'ajay', 'vikash', 'amar', 'amit', 'anand', 'avinash', 'brijesh',
+                'chandan', 'dinesh', 'gaurav', 'hari', 'harish', 'hemant', 'inder',
+                'jitendra', 'kamlesh', 'kishore', 'mahesh', 'mukesh', 'naresh', 
+                'naveen', 'nitin', 'om', 'pawan', 'pradeep', 'prem', 'rajesh',
+                'rameshwar', 'ratan', 'rohit', 'santosh', 'satish', 'shankar', 'shiv',
+                'shyam', 'siddharth', 'sudhir', 'tarun', 'uday', 'umesh', 'vishal', 'yogesh'
+            ];
+            
+            // Common indicators of female voices (to exclude)
+            const femaleIndicators = [
+                'female', 'woman', 'girl',
+                // Common Indian female names
+                'sita', 'priya', 'lakshmi', 'anita', 'poonam', 'meena', 'asha', 
+                'rekha', 'kavita'
+            ];
+            
+            // Check for male indicators
+            const hasMaleIndicator = maleIndicators.some(indicator => name.includes(indicator));
+            
+            // Check for female indicators
+            const hasFemaleIndicator = femaleIndicators.some(indicator => name.includes(indicator));
+            
+            // If we have a clear male indicator and no female indicator, it's likely male
+            if (hasMaleIndicator && !hasFemaleIndicator) {
+                return true;
+            }
+            
+            // If we have a clear female indicator, it's likely not male
+            if (hasFemaleIndicator) {
+                return false;
+            }
+            
+            // Default heuristic: if no clear indicators, we can't determine
+            return false;
+        }
+        
+        // Function to detect if a voice is likely female
+        function isFemaleVoice(voice) {
+            const name = voice.name.toLowerCase();
+            
+            // Common indicators of female voices
+            const femaleIndicators = [
+                'female', 'woman', 'girl',
+                // Common Indian female names
+                'sita', 'priya', 'lakshmi', 'anita', 'poonam', 'meena', 'asha', 
+                'rekha', 'kavita'
+            ];
+            
+            // Common indicators of male voices (to exclude)
+            const maleIndicators = [
+                'male', 'man', 'boy', 
+                // Common Indian male names
+                'ramesh', 'raj', 'kumar', 'singh', 'prakash', 'mohan', 'deepak', 
+                'rahul', 'arjun', 'vijay', 'suresh', 'anil', 'ashok', 'ravi', 
+                'ajay', 'vikash', 'amar', 'amit', 'anand', 'avinash', 'brijesh',
+                'chandan', 'dinesh', 'gaurav', 'hari', 'harish', 'hemant', 'inder',
+                'jitendra', 'kamlesh', 'kishore', 'mahesh', 'mukesh', 'naresh', 
+                'naveen', 'nitin', 'om', 'pawan', 'pradeep', 'prem', 'rajesh',
+                'rameshwar', 'ratan', 'rohit', 'santosh', 'satish', 'shankar', 'shiv',
+                'shyam', 'siddharth', 'sudhir', 'tarun', 'uday', 'umesh', 'vishal', 'yogesh'
+            ];
+            
+            // Check for female indicators
+            const hasFemaleIndicator = femaleIndicators.some(indicator => name.includes(indicator));
+            
+            // Check for male indicators
+            const hasMaleIndicator = maleIndicators.some(indicator => name.includes(indicator));
+            
+            // If we have a clear female indicator and no male indicator, it's likely female
+            if (hasFemaleIndicator && !hasMaleIndicator) {
+                return true;
+            }
+            
+            // If we have a clear male indicator, it's likely not female
+            if (hasMaleIndicator) {
+                return false;
+            }
+            
+            // Default heuristic: if no clear indicators, we can't determine
+            return false;
+        }
+        
+        // Function to speak text
+        function speakText() {
+            if (synth.speaking) {
+                console.error('SpeechSynthesis.speaking');
+                return;
+            }
+            
+            if (textToSpeak.value !== '') {
+                const selectedVoiceIndex = voiceSelect.value;
+                if (selectedVoiceIndex === '') {
+                    alert('Please select a voice first');
+                    return;
+                }
+                
+                const utterThis = new SpeechSynthesisUtterance(textToSpeak.value);
+                utterThis.voice = voices[selectedVoiceIndex];
+                
+                // Set voice characteristics for a richer male voice
+                utterThis.pitch = 0.4;  // Lower pitch for male voice
+                utterThis.rate = 0.75;  // Slower rate for clarity
+                utterThis.volume = 1;   // Full volume
+                
+                utterThis.onend = function (event) {
+                    console.log('SpeechSynthesisUtterance.onend');
+                }
+                
+                utterThis.onerror = function (event) {
+                    console.error('SpeechSynthesisUtterance.onerror', event);
+                }
+                
+                synth.speak(utterThis);
+            }
+        }
+        
+        // Event listeners
+        loadVoicesBtn.addEventListener('click', function() {
+            // For some browsers, voices may load asynchronously
+            if (synth.getVoices().length > 0) {
+                loadVoices();
+            } else {
+                // Wait for voices to load
+                synth.onvoiceschanged = loadVoices;
+            }
+        });
+        
+        speakBtn.addEventListener('click', speakText);
+        
+        // Try to load voices immediately if they're already available
+        if (synth.getVoices().length > 0) {
+            voices = synth.getVoices();
+        }
+    </script>
+</body>
+</html>

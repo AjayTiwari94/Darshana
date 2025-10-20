@@ -217,7 +217,7 @@ const MonumentsPage: React.FC = () => {
         category: 'Fort',
         period: 'Rajput Era (1592)',
         significance: 'UNESCO World Heritage Site, Rajput Architecture',
-        images: ['/images/amer-fort.jpg', 'https://images.pexels.com/photos/3581364/pexels-photo-3581364.jpeg?auto=compress&cs=tinysrgb&w=800'],
+        images: ['/images/amerfort.jpg', '/images/amer-fort.jpg'],
         virtualTours: [
           { _id: 'vt5', title: 'Palace Complex Tour', type: '360_tour', duration: 18 }
         ],
@@ -232,6 +232,36 @@ const MonumentsPage: React.FC = () => {
         },
         statistics: { visitors: 3200000, rating: 4.7, reviews: 67000 },
         features: ['Elephant Rides', 'Mirror Palace', 'Photography Allowed', 'Audio Guide'],
+        isFavorite: false,
+        isBookmarked: false
+      },
+      {
+        _id: '5',
+        name: 'Bhangarh Fort',
+        description: 'A 17th-century fort built by Raja Bhagwant Das, known for its mysterious legends and haunted reputation.',
+        location: {
+          city: 'Alwar',
+          state: 'Rajasthan',
+          coordinates: { latitude: 27.5647, longitude: 76.3878 }
+        },
+        category: 'Fort',
+        period: 'Mughal Era (1608)',
+        significance: 'Historic Fort, Haunted Site',
+        images: ['/images/bhangarhfort.jpg', '/images/bhangarhfort.jpg'],
+        virtualTours: [
+          { _id: 'vt6', title: 'Haunted Corridors', type: '360_tour', duration: 15 }
+        ],
+        stories: [
+          { _id: 'bhangarh-curse', title: 'The Curse of Bhangarh Fort', type: 'horror', duration: 8 },
+          { _id: 'bhangarh-history', title: 'History of Bhangarh Fort', type: 'historical', duration: 10 }
+        ],
+        ticketInfo: {
+          price: { indian: 25, foreign: 300 },
+          timings: '8:00 AM - 5:00 PM',
+          availableSlots: 15
+        },
+        statistics: { visitors: 2340000, rating: 4.5, reviews: 2340 },
+        features: ['Guided Tours', 'Photography Allowed', 'Historical Museum'],
         isFavorite: false,
         isBookmarked: false
       }
@@ -324,12 +354,14 @@ const MonumentsPage: React.FC = () => {
       <div 
         className="relative h-64 bg-cover bg-center bg-no-repeat flex items-center justify-center"
         style={{
-          backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url('/images/heritage-background.jpg')"
+          backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.3)), url('/images/heritage-background.jpg')"
         }}
       >
         <div className="text-center text-white">
-          <h1 className="text-4xl font-bold mb-4">Discover India's Heritage</h1>
-          <p className="text-xl max-w-2xl mx-auto">
+          <h1 className="text-4xl font-bold mb-4 drop-shadow-2xl" style={{ textShadow: '3px 3px 6px rgba(0,0,0,0.9), 0 0 12px rgba(0,0,0,0.8), 0 0 20px rgba(0,0,0,0.6)' }}>
+            Discover India's Heritage
+          </h1>
+          <p className="text-xl max-w-2xl mx-auto drop-shadow-lg" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.8), 0 0 12px rgba(0,0,0,0.6)' }}>
             Explore magnificent monuments that tell the story of our rich cultural legacy
           </p>
         </div>

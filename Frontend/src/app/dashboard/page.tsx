@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import { useAuthStore } from '@/store'
 import { useRouter } from 'next/navigation'
+import { API_BASE_URL } from '@/lib/api'
 import AdminDashboard from '@/components/admin/AdminDashboard'
 import { 
   UserIcon, 
@@ -16,7 +17,8 @@ import {
   ClockIcon,
   ChartBarIcon,
   CameraIcon,
-  ShareIcon
+  ShareIcon,
+  ExclamationTriangleIcon
 } from '@heroicons/react/24/outline'
 
 interface DashboardStats {
@@ -47,20 +49,26 @@ interface Achievement {
 }
 
 const UserDashboard: React.FC = () => {
-  const { user, isAuthenticated } = useAuthStore()
+  const { user, isAuthenticated, token } = useAuthStore()
   const router = useRouter()
 
+  // Redirect admin users to admin dashboard
   useEffect(() => {
+    console.log('User dashboard check - user:', user, 'role:', user?.role);
+    if (user?.role === 'admin') {
+      console.log('User is admin, redirecting to admin dashboard');
+      router.push('/admin')
+    }
+  }, [user, router])
+
+  useEffect(() => {
+    console.log('Authentication check - isAuthenticated:', isAuthenticated);
     if (!isAuthenticated) {
+      console.log('User not authenticated, redirecting to login');
       router.push('/auth/login')
       return
     }
   }, [isAuthenticated, router])
-
-  // If user is admin, render admin dashboard
-  if (user?.role === 'admin') {
-    return <AdminDashboard />
-  }
 
   // Continue with regular user dashboard logic
   const [stats, setStats] = useState<DashboardStats>({
@@ -74,6 +82,7 @@ const UserDashboard: React.FC = () => {
   const [recentActivity, setRecentActivity] = useState<RecentActivity[]>([])
   const [achievements, setAchievements] = useState<Achievement[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
 
   useEffect(() => {
     fetchDashboardData()
@@ -81,11 +90,66 @@ const UserDashboard: React.FC = () => {
 
   const fetchDashboardData = async () => {
     try {
+      if (!token) {
+        throw new Error('No authentication token available')
+      }
+
+      // Log the token for debugging (first 10 chars only)
+      console.log('Using token (first 10 chars):', token.substring(0, Math.min(10, token.length)));
+      
+      const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+
+      console.log('Fetching dashboard data with token:', token.substring(0, Math.min(10, token.length)) + '...')
+
       const [statsRes, activityRes, achievementsRes] = await Promise.all([
-        fetch('/api/user/stats'),
-        fetch('/api/user/activity'),
-        fetch('/api/user/achievements')
+        fetch(`${API_BASE_URL}/api/user/stats`, { headers }),
+        fetch(`${API_BASE_URL}/api/user/activity`, { headers }),
+        fetch(`${API_BASE_URL}/api/user/achievements`, { headers })
       ])
+
+      console.log('API Responses:', { 
+        stats: { status: statsRes.status, ok: statsRes.ok },
+        activity: { status: activityRes.status, ok: activityRes.ok },
+        achievements: { status: achievementsRes.status, ok: achievementsRes.ok }
+      })
+
+      // Check if responses are ok
+      if (!statsRes.ok) {
+        let errorText = '';
+        try {
+          const errorData = await statsRes.json();
+          errorText = errorData.message || await statsRes.text();
+        } catch (e) {
+          errorText = await statsRes.text();
+        }
+        console.error('Stats API error response:', errorText);
+        throw new Error(`Failed to fetch stats: ${statsRes.status} ${statsRes.statusText} - ${errorText}`)
+      }
+      if (!activityRes.ok) {
+        let errorText = '';
+        try {
+          const errorData = await activityRes.json();
+          errorText = errorData.message || await activityRes.text();
+        } catch (e) {
+          errorText = await activityRes.text();
+        }
+        console.error('Activity API error response:', errorText);
+        throw new Error(`Failed to fetch activity: ${activityRes.status} ${activityRes.statusText} - ${errorText}`)
+      }
+      if (!achievementsRes.ok) {
+        let errorText = '';
+        try {
+          const errorData = await achievementsRes.json();
+          errorText = errorData.message || await achievementsRes.text();
+        } catch (e) {
+          errorText = await achievementsRes.text();
+        }
+        console.error('Achievements API error response:', errorText);
+        throw new Error(`Failed to fetch achievements: ${achievementsRes.status} ${achievementsRes.statusText} - ${errorText}`)
+      }
 
       const [statsData, activityData, achievementsData] = await Promise.all([
         statsRes.json(),
@@ -93,11 +157,23 @@ const UserDashboard: React.FC = () => {
         achievementsRes.json()
       ])
 
+      console.log('API Data:', { statsData, activityData, achievementsData })
+
       if (statsData.success) setStats(statsData.data)
       if (activityData.success) setRecentActivity(activityData.data)
       if (achievementsData.success) setAchievements(achievementsData.data)
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to fetch dashboard data:', error)
+      setError(error.message || 'Failed to load dashboard data')
+      // Set default values to prevent UI issues
+      setStats({
+        totalVisits: 0,
+        storiesViewed: 0,
+        favoritesCount: 0,
+        achievementsCount: 0,
+        totalTimeSpent: 0,
+        averageRating: 0
+      })
     } finally {
       setLoading(false)
     }
@@ -137,6 +213,26 @@ const UserDashboard: React.FC = () => {
     )
   }
 
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="bg-white rounded-lg shadow-sm p-6 max-w-md w-full">
+          <div className="text-center">
+            <ExclamationTriangleIcon className="h-12 w-12 text-red-500 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-gray-900 mb-2">Failed to load dashboard</h3>
+            <p className="text-gray-500 mb-4">{error}</p>
+            <button
+              onClick={fetchDashboardData}
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+            >
+              Retry
+            </button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -161,11 +257,11 @@ const UserDashboard: React.FC = () => {
             <div className="text-right">
               <p className="text-sm text-gray-500">Member since</p>
               <p className="font-medium">
-                {user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'N/A'}
+                N/A
               </p>
-              {user?.role === 'guide' && (
+              {user?.role === 'admin' && (
                 <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 mt-1">
-                  Guide
+                  Administrator
                 </span>
               )}
             </div>

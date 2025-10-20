@@ -14,6 +14,7 @@ const {
 } = require('../controllers/tickets')
 const whatsappService = require('../services/whatsappService')
 const path = require('path')
+const logger = require('../utils/logger')
 
 const { protect, authorize } = require('../middleware/auth')
 const { validateRequest } = require('../middleware/validation')
@@ -64,8 +65,9 @@ const paymentVerificationValidation = [
     .withMessage('Payment signature is required')
 ]
 
-// Public routes
+// Public routes - Defined first to avoid conflicts with parameterized routes
 router.get('/available-slots', getAvailableSlots)
+router.post('/send-screenshot', sendScreenshot)  // Moved to the top to avoid conflicts
 
 // WhatsApp service configuration and status
 router.get('/whatsapp-status', (req, res) => {
@@ -127,9 +129,9 @@ router.post('/demo-book-whatsapp', async (req, res) => {
     try {
       pdfPath = await whatsappService.generatePDFTicket(ticketData)
       pdfGenerated = true
-      console.log(`✅ PDF ticket generated: ${pdfPath}`)
+      logger.info(`✅ PDF ticket generated: ${pdfPath}`)
     } catch (pdfError) {
-      console.error('❌ Failed to generate PDF ticket:', pdfError)
+      logger.error('❌ Failed to generate PDF ticket:', pdfError)
       pdfGenerated = false
     }
 
@@ -216,8 +218,7 @@ router.post('/verify-payment', protect, paymentVerificationValidation, validateR
 router.get('/:id/qr-code', protect, generateQRCode)
 router.get('/:id/download', protect, downloadTicket)
 
-// Add the new route for sending screenshot
-router.post('/send-screenshot', protect, sendScreenshot)
+// Route removed - already defined in public routes section above
 
 // Staff routes
 router.post('/:id/check-in', protect, authorize(['admin', 'staff']), checkInTicket)

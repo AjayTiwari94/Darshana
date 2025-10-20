@@ -7,7 +7,7 @@ import { ArrowLeftIcon, MessageCircle, Sparkles } from 'lucide-react'
 import { useNaradAIStore, useUIStore } from '@/store'
 
 const MathuraKrishnaJanmabhoomiStory: React.FC = () => {
-  const { startSession, messages } = useNaradAIStore()
+  const { startSession, messages, setInitialInput } = useNaradAIStore()
   const { setNaradAIOpen } = useUIStore()
   const [showAIButton, setShowAIButton] = useState(true)
 
@@ -17,8 +17,8 @@ const MathuraKrishnaJanmabhoomiStory: React.FC = () => {
       startSession()
     }
     
-    // Set context for the current story
-    const storyContext = "The user is reading about Mathura, the birthplace of Lord Krishna. The story covers its historical origins, spiritual significance, and modern pilgrimage experience."
+    // Set initial input with a query about the story
+    setInitialInput("Tell me more about the significance of Mathura as Lord Krishna's birthplace")
     
     // Open the AI chat
     setNaradAIOpen(true)

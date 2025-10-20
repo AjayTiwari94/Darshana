@@ -14,7 +14,7 @@ let mockStories = [
     narrator: { name: 'Ajay Tiwari' },
     duration: 480,
     difficulty: 'Easy',
-    mediaAssets: { images: ['/images/kedarnath-temple.jpg'] },
+    mediaAssets: { images: ['/images/sacred_places/Kedarnath.jpg'] },
     isPublished: true,
     isFeatured: true,
     statistics: {
@@ -38,7 +38,7 @@ let mockStories = [
     narrator: { name: 'Ajay Tiwari' },
     duration: 360,
     difficulty: 'Medium',
-    mediaAssets: { images: ['/images/badrinath-temple.jpg'] },
+    mediaAssets: { images: ['/images/sacred_places/Badrinath.jpg'] },
     isPublished: true,
     isFeatured: false,
     statistics: {

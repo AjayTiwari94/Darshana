@@ -11,7 +11,8 @@ const {
   addARAsset,
   addVRExperience,
   rateMonument,
-  getMonumentStats
+  getMonumentStats,
+  viewMonument
 } = require('../controllers/monuments')
 
 const { protect, authorize, optionalAuth } = require('../middleware/auth')
@@ -60,6 +61,7 @@ const ratingValidation = [
 router.get('/', optionalAuth, getMonuments)
 router.get('/search', optionalAuth, searchMonuments)
 router.get('/:id', optionalAuth, getMonument)
+router.post('/:id/view', optionalAuth, viewMonument) // Add view tracking endpoint
 router.get('/:id/stats', getMonumentStats)
 
 // Protected routes

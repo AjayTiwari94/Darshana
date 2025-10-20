@@ -38,13 +38,16 @@ router.post('/chat', optionalAuth, async (req, res) => {
       }
     })
 
-    console.log('✅ AI service responded successfully')
+    console.log('✅ AI service responded successfully', {
+      status: aiResponse.status,
+      data: aiResponse.data
+    })
 
     // Return AI response in expected format
     res.json({
-      status: 'success', // Changed from success: true to status: 'success'
-      response: aiResponse.data.response, // Simplified - AI service returns response directly
-      suggestions: [],
+      status: 'success',
+      response: aiResponse.data.response,
+      suggestions: aiResponse.data.suggestions || [],
       metadata: {
         sessionId: sessionId || Date.now().toString(),
         timestamp: new Date().toISOString(),
@@ -72,7 +75,7 @@ router.post('/chat', optionalAuth, async (req, res) => {
     const fallbackSessionId = req.body?.sessionId || `session_${Date.now()}`;
     
     res.json({
-      status: 'success', // Changed from success: true to status: 'success'
+      status: 'success',
       response: randomFallback,
       suggestions: [
         "Tell me about the Taj Mahal",

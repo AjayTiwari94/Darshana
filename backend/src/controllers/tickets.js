@@ -381,16 +381,6 @@ const verifyPayment = async (req, res) => {
       
       await ticket.save()
 
-      // Send WhatsApp ticket if phone number provided
-      if (req.body.whatsappNumber) {
-        try {
-          await sendWhatsAppTicket(req.body.whatsappNumber, ticket)
-        } catch (whatsappError) {
-          console.error('WhatsApp sending failed:', whatsappError)
-          // Don't fail the payment verification if WhatsApp fails
-        }
-      }
-
       res.status(200).json({
         success: true,
         message: 'Payment verified successfully'
@@ -467,10 +457,10 @@ const downloadTicket = async (req, res) => {
       })
     }
 
-    // Create a PDF document
+    // Create a PDF document with optimized layout for single page
     const doc = new PDFDocument({
       size: 'A4',
-      margin: 50
+      margin: 30  // Reduced margin to fit more content
     })
 
     // Set response headers for PDF download
@@ -485,221 +475,223 @@ const downloadTicket = async (req, res) => {
     const imagePath = getMonumentImagePath(monumentId)
     
     // Orange header background to match website display
-    doc.rect(50, 50, 500, 60).fill('#ea580c') // Orange header
+    doc.rect(30, 30, 535, 50).fill('#ea580c') // Orange header with reduced height
     
     // Add Darshana Heritage header
-    doc.fontSize(20)
+    doc.fontSize(18)  // Reduced font size
       .fillColor('#FFFFFF')
-      .text('DARSHANA HERITAGE', 50, 65, { align: 'center', width: 500 })
+      .text('DARSHANA HERITAGE', 30, 40, { align: 'center', width: 535 })
     
-    doc.fontSize(14)
+    doc.fontSize(12)  // Reduced font size
       .fillColor('#FFFFFF')
-      .text('Digital Entry Ticket', 50, 90, { align: 'center', width: 500 })
+      .text('Digital Entry Ticket', 30, 65, { align: 'center', width: 535 })
 
-    // Monument image area
-    const imageY = 120
-    const imageHeight = 150
+    // Monument image area - reduced height
+    const imageY = 90
+    const imageHeight = 100  // Reduced from 150 to 100
     
     // Try to load and display the monument image
     try {
       if (imageExists(imagePath)) {
-        doc.image(imagePath, 50, imageY, { 
-          width: 500, 
+        doc.image(imagePath, 30, imageY, { 
+          width: 535, 
           height: imageHeight,
-          fit: [500, imageHeight],
+          fit: [535, imageHeight],
           align: 'center'
         })
       } else {
         // Fallback to placeholder if image not found
-        doc.rect(50, imageY, 500, imageHeight).fill('#f3f4f6')
+        doc.rect(30, imageY, 535, imageHeight).fill('#f3f4f6')
         doc.fillColor('#6b7280')
-           .fontSize(16)
-           .text(ticket.monument.name, 300, imageY + 70, { align: 'center' })
+           .fontSize(14)  // Reduced font size
+           .text(ticket.monument.name, 300, imageY + 45, { align: 'center' })
       }
     } catch (imageError) {
       console.log(`Error loading image: ${imageError.message}`)
       // Fallback placeholder
-      doc.rect(50, imageY, 500, imageHeight).fill('#f3f4f6')
+      doc.rect(30, imageY, 535, imageHeight).fill('#f3f4f6')
       doc.fillColor('#6b7280')
-         .fontSize(16)
-         .text(ticket.monument.name, 300, imageY + 70, { align: 'center' })
+         .fontSize(14)  // Reduced font size
+         .text(ticket.monument.name, 300, imageY + 45, { align: 'center' })
     }
     
     // Main content area - light background like website display
-    doc.rect(50, 280, 500, 400).fill('#fff8f0')
+    doc.rect(30, 200, 535, 320).fill('#fff8f0')  // Reduced height from 400 to 320
     
     // Monument name and location (centered)
     doc.fillColor('#1f2937')
-       .fontSize(24)
+       .fontSize(20)  // Reduced from 24 to 20
        .font('Helvetica-Bold')
-       .text(ticket.monument.name, 70, 290, { align: 'center', width: 460 })
+       .text(ticket.monument.name, 50, 210, { align: 'center', width: 495 })
     
     doc.fillColor('#6b7280')
-       .fontSize(14)
+       .fontSize(12)  // Reduced from 14 to 12
        .font('Helvetica')
-       .text(ticket.monument.location, 70, 325, { align: 'center', width: 460 })
+       .text(ticket.monument.location, 50, 235, { align: 'center', width: 495 })
        .moveDown()
     
     // Content area layout matching website display
-    let yPos = 360
+    let yPos = 260  // Reduced from 360
     
     // Left column - Booking ID
     doc.fillColor('#6b7280')
-       .fontSize(12)
+       .fontSize(10)  // Reduced from 12 to 10
        .font('Helvetica-Bold')
-       .text('Booking ID', 80, yPos)
+       .text('Booking ID', 50, yPos)
     
     doc.fillColor('#ea580c')
-       .fontSize(14)
+       .fontSize(12)  // Reduced from 14 to 12
        .font('Helvetica-Bold')
-       .text(ticket.ticketNumber, 80, yPos + 20)
+       .text(ticket.ticketNumber, 50, yPos + 15)
     
     // Right column - Status
     doc.fillColor('#6b7280')
-       .fontSize(12)
+       .fontSize(10)  // Reduced from 12 to 10
        .font('Helvetica-Bold')
        .text('Status', 350, yPos)
     
     doc.fillColor('#059669')
-       .fontSize(14)
+       .fontSize(12)  // Reduced from 14 to 12
        .font('Helvetica-Bold')
-       .text(ticket.status, 350, yPos + 20)
+       .text(ticket.status, 350, yPos + 15)
     
-    yPos += 60
+    yPos += 40  // Reduced spacing
     
     // Visit Date and Time Slot
     doc.fillColor('#6b7280')
-       .fontSize(12)
+       .fontSize(10)  // Reduced from 12 to 10
        .font('Helvetica-Bold')
-       .text('Visit Date', 80, yPos)
+       .text('Visit Date', 50, yPos)
     
     doc.fillColor('#1f2937')
-       .fontSize(14)
+       .fontSize(12)  // Reduced from 14 to 12
        .font('Helvetica-Bold')
-       .text(new Date(ticket.visitDate).toLocaleDateString(), 80, yPos + 20)
+       .text(new Date(ticket.visitDate).toLocaleDateString(), 50, yPos + 15)
     
     doc.fillColor('#6b7280')
-       .fontSize(12)
+       .fontSize(10)  // Reduced from 12 to 10
        .font('Helvetica-Bold')
        .text('Time Slot', 350, yPos)
     
     doc.fillColor('#1f2937')
-       .fontSize(14)
+       .fontSize(12)  // Reduced from 14 to 12
        .font('Helvetica-Bold')
-       .text(`${ticket.timeSlot.startTime} - ${ticket.timeSlot.endTime}`, 350, yPos + 20)
+       .text(`${ticket.timeSlot.startTime} - ${ticket.timeSlot.endTime}`, 350, yPos + 15)
     
-    yPos += 60
+    yPos += 40  // Reduced spacing
     
     // Visitors section
     doc.fillColor('#6b7280')
-       .fontSize(12)
+       .fontSize(10)  // Reduced from 12 to 10
        .font('Helvetica-Bold')
-       .text(`Visitors (${ticket.visitors.length})`, 80, yPos)
+       .text(`Visitors (${ticket.visitors.length})`, 50, yPos)
     
-    yPos += 25
+    yPos += 20  // Reduced spacing
     
-    // List all visitors
+    // List all visitors - reduced font size and spacing
     ticket.visitors.forEach((visitor, index) => {
-      doc.fillColor('#1f2937')
-         .fontSize(12)
-         .font('Helvetica')
-         .text(`${visitor.name}`, 80, yPos)
-         .fillColor('#6b7280')
-         .fontSize(10)
-         .text(`${visitor.age} yrs, ${visitor.nationality}`, 350, yPos)
-      yPos += 20
+      if (yPos < 450) {  // Prevent going beyond content area
+        doc.fillColor('#1f2937')
+           .fontSize(10)  // Reduced from 12 to 10
+           .font('Helvetica')
+           .text(`${visitor.name}`, 50, yPos)
+           .fillColor('#6b7280')
+           .fontSize(8)  // Reduced from 10 to 8
+           .text(`${visitor.age} yrs, ${visitor.nationality}`, 350, yPos)
+        yPos += 15  // Reduced spacing
+      }
     })
     
-    yPos += 20
+    yPos = Math.max(yPos, 460)  // Ensure minimum position
     
     // Total Amount
     doc.fillColor('#6b7280')
-       .fontSize(12)
+       .fontSize(10)  // Reduced from 12 to 10
        .font('Helvetica-Bold')
-       .text('Total Amount', 80, yPos)
+       .text('Total Amount', 50, yPos)
     
     doc.fillColor('#ea580c')
-       .fontSize(18)
+       .fontSize(14)  // Reduced from 18 to 14
        .font('Helvetica-Bold')
-       .text(`₹${ticket.pricing.totalAmount.toFixed(2)}`, 80, yPos + 20)
+       .text(`₹${ticket.pricing.totalAmount.toFixed(2)}`, 50, yPos + 15)
     
     // Payment ID
     doc.fillColor('#6b7280')
-       .fontSize(12)
+       .fontSize(10)  // Reduced from 12 to 10
        .font('Helvetica-Bold')
        .text('Payment ID', 350, yPos)
     
     doc.fillColor('#1f2937')
-       .fontSize(12)
+       .fontSize(10)  // Reduced from 12 to 10
        .font('Helvetica')
-       .text(ticket.payment.paymentId || 'N/A', 350, yPos + 20)
+       .text(ticket.payment.paymentId || 'N/A', 350, yPos + 15)
     
-    yPos += 60
+    yPos += 40  // Reduced spacing
     
     // Booked On
     doc.fillColor('#6b7280')
-       .fontSize(12)
+       .fontSize(10)  // Reduced from 12 to 10
        .font('Helvetica-Bold')
-       .text('Booked On', 80, yPos)
+       .text('Booked On', 50, yPos)
     
     doc.fillColor('#1f2937')
-       .fontSize(12)
+       .fontSize(10)  // Reduced from 12 to 10
        .font('Helvetica')
-       .text(`${new Date(ticket.createdAt).toLocaleDateString()} at ${new Date(ticket.createdAt).toLocaleTimeString()}`, 350, yPos)
+       .text(`${new Date(ticket.createdAt).toLocaleDateString()} at ${new Date(ticket.createdAt).toLocaleTimeString()}`, 50, yPos + 15)
     
-    // QR Code section (centered)
+    // QR Code section (moved up to fit on one page)
     if (ticket.qrCode) {
       try {
         // Convert base64 to buffer
         const qrBuffer = Buffer.from(ticket.qrCode.split(',')[1], 'base64')
         
-        // Add QR Code (centered)
-        const qrX = (doc.page.width - 100) / 2
-        const qrY = 600
+        // Add QR Code (centered and smaller)
+        const qrX = (doc.page.width - 80) / 2
+        const qrY = 530  // Moved up from 600
         
         // QR code placeholder border (dashed)
         doc.strokeColor('#d1d5db')
-           .lineWidth(2)
-           .dash(5, {space: 5})
-           .rect(qrX - 10, qrY - 10, 120, 120)
+           .lineWidth(1)  // Reduced line width
+           .dash(3, {space: 3})  // Reduced dash size
+           .rect(qrX - 5, qrY - 5, 90, 90)  // Smaller rectangle
            .stroke()
            .undash() // Reset dash pattern
         
-        doc.image(qrBuffer, qrX, qrY, { width: 100 })
+        doc.image(qrBuffer, qrX, qrY, { width: 80 })  // Smaller QR code
         
         // QR Code instruction
         doc.fillColor('#6b7280')
-           .fontSize(12)
+           .fontSize(10)  // Reduced from 12 to 10
            .font('Helvetica')
-           .text('Show this QR code at entry', qrX - 50, qrY + 110, { width: 200, align: 'center' })
+           .text('Show this QR code at entry', qrX - 40, qrY + 95, { width: 160, align: 'center' })
       } catch (qrError) {
         console.error('QR code error:', qrError)
       }
     } else {
       // QR code placeholder
-      const qrX = (doc.page.width - 100) / 2
-      const qrY = 600
+      const qrX = (doc.page.width - 80) / 2
+      const qrY = 530  // Moved up from 600
       
       doc.strokeColor('#d1d5db')
-         .lineWidth(2)
-         .dash(5, {space: 5})
-         .rect(qrX - 10, qrY - 10, 120, 120)
+         .lineWidth(1)  // Reduced line width
+         .dash(3, {space: 3})  // Reduced dash size
+         .rect(qrX - 5, qrY - 5, 90, 90)  // Smaller rectangle
          .stroke()
          .undash()
       
       doc.fillColor('#6b7280')
-         .fontSize(12)
+         .fontSize(10)  // Reduced from 12 to 10
          .font('Helvetica')
-         .text('Show this QR code at entry', qrX - 50, qrY + 110, { width: 200, align: 'center' })
+         .text('Show this QR code at entry', qrX - 40, qrY + 95, { width: 160, align: 'center' })
     }
     
-    // Footer
+    // Footer - moved up to fit on one page
     doc.fillColor('#6b7280')
-       .fontSize(10)
+       .fontSize(8)  // Reduced from 10 to 8
        .font('Helvetica')
-       .text('Valid only for the date and time mentioned above', 80, 740, { align: 'center', width: 435 })
+       .text('Valid only for the date and time mentioned above', 50, 640, { align: 'center', width: 500 })
     
-    doc.text('Please carry a valid ID proof', 80, 755, { align: 'center', width: 435 })
+    doc.text('Please carry a valid ID proof', 50, 650, { align: 'center', width: 500 })
 
     // Finalize the PDF
     doc.end()
@@ -759,6 +751,8 @@ const sendScreenshot = async (req, res) => {
     })
   }
 }
+
+// ... existing code ...
 
 module.exports = {
   bookTicket,

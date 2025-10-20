@@ -1,4 +1,4 @@
-/* Print styles for ticket */
+/* Print styles for ticket - Compact version */
 @media print {
   /* Hide everything except the ticket */
   body * {
@@ -30,7 +30,6 @@
     background-color: #ea580c !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
-    color-adjust: exact !important;
   }
   
   /* Ensure the ticket has the right background color */
@@ -38,10 +37,9 @@
     background: #fff5e6 !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
-    color-adjust: exact !important;
     width: 100% !important;
-    max-width: 500px !important;
-    margin: 0 auto !important;
+    max-width: 100% !important;
+    margin: 0 !important;
   }
   
   /* Ensure text colors print correctly */
@@ -49,21 +47,18 @@
     color: white !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
-    color-adjust: exact !important;
   }
   
   #ticket-to-print .text-green-600 {
     color: #059669 !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
-    color-adjust: exact !important;
   }
   
   #ticket-to-print .text-orange-600 {
     color: #ea580c !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
-    color-adjust: exact !important;
   }
   
   /* Hide action buttons when printing */
@@ -76,16 +71,15 @@
     border: 2px dashed #d1d5db !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
-    color-adjust: exact !important;
   }
   
-  /* QR code styling */
+  /* QR code styling - Make it smaller */
   #ticket-to-print .w-24 {
-    width: 5rem !important;
+    width: 2.5rem !important;
   }
   
   #ticket-to-print .h-24 {
-    height: 5rem !important;
+    height: 2.5rem !important;
   }
   
   #ticket-to-print .mx-auto {
@@ -94,19 +88,19 @@
   }
   
   #ticket-to-print .text-xs {
-    font-size: 0.75rem !important;
-    line-height: 1rem !important;
+    font-size: 0.6rem !important;
+    line-height: 0.8rem !important;
   }
   
   #ticket-to-print .mt-2 {
-    margin-top: 0.5rem !important;
+    margin-top: 0.2rem !important;
   }
   
   /* QR code container */
   #ticket-to-print .border-t[class*="pt-3"]:last-of-type {
     text-align: center !important;
-    margin-top: 0.5rem !important;
-    padding-top: 0.5rem !important;
+    margin-top: 0.2rem !important;
+    padding-top: 0.2rem !important;
   }
   
   /* Ensure visitor details are visible */
@@ -117,7 +111,6 @@
     border-width: 1px 0 !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
-    color-adjust: exact !important;
   }
   
   /* Ensure the footer background prints */
@@ -125,38 +118,38 @@
     background-color: #f3f4f6 !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
-    color-adjust: exact !important;
-    padding: 8px !important;
-    margin-top: 0.5rem !important;
+    padding: 3px !important;
+    margin-top: 0.2rem !important;
     text-align: center !important;
+    font-size: 0.6rem !important;
   }
   
   /* Make monument image smaller */
   #ticket-to-print .h-48 {
-    height: 100px !important; /* Reduced from 192px (48*4) to 100px to match PDF design */
+    height: 60px !important;
   }
   
   /* Ensure monument image displays properly */
   #ticket-to-print img {
     display: block !important;
     max-width: 100% !important;
-    height: 100px !important; /* Fixed height to match container */
+    height: 60px !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
-    color-adjust: exact !important;
+    object-fit: cover !important;
   }
   
   /* Ensure the monument name is visible on the image */
   #ticket-to-print .h-48 .text-xl {
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8) !important;
-    font-size: 1.5rem !important;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
+    font-size: 0.8rem !important;
   }
   
-  /* Fix layout for printing */
+  /* Fix layout for printing - More compact */
   #ticket-to-print .p-4,
   #ticket-to-print .p-6,
   #ticket-to-print .p-3 {
-    padding: 12px !important;
+    padding: 6px !important;
   }
   
   #ticket-to-print .grid {
@@ -165,12 +158,12 @@
   
   #ticket-to-print .grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 1rem !important;
+    gap: 0.4rem !important;
   }
   
   /* Adjust spacing for ticket details */
   #ticket-to-print .space-y-3 {
-    margin-top: 0.5rem !important;
+    margin-top: 0.2rem !important;
   }
   
   /* Ensure visitor details are properly displayed */
@@ -187,13 +180,13 @@
   }
   
   #ticket-to-print .py-1 {
-    padding-top: 0.25rem !important;
-    padding-bottom: 0.25rem !important;
+    padding-top: 0.1rem !important;
+    padding-bottom: 0.1rem !important;
   }
   
   #ticket-to-print .text-sm {
-    font-size: 0.875rem !important;
-    line-height: 1.25rem !important;
+    font-size: 0.7rem !important;
+    line-height: 0.9rem !important;
   }
   
   #ticket-to-print .font-medium {
@@ -204,21 +197,20 @@
     color: #4b5563 !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
-    color-adjust: exact !important;
   }
   
   /* Visitor details specific styling */
   #ticket-to-print .border-t[class*="pt-3"]:nth-of-type(1) {
-    margin-top: 0.5rem !important;
+    margin-top: 0.2rem !important;
   }
   
   #ticket-to-print .border-t[class*="pt-3"] .flex {
-    margin-bottom: 0.25rem !important;
+    margin-bottom: 0.1rem !important;
   }
   
   /* Ensure all ticket details are visible */
   #ticket-to-print .space-y-3 > * {
-    margin-top: 0.75rem !important;
+    margin-top: 0.3rem !important;
     margin-bottom: 0 !important;
   }
   
@@ -230,15 +222,8 @@
     border-top-width: 1px !important;
     border-top-style: solid !important;
     border-top-color: #e5e7eb !important;
-    padding-top: 0.75rem !important;
-    margin-top: 0.75rem !important;
-  }
-  
-  #ticket-to-print .border-b {
-    border-bottom-width: 1px !important;
-    border-bottom-style: solid !important;
-    border-bottom-color: #e5e7eb !important;
-    padding-bottom: 0.75rem !important;
+    padding-top: 0.3rem !important;
+    margin-top: 0.3rem !important;
   }
   
   /* Ensure text colors are correct */
@@ -246,19 +231,17 @@
     color: #059669 !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
-    color-adjust: exact !important;
   }
   
   #ticket-to-print .text-orange-600 {
     color: #ea580c !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
-    color-adjust: exact !important;
   }
   
   #ticket-to-print .text-xl {
-    font-size: 1.25rem !important;
-    line-height: 1.75rem !important;
+    font-size: 0.9rem !important;
+    line-height: 1.1rem !important;
   }
   
   #ticket-to-print .font-bold {
@@ -268,7 +251,7 @@
   /* Force page size to match ticket */
   @page {
     size: A4 portrait;
-    margin: 10mm;
+    margin: 3mm;
   }
   
   /* Ensure the ticket fits on a single page */
@@ -277,5 +260,30 @@
     height: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
+  }
+  
+  /* Make all text smaller for better fit */
+  #ticket-to-print {
+    font-size: 0.65rem !important;
+  }
+  
+  #ticket-to-print h2 {
+    font-size: 0.9rem !important;
+  }
+  
+  #ticket-to-print h3 {
+    font-size: 0.8rem !important;
+  }
+  
+  /* Compact visitor list */
+  #ticket-to-print .visitor-item {
+    padding: 2px 0 !important;
+    margin: 1px 0 !important;
+  }
+  
+  /* Compact QR code section */
+  #ticket-to-print .qr-section {
+    padding: 3px !important;
+    margin: 2px 0 !important;
   }
 }

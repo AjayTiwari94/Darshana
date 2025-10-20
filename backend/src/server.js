@@ -92,6 +92,24 @@ app.use((req, res, next) => {
   next()
 })
 
+// Debug endpoint to check database mode
+app.get('/debug/mode', (req, res) => {
+  res.json({
+    useDatabase: global.useDatabase,
+    forcedMockMode: process.env.FORCE_MOCK_MODE === 'true'
+  })
+})
+
+// Debug endpoint to check mock users
+app.get('/debug/mock-users', (req, res) => {
+  // Import auth controller to get mock users
+  const authController = require('./controllers/auth');
+  const mockUsers = authController.getMockUsers();
+  res.json({
+    mockUsers: mockUsers
+  });
+})
+
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.status(200).json({
