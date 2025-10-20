@@ -1,193 +1,122 @@
-# Darshana
-    DDDDDD   AAAAA   RRRRRR   SSSSS    H   H    AAAAA    N   N    AAAAA
-    D    D   A   A   R    R   S        H   H    A   A    NN  N    A   A
-    D    D   AAAAA   RRRRR    SSSSS    HHHHH    AAAAA    N N N    AAAAA
-    D    D   A   A   R  R          S   H   H    A   A    N  NN    A   A
-    DDDDDD   A   A   R   R    SSSSS    H   H    A   A    N   N    A   A
+# Darshana - Digital Storytelling Platform 🌟
 
-Where history meets myths & tech
+> *Connecting Hearts to Heritage Through Immersive Storytelling*
+
+## ✨ Vision
+
+**Darshana** is an innovative digital storytelling platform that bridges the gap between modern technology and cultural heritage. Our mission is to preserve, celebrate, and share the rich tapestry of cultural stories, traditions, and historical narratives through immersive digital experiences.
+
+In a world where cultural heritage risks being forgotten, Darshana creates a vibrant digital sanctuary where stories come alive, monuments speak their history, and traditions find new voices for future generations.
+
+## ✨ Core Features
+
+### Narad AI - Your Cultural Companion
+An intelligent AI curator that acts as your personal guide through the world of cultural heritage. Narad AI:
+- Personalizes story recommendations based on your interests and cultural background
+- Provides contextual insights and deeper meanings behind cultural narratives
+- Creates interactive storytelling experiences tailored to each user
+- Connects related stories, traditions, and historical events across different cultures
+
+### Virtual Monument Experiences
+Step into history with our immersive monument exploration:
+- **360° Virtual Visits**: Experience iconic monuments and heritage sites from anywhere in the world
+- **AR/VR Integration**: Walk through ancient temples, palaces, and historical landmarks
+- **Interactive Storytelling**: Discover the stories, legends, and historical significance of each location
+- **Cultural Context**: Understand the architectural, spiritual, and social importance of heritage sites
+
+## Content Sections
+
+### Story Collections
+- **Traditional Tales**: Timeless stories passed down through generations
+- **Historical Narratives**: Real events and personalities that shaped cultures
+- **Moral Fables**: Stories that teach values and life lessons
+- **Regional Legends**: Unique tales specific to different geographic regions
+
+### Monument Database
+- **Heritage Sites**: UNESCO World Heritage locations and their stories
+- **Architectural Marvels**: Detailed exploration of construction techniques and cultural significance
+- **Historical Timeline**: Journey through different eras of architectural evolution
+- **Cultural Significance**: Understanding the role of monuments in society and religion
+
+### Horror Stories Section
+- **Folk Horror**: Traditional scary tales and supernatural stories
+- **Regional Mysteries**: Unexplained phenomena and local legends
+- **Cultural Mythology**: Stories of spirits, ghosts, and otherworldly beings
+- **Historical Mysteries**: Unsolved historical events and their folklore
+
+### Folk Traditions
+- **Cultural Practices**: Traditional ceremonies, festivals, and rituals
+- **Folk Music & Dance**: Audio-visual experiences of traditional performances
+- **Artisan Crafts**: Stories of traditional craftspeople and their techniques
+- **Seasonal Celebrations**: Understanding how cultures celebrate different times of year
+
+## Future Roadmap
+
+### Ticket Booking Integration
+- **Seamless Travel Planning**: Book visits to actual heritage sites directly through the platform
+- **Guided Tour Packages**: Curated experiences combining digital exploration with physical visits
+- **Cultural Events**: Access to festivals, performances, and cultural celebrations
+- **Educational Tours**: Specialized packages for students and cultural enthusiasts
+
+### Virtual Guide Assistance
+- **AI-Powered Guides**: Personalized virtual tour guides for different regions and cultures
+- **Multi-Language Support**: Stories and guides available in multiple languages
+- **Expert Insights**: Access to historians, archaeologists, and cultural experts
+- **Real-Time Q&A**: Interactive sessions with cultural specialists
+
+## User Experience
+
+### For Cultural Enthusiasts
+- Discover stories from cultures around the world
+- Deep-dive into historical contexts and meanings
+- Create personal collections of favorite stories and monuments
+- Connect with communities sharing similar interests
+
+### For Educators
+- Rich educational content for teaching cultural studies
+- Interactive tools for engaging students with history
+- Curriculum-aligned content for different age groups
+- Virtual field trips to inaccessible locations
+
+### For Travelers
+- Pre-visit exploration of heritage destinations
+- Enhanced understanding of cultural significance
+- Post-visit deeper learning and reflection
+- Planning tools for cultural tourism
+
+### For Heritage Preservationists
+- Platform for sharing and preserving local stories
+- Community-driven content creation
+- Documentation of endangered cultural practices
+- Global network of cultural storytellers
+
+## Cultural Impact
+
+**Darshana** aims to:
+- **Preserve Endangered Stories**: Digitally archive cultural narratives at risk of being lost
+- **Bridge Generational Gaps**: Connect younger generations with their cultural roots
+- **Promote Cross-Cultural Understanding**: Foster appreciation for diverse traditions
+- **Support Cultural Tourism**: Drive interest in visiting and supporting heritage sites
+- **Empower Local Communities**: Provide platforms for communities to share their stories
+
+## The Darshana Experience
+
+Imagine walking through the corridors of an ancient palace while listening to stories of the kings who once ruled there. Picture yourself exploring a traditional festival through VR while understanding the deep spiritual significance of each ritual. Envision an AI companion that can answer your questions about any cultural practice, connecting you to the wisdom of centuries.
+
+This is Darshana - where technology meets tradition, where stories find new life, and where every user becomes a guardian of cultural heritage.
 
 ---
-## Introduction
-Shh, It's a Secret 🤫
 
-Darshana is an immersive cultural exploration platform that brings India's rich heritage to life through the power of AI and storytelling. Named after the Sanskrit word for "vision" or "perspective," Darshana offers users a unique lens into the stories, myths, and traditions that define Indian culture.
+*"Darshana" means "Auspicious vision" or "sight" in Sanskrit - representing our mission to provide new ways of seeing and understanding the rich heritage that surrounds us.*
 
-This repository contains the complete Darshana platform, including:
-- **Frontend**: Next.js web application with interactive UI
-- **Backend**: Node.js/Express API service
-- **AI Service**: Python Flask service with Google Gemini AI integration
+## ✨ Join the Journey
 
----
-## Project Status
-**Active Development** - The platform is actively being developed with regular updates and new features.
+Darshana is more than a platform - it's a movement to preserve, celebrate, and share the cultural wealth of humanity. Together, we can ensure that the stories of our ancestors continue to inspire future generations.
 
-## Core Features
+**Coming Soon**: Stay tuned for the launch of this revolutionary cultural storytelling experience.
 
-### 🎙️ Narad AI - Your Cultural Guide
-Narad AI is the heart of the Darshana experience - an intelligent cultural companion that provides personalized storytelling about Indian heritage and culture.
+## ✨ Author 
 
-#### Enhanced Voice-to-Voice Conversations
-- **Continuous Voice Mode**: Speak naturally with hands-free conversation
-- **Automatic Input Processing**: Messages sent automatically after 1-second pause
-- **Smart Keyboard Handling**: Enter sends text, Escape stops recording
-- **Stop Speaking Control**: Instantly halt AI speech output with dedicated button
-- **Authentic Indian Accents**: Male voices with genuine Indian English and native language pronunciation
-- **Soft, Soothing Voice**: Slower speech rate and lower pitch for better listening experience
-- **Smart Language Detection**: Automatic script recognition for Hindi, Tamil, Telugu, and other regional languages
-- **Context Preservation**: Maintains language consistency throughout multi-turn conversations
-- **Multi-language Support**: Conversations in 11 Indian languages
-- **Emoji Filtering**: Automatic removal of emojis for clean speech output
-- **One-touch Activation**: Simple toggle to enable/disable voice mode
+*Ajay Tiwari (B.Tech CSE(AI) student, Batch 2022-26)*
 
-#### Text-based Chat
-- **Rich Cultural Knowledge**: Extensive database of Indian history, mythology, and traditions
-- **Personalized Responses**: AI adapts to user interests and preferences
-- **Multilingual Support**: Chat in English and Indian regional languages
-- **Context-Aware Responses**: Maintains conversation history for coherent interactions
-
-### 🌍 Interactive Cultural Experiences
-- **AR Integration**: Augmented reality experiences at cultural sites
-- **Storytelling Mode**: Immersive narrative experiences
-- **Cultural Treasures**: Interactive exploration of India's heritage
-- **3D Virtual Tours**: Explore monuments in 3D space
-
-### 🏛️ Monument & Heritage Exploration
-- **Detailed Monument Information**: Extensive database of Indian historical sites
-- **Interactive Maps**: Location-based exploration of cultural sites
-- **Historical Timelines**: Chronological presentation of historical events
-- **Photo Galleries**: High-quality images of monuments and artifacts
-
-### 📚 Storytelling Platform
-- **Mythological Stories**: Rich collection of Indian myths and legends
-- **Historical Narratives**: Detailed accounts of historical events
-- **Cultural Insights**: Deep dives into Indian traditions and customs
-- **Multimedia Content**: Text, images, and audio for immersive storytelling
-
-## Tech Stack
-
-### Frontend
-- **Framework**: Next.js 14 with React 18
-- **Styling**: Tailwind CSS with custom design system
-- **Animations**: Framer Motion for smooth UI interactions
-- **State Management**: Zustand for lightweight state management
-- **Icons**: Lucide React icons
-- **3D Graphics**: Three.js with React Three Fiber
-- **Testing**: Jest and React Testing Library
-
-### Backend
-- **Framework**: Node.js with Express.js
-- **Database**: MongoDB with Mongoose ODM
-- **Authentication**: JWT-based authentication
-- **API Documentation**: Swagger/OpenAPI
-- **Validation**: express-validator
-- **Logging**: Winston
-- **Testing**: Jest with Supertest
-
-### AI Service
-- **Framework**: Python Flask
-- **AI Model**: Google Gemini AI
-- **NLP Libraries**: NLTK, spaCy, Langchain
-- **Database**: MongoDB integration
-- **Testing**: Pytest
-
-## Database Setup
-
-The Darshana platform supports both local MongoDB and MongoDB Atlas (cloud). For production deployments, we recommend using MongoDB Atlas.
-
-To set up MongoDB Atlas:
-1. Follow the detailed instructions in [MONGODB_ATLAS_SETUP.md](./MONGODB_ATLAS_SETUP.md)
-2. Update your `backend/.env` file with your Atlas connection string
-3. Set `USE_ATLAS=true` in your environment variables
-
-For local development, you can use the included MongoDB installation script:
-- Run `install_mongodb.bat` to install MongoDB locally
-- The application will automatically connect to your local MongoDB instance
-
-## Setup Instructions
-
-### Prerequisites
-- Node.js 16+
-- Python 3.8+
-- MongoDB 4.4+
-- npm or yarn
-
-### Quick Start
-
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/AjayTiwari94/Darshana.git
-   cd Darshana
-   ```
-
-2. **Frontend Setup**:
-   ```bash
-   cd Frontend
-   npm install
-   # Create a .env file based on .env.example and add your API keys
-   npm run dev
-   ```
-
-3. **Backend Setup**:
-   ```bash
-   cd backend
-   npm install
-   # Create a .env file with your MongoDB connection string and other configs
-   npm run dev
-   ```
-
-4. **AI Service Setup**:
-   ```bash
-   cd ai-service
-   pip install -r requirements.txt
-   python app.py
-   ```
-
-### Environment Variables
-Create `.env` files in respective directories:
-- `Frontend/.env` (copy from `Frontend/.env.example`)
-- `ai-service/.env`
-- `backend/.env`
-
-Example `Frontend/.env`:
-```bash
-NEXT_PUBLIC_API_URL=http://localhost:8000
-NODE_ENV=development
-```
-
-## Project Structure
-```
-Darshana/
-├── Frontend/              # Next.js frontend application
-│   ├── src/
-│   │   ├── app/           # Next.js app router pages
-│   │   ├── components/    # React components
-│   │   ├── store/         # Zustand store
-│   │   └── ...
-│   ├── public/            # Static assets
-│   └── ...
-├── backend/               # Node.js/Express backend API
-│   ├── src/
-│   │   ├── controllers/   # Request handlers
-│   │   ├── models/        # Database models
-│   │   ├── routes/        # API routes
-│   │   └── ...
-│   └── ...
-├── ai-service/            # Python Flask AI service
-│   ├── src/
-│   │   ├── services/      # AI services
-│   │   └── ...
-│   └── ...
-├── docs/                  # Documentation files
-└── README.md
-```
-
-## Contributing
-Contributions are welcome! Please read our [CONTRIBUTING.md](./CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
-
-## License
-This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
-
-## Acknowledgments
-- Thanks to all contributors who have helped build this platform
-- Special thanks to the open-source community for the libraries and tools that made this project possible
+Dedicated towards the field of AI/ML and Data Analytics.
