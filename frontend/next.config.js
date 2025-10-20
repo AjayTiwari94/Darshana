@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+const path = require('path');
+
 const nextConfig = {
   // Clean webpack cache on development
   cleanDistDir: true,
@@ -13,7 +15,7 @@ const nextConfig = {
   env: {
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000',
   },
-  // Add webpack configuration to handle cache issues
+  // Add webpack configuration to handle cache issues and path aliases
   webpack: (config, { isServer, dev }) => {
     if (dev) {
       // Clear cache in development
@@ -25,6 +27,20 @@ const nextConfig = {
         },
       };
     }
+    
+    // Ensure path aliases are properly resolved
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': path.resolve(__dirname, 'src'),
+      '@/components': path.resolve(__dirname, 'src/components'),
+      '@/pages': path.resolve(__dirname, 'src/pages'),
+      '@/utils': path.resolve(__dirname, 'src/utils'),
+      '@/hooks': path.resolve(__dirname, 'src/hooks'),
+      '@/types': path.resolve(__dirname, 'src/types'),
+      '@/store': path.resolve(__dirname, 'src/store/index.ts'),
+      '@/lib': path.resolve(__dirname, 'src/lib')
+    };
+    
     return config;
   },
 }

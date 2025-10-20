@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/components/*": ["./src/components/*"],
+      "@/pages/*": ["./src/pages/*"],
+      "@/utils/*": ["./src/utils/*"],
+      "@/hooks/*": ["./src/hooks/*"],
+      "@/types/*": ["./src/types/*"],
+      "@/store": ["./src/store/index.ts"],
+      "@/store/*": ["./src/store/*"],
+      "@/lib/*": ["./src/lib/*"]
+    }
+  },
+  "exclude": ["node_modules"]
+}
