@@ -18,7 +18,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { HeartIcon as HeartSolidIcon, BookmarkIcon as BookmarkSolidIcon, StarIcon as StarSolidIcon } from '@heroicons/react/24/solid'
 import Link from 'next/link'
-import { apiCall } from '../../lib/api'
+import { apiCall } from '@/lib/api'
 
 interface Monument {
   _id: string

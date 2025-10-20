@@ -1,8 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { useAuthStore } from '../../store'
-import { useUIStore } from '../../store'
+import { useAuthStore, useUIStore } from '@/store'
 import { useRouter } from 'next/navigation'
 import { 
   Settings, 
