@@ -1,3 +1,5 @@
+console.log("✅ next.config.js is loaded");
+
 /** @type {import('next').NextConfig} */
 const path = require('path');
 
