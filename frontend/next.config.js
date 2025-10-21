@@ -43,6 +43,10 @@ const nextConfig = {
       '@/lib': path.resolve(__dirname, 'src/lib'),
       '@/lib/api': path.resolve(__dirname, 'src/lib/api'),
     };
+    config.resolve.modules = [
+      path.resolve(__dirname, 'src'),
+      'node_modules',
+    ];
 
     
     return config;
