@@ -20,17 +20,18 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@/components/*": ["./src/components/*"],
-      "@/pages/*": ["./src/pages/*"],
-      "@/utils/*": ["./src/utils/*"],
-      "@/hooks/*": ["./src/hooks/*"],
-      "@/types/*": ["./src/types/*"],
-      "@/store": ["./src/store/index"],
-      "@/store/*": ["./src/store/*"],
-      "@/lib/*": ["./src/lib/*"],
-      "@/lib/api": ["./src/lib/api"]
+      "@/*": ["src/*"],
+      "@/components/*": ["src/components/*"],
+      "@/pages/*": ["src/pages/*"],
+      "@/utils/*": ["src/utils/*"],
+      "@/hooks/*": ["src/hooks/*"],
+      "@/types/*": ["src/types/*"],
+      "@/store": ["src/store/index"],
+      "@/store/*": ["src/store/*"],
+      "@/lib/*": ["src/lib/*"],
+      "@/lib/api": ["src/lib/api"]
     }
+
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
