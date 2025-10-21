@@ -8,9 +8,10 @@
       "@/utils/*": ["./src/utils/*"],
       "@/hooks/*": ["./src/hooks/*"],
       "@/types/*": ["./src/types/*"],
-      "@/store": ["./src/store"],
+      "@/store": ["./src/store/index"],
       "@/store/*": ["./src/store/*"],
-      "@/lib/*": ["./src/lib/*"]
+      "@/lib/*": ["./src/lib/*"],
+      "@/lib/api": ["./src/lib/api"]
     }
   },
   "exclude": ["node_modules"]
