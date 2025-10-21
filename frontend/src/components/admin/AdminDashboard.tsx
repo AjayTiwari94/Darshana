@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { useAuthStore } from '@/store'
+import useAuthStore from '@/store/authStore'
 import { apiCall, API_BASE_URL } from '@/lib/api'
 import { useRouter } from 'next/navigation'
 import { 
@@ -18,6 +18,7 @@ import {
   TrashIcon,
   EyeIcon
 } from '@heroicons/react/24/outline'
+import { User } from '@/types/user.types'
 
 interface AdminStats {
   totalUsers: number

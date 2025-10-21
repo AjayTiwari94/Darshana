@@ -163,7 +163,9 @@ const RegisterPage = () => {
         router.push('/auth/login?message=Registration successful! Please log in.')
       } else {
         // Handle validation errors from backend
+        // @ts-ignore
         if (data.errors && Array.isArray(data.errors)) {
+          // @ts-ignore
           setError(data.errors.map((err: any) => err.msg).join(', '))
         } else {
           setError(data.message || 'Registration failed')

@@ -18,6 +18,7 @@ import {
 import { useAuthStore } from '@/store'
 import { motion, AnimatePresence } from 'framer-motion'
 import LogoutConfirmation from '@/components/common/LogoutConfirmation'
+import { User as UserType } from '@/types/user.types'
 
 const UserDropdown = () => {
   const router = useRouter()
