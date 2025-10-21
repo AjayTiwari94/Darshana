@@ -37,12 +37,11 @@ const nextConfig = {
       '@/utils': path.resolve(__dirname, 'src/utils'),
       '@/hooks': path.resolve(__dirname, 'src/hooks'),
       '@/types': path.resolve(__dirname, 'src/types'),
-      '@/store': path.resolve(__dirname, 'src/store/index'),
-      '@/store/*': path.resolve(__dirname, 'src/store/*'),
+      '@/store': path.resolve(__dirname, 'src/store'),
       '@/lib': path.resolve(__dirname, 'src/lib'),
-      '@/lib/*': path.resolve(__dirname, 'src/lib/*'),
-      '@/lib/api': path.resolve(__dirname, 'src/lib/api')
+      '@/lib/api': path.resolve(__dirname, 'src/lib/api'),
     };
+
     
     return config;
   },
