@@ -94,7 +94,6 @@ const UserDropdown = () => {
   // Generate display name with fallbacks
   const getDisplayName = () => {
     console.log('Getting display name for user:', user)
-    if (user?.name && user.name !== 'undefined') return user.name
     if (user?.firstName && user?.lastName) return `${user.firstName} ${user.lastName}`
     if (user?.firstName) return user.firstName
     if (user?.email) return user.email.split('@')[0]
