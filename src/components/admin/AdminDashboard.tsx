@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import useAuthStore from '@/store/authStore'
+import { useAuthStore } from '@/store'
 import { apiCall, API_BASE_URL } from '@/lib/api'
 import { useRouter } from 'next/navigation'
 import { 

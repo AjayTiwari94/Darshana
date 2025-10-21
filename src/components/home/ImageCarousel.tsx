@@ -12,42 +12,42 @@ interface CarouselImage {
 const ImageCarousel: React.FC = () => {
   const images: CarouselImage[] = [
     {
-      src: '/images/premmandir.jpg',
+      src: '/premmandir.jpg',
       alt: 'Prem Mandir - A beautiful temple dedicated to Radha Krishna, showcasing intricate architecture and spiritual significance',
       title: 'Prem Mandir'
     },
     {
-      src: '/images/konarksuntemple.jpg',
+      src: '/konarksuntemple.jpg',
       alt: 'Konark Sun Temple - UNESCO World Heritage Site, featuring a giant stone chariot dedicated to the sun god Surya',
       title: 'Konark Sun Temple'
     },
     {
-      src: '/images/golderntemple.jpg',
+      src: '/golderntemple.jpg',
       alt: 'Golden Temple - Sacred Sikh gurdwara in Amritsar, featuring stunning golden architecture and spiritual significance',
       title: 'Golden Temple'
     },
     {
-      src: '/images/redfort.jpg',
-      alt: 'Red Fort - Historic fortification in Delhi, UNESCO World Heritage Site and symbol of Mughal architecture',
+      src: '/redfort.jpg',
+      alt: 'Red Fort - Historic fort in Delhi with rich Mughal architecture',
       title: 'Red Fort'
     },
     {
-      src: '/images/bhangarhfort.jpg',
+      src: '/bhangarhfort.jpg',
       alt: 'Bhangarh Fort - Historic fort known as one of the most haunted places in India, with mysterious ruins and legends',
       title: 'Bhangarh Fort'
     },
     {
-      src: '/images/Badrinath.jpg',
-      alt: 'Badrinath Temple - Sacred Hindu temple dedicated to Lord Vishnu, one of the four Char Dham pilgrimage sites',
+      src: '/Badrinath.jpg',
+      alt: 'Badrinath Temple - Sacred temple dedicated to Lord Vishnu in Uttarakhand',
       title: 'Badrinath Temple'
     },
     {
-      src: '/images/Kedarnath.jpg',
+      src: '/Kedarnath.jpg',
       alt: 'Kedarnath Temple - Ancient Hindu temple dedicated to Lord Shiva, nestled in the Himalayas with stunning mountain backdrop',
       title: 'Kedarnath Temple'
     },
     {
-      src: '/images/amer-fort.jpg',
+      src: '/amer-fort.jpg',
       alt: 'Amer Fort - Magnificent example of Rajput architecture with artistic Hindu style elements and stunning hilltop location',
       title: 'Amer Fort'
     }

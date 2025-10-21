@@ -7,11 +7,31 @@ const nextConfig = {
   // Clean webpack cache on development
   cleanDistDir: true,
   images: {
-    domains: [
-      'localhost', 
-      'api.darshana.com',
-      'images.unsplash.com',
-      'imgcld.yatra.com'
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'localhost',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'api.darshana.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'imgcld.yatra.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
   env: {

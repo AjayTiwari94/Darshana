@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { useAuthStore } from '@/store/authStore'
+import { useAuthStore } from '@/store'
 import { useRouter } from 'next/navigation'
 import { API_BASE_URL } from '@/lib/api'
 import AdminDashboard from '../../components/admin/AdminDashboard'
