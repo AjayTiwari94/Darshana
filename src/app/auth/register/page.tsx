@@ -151,28 +151,27 @@ const RegisterPage = () => {
     setError('')
 
     try {
-      const response = await apiCall('/api/auth/register', {
+      const data: any = await apiCall('/api/auth/register', {
         method: 'POST',
-        body: formData
+        body: JSON.stringify(formData)
       })
-      
-      // The apiCall function already returns parsed JSON data
-      const data = response
       
       if (data.success) {
         router.push('/auth/login?message=Registration successful! Please log in.')
       } else {
         // Handle validation errors from backend
-        // @ts-ignore
         if (data.errors && Array.isArray(data.errors)) {
-          // @ts-ignore
           setError(data.errors.map((err: any) => err.msg).join(', '))
         } else {
           setError(data.message || 'Registration failed')
         }
       }
-    } catch (err) {
-      setError('Registration failed. Please try again.')
+    } catch (err: any) {
+      if (err.response?.data?.message) {
+        setError(err.response.data.message)
+      } else {
+        setError('Registration failed. Please try again.')
+      }
     } finally {
       setIsLoading(false)
     }

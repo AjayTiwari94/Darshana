@@ -45,9 +45,9 @@ const initializeMockUsers = () => {
     // Add default regular user
     const regularUser = {
       _id: '2',
-      name: 'Cultural Explorer',
-      firstName: 'Cultural',
-      lastName: 'Explorer',
+      name: 'Ajay Tiwari',
+      firstName: 'Ajay',
+      lastName: 'Tiwari',
       email: 'explorer@example.com',
       password: '$2a$12$nn58e8TLzYCa/WOo4jaDlupDc5MWA8muUpoB5qsMTTnCjcpzNBY8C', // "Admin123"
       role: 'user',

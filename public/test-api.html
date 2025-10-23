@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test API</title>
+</head>
+<body>
+    <h1>Test API</h1>
+    <button id="testBtn">Test API</button>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('testBtn').addEventListener('click', async () => {
+            try {
+                console.log('Testing API call...');
+                // Test direct call to backend
+                const response1 = await fetch('http://localhost:5000/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: 'explorer@example.com',
+                        password: 'explorer123'
+                    })
+                });
+                
+                const data1 = await response1.json();
+                console.log('Direct backend call response:', data1);
+                document.getElementById('result').innerHTML += '<h2>Direct Backend Call</h2><pre>' + JSON.stringify(data1, null, 2) + '</pre>';
+                
+                // Test call through frontend proxy (this should fail)
+                const response2 = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: 'explorer@example.com',
+                        password: 'explorer123'
+                    })
+                });
+                
+                const data2 = await response2.json();
+                console.log('Frontend proxy call response:', data2);
+                document.getElementById('result').innerHTML += '<h2>Frontend Proxy Call</h2><pre>' + JSON.stringify(data2, null, 2) + '</pre>';
+            } catch (error) {
+                console.error('API error:', error);
+                document.getElementById('result').innerHTML += '<p>Error: ' + error.message + '</p>';
+            }
+        });
+    </script>
+</body>
+</html>

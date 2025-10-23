@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Debug Test</title>
+</head>
+<body>
+    <h1>API Debug Test</h1>
+    <button onclick="testApi()">Test API Call</button>
+    <div id="result"></div>
+
+    <script>
+        // Test the API base URL
+        console.log('NEXT_PUBLIC_API_URL from env:', process.env.NEXT_PUBLIC_API_URL);
+        
+        // Test a direct fetch to the backend
+        async function testApi() {
+            const resultDiv = document.getElementById('result');
+            
+            try {
+                resultDiv.innerHTML = '<p>Testing login...</p>';
+                
+                // Test direct backend call using the correct path
+                const backendResponse = await fetch('http://localhost:5000/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: 'explorer@example.com',
+                        password: 'explorer123'
+                    })
+                });
+                
+                const backendData = await backendResponse.json();
+                resultDiv.innerHTML += `<p>Backend response: ${JSON.stringify(backendData)}</p>`;
+                
+            } catch (error) {
+                resultDiv.innerHTML += `<p>Error: ${error.message}</p>`;
+                console.error(error);
+            }
+        }
+    </script>
+</body>
+</html>

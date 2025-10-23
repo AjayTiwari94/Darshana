@@ -33,9 +33,12 @@ const LoginPage: React.FC = () => {
       // Clear any existing auth state before logging in
       logout()
       
+      console.log('Attempting login with email:', formData.email)
       await login(formData.email, formData.password)
-      router.push('/') // Redirect to home page instead of dashboard
+      console.log('Login successful, redirecting to home page')
+      router.push('/') // Redirect to home page
     } catch (err) {
+      console.error('Login failed:', err)
       setError(err instanceof Error ? err.message : 'Login failed')
     } finally {
       setIsLoading(false)

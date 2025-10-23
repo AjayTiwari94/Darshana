@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Frontend Login Test</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <h1>Frontend Login Test</h1>
+    <button onclick="testFrontendLogin()">Test Frontend Login</button>
+    <div id="result"></div>
+
+    <script>
+        // Test the frontend login functionality
+        async function testFrontendLogin() {
+            const resultDiv = document.getElementById('result');
+            
+            try {
+                resultDiv.innerHTML = '<p>Testing frontend login...</p>';
+                
+                // This simulates what the frontend code does
+                // Using axios with a baseURL set to the backend
+                const apiClient = axios.create({
+                    baseURL: 'http://localhost:5000',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    timeout: 10000,
+                });
+                
+                // Test the fixed API call with normalized URL
+                const normalizedUrl = '/api/auth/login'.startsWith('/') ? '/api/auth/login'.substring(1) : '/api/auth/login';
+                console.log('Normalized URL:', normalizedUrl);
+                
+                const response = await apiClient.post(normalizedUrl, {
+                    email: 'explorer@example.com',
+                    password: 'explorer123'
+                });
+                
+                resultDiv.innerHTML += `<p>Frontend login successful: ${JSON.stringify(response.data)}</p>`;
+                
+            } catch (error) {
+                resultDiv.innerHTML += `<p>Error: ${error.message}</p>`;
+                if (error.response) {
+                    resultDiv.innerHTML += `<p>Response: ${JSON.stringify(error.response.data)}</p>`;
+                }
+                console.error(error);
+            }
+        }
+    </script>
+</body>
+</html>
