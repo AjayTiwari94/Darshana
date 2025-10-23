@@ -28,10 +28,10 @@ const BhangarhCurseStory = () => {
   const story = {
     title: "The Curse of Bhangarh Fort",
     subtitle: "A Haunting Tale of Love and Vengeance",
-    image: "/images/bhangarhfort.jpg",
+    image: "/bhangarhfort.jpg",
     images: [
       "/images/bhangarhfort.jpg",
-      "/images/bhangarhfort.jpg"
+      "/bhangarhfort.jpg"
     ],
     duration: 8,
     author: "Narad AI",

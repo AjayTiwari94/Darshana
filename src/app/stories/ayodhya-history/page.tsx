@@ -18,8 +18,11 @@ const AyodhyaHistoryStory: React.FC = () => {
       startSession('ayodhya-history-session')
     }
     
-    // Set initial input with a query about the story
-    setInitialInput("Tell me more about the ancient history of Ayodhya and its significance as Lord Rama's birthplace")
+    // Only set initial input if there are no user messages yet
+    const hasUserMessages = messages.some(message => message.role === 'user');
+    if (!hasUserMessages) {
+      setInitialInput("Tell me more about the ancient history of Ayodhya and its significance as Lord Rama's birthplace")
+    }
     
     // Open the AI chat
     setNaradAIOpen(true)

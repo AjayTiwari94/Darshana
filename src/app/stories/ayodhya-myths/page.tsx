@@ -18,8 +18,11 @@ const AyodhyaMythsStory: React.FC = () => {
       startSession('ayodhya-myths-session') // Provide a session ID
     }
     
-    // Set initial input with a query about the story
-    setInitialInput("Tell me more about the epic tale of Lord Rama from the Ramayana and the divine myths associated with Ayodhya")
+    // Only set initial input if there are no user messages yet
+    const hasUserMessages = messages.some(message => message.role === 'user');
+    if (!hasUserMessages) {
+      setInitialInput("Tell me more about the epic tale of Lord Rama from the Ramayana and the divine myths associated with Ayodhya")
+    }
     
     // Open the AI chat
     setNaradAIOpen(true)

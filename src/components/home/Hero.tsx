@@ -26,7 +26,7 @@ const Hero = () => {
   const { setNaradAIOpen } = useUIStore()
   const handleOpenNaradAI = () => {
     if (messages.length === 0) {
-      startSession()
+      startSession('hero-section-session')
     }
     setNaradAIOpen(true)
   }

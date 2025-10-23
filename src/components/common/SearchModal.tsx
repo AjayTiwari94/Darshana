@@ -6,7 +6,7 @@ import { Search, X, MapPin, Clock, TrendingUp } from 'lucide-react'
 import { useUIStore } from '@/store'
 
 const SearchModal = () => {
-  const { searchModalOpen, setSearchModalOpen } = useUIStore()
+  const uiStore = useUIStore()
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState(false)
@@ -30,11 +30,13 @@ const SearchModal = () => {
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        setSearchModalOpen(false)
+        // @ts-ignore
+        uiStore.setSearchModalOpen(false)
       }
     }
 
-    if (searchModalOpen) {
+    // @ts-ignore
+    if (uiStore.searchModalOpen) {
       document.addEventListener('keydown', handleEscape)
       document.body.style.overflow = 'hidden'
     } else {
@@ -45,7 +47,7 @@ const SearchModal = () => {
       document.removeEventListener('keydown', handleEscape)
       document.body.style.overflow = 'unset'
     }
-  }, [searchModalOpen, setSearchModalOpen])
+  }, [uiStore])
 
   const handleSearch = async (searchQuery: string) => {
     if (!searchQuery.trim()) {
@@ -66,7 +68,7 @@ const SearchModal = () => {
           title: 'Taj Mahal',
           subtitle: 'Agra, Uttar Pradesh',
           description: 'Symbol of eternal love and Mughal architecture',
-          image: '/images/taj-mahal.jpg'
+          image: '/taj-mahal.jpg'
         },
         {
           type: 'story',
@@ -95,14 +97,16 @@ const SearchModal = () => {
   }, [query])
 
   const handleClose = () => {
-    setSearchModalOpen(false)
+    // @ts-ignore
+    uiStore.setSearchModalOpen(false)
     setQuery('')
     setResults([])
   }
 
   return (
     <AnimatePresence>
-      {searchModalOpen && (
+      {/* @ts-ignore */}
+      {uiStore.searchModalOpen && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -208,17 +212,17 @@ const SearchModal = () => {
                       <div className="flex items-center mb-3">
                         <TrendingUp className="text-gray-400 mr-2" size={16} />
                         <h3 className="text-sm font-semibold text-gray-600 uppercase tracking-wider">
-                          Trending
+                          Trending Now
                         </h3>
                       </div>
-                      <div className="flex flex-wrap gap-2">
+                      <div className="grid grid-cols-2 gap-2">
                         {trendingSearches.map((search, index) => (
                           <button
                             key={index}
                             onClick={() => setQuery(search)}
-                            className="px-3 py-1.5 bg-primary-100 text-primary-700 rounded-full text-sm hover:bg-primary-200 transition-colors"
+                            className="p-3 bg-gradient-to-r from-primary-50 to-secondary-50 rounded-lg text-left hover:from-primary-100 hover:to-secondary-100 transition-colors"
                           >
-                            {search}
+                            <span className="text-sm font-medium text-gray-900">{search}</span>
                           </button>
                         ))}
                       </div>

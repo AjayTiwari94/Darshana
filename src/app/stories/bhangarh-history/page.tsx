@@ -28,10 +28,10 @@ const BhangarhHistoryStory = () => {
   const story = {
     title: "The History of Bhangarh Fort",
     subtitle: "From Royal Residence to Haunted Ruins",
-    image: "/images/bhangarhfort.jpg",
+    image: "/bhangarhfort.jpg",
     images: [
       "/images/bhangarhfort.jpg",
-      "/images/bhangarhfort.jpg"
+      "/bhangarhfort.jpg"
     ],
     duration: 10,
     author: "Ajay Tiwari",

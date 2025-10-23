@@ -81,10 +81,10 @@ const TicketDetailsPage: React.FC = () => {
   // Helper function to get monument image
   const getMonumentImage = (monumentId: string): string => {
     const imageMap: { [key: string]: string } = {
-      '1': '/images/taj-mahal.jpg',
-      '2': '/images/red-fort.jpg', 
+      '1': '/taj-mahal.jpg',
+      '2': '/red-fort.jpg', 
       '3': '/images/hawa-mahal.jpg',
-      '4': '/images/amer-fort.jpg'
+      '4': '/amer-fort.jpg'
     }
     return imageMap[monumentId] || '/images/heritage-background.jpg'
   }

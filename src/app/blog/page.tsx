@@ -27,7 +27,7 @@ const BlogPage = () => {
       author: 'Cultural Stories Team',
       date: 'June 5, 2024',
       tags: ['Legends', 'Fort', 'Rajasthan'],
-      image: '/images/bhangarhfort.jpg'
+      image: '/bhangarhfort.jpg'
     }
   ]
 

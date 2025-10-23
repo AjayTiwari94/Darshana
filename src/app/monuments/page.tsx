@@ -157,7 +157,7 @@ const MonumentsPage: React.FC = () => {
         category: 'Fort',
         period: 'Mughal Era (1639-1648)',
         significance: 'UNESCO World Heritage Site, Symbol of Independence',
-        images: ['/images/red-fort.jpg', 'https://images.unsplash.com/photo-1587474260584-136574528ed5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'],
+        images: ['/red-fort.jpg', 'https://images.unsplash.com/photo-1587474260584-136574528ed5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'],
         virtualTours: [
           { _id: 'vt3', title: 'Throne Hall Tour', type: 'vr_immersive', duration: 20 }
         ],
@@ -217,7 +217,7 @@ const MonumentsPage: React.FC = () => {
         category: 'Fort',
         period: 'Rajput Era (1592)',
         significance: 'UNESCO World Heritage Site, Rajput Architecture',
-        images: ['/images/amerfort.jpg', '/images/amer-fort.jpg'],
+        images: ['/amerfort.jpg', '/amer-fort.jpg'],
         virtualTours: [
           { _id: 'vt5', title: 'Palace Complex Tour', type: '360_tour', duration: 18 }
         ],
@@ -247,7 +247,7 @@ const MonumentsPage: React.FC = () => {
         category: 'Fort',
         period: 'Mughal Era (1608)',
         significance: 'Historic Fort, Haunted Site',
-        images: ['/images/bhangarhfort.jpg', '/images/bhangarhfort.jpg'],
+        images: ['/bhangarhfort.jpg', '/bhangarhfort.jpg'],
         virtualTours: [
           { _id: 'vt6', title: 'Haunted Corridors', type: '360_tour', duration: 15 }
         ],

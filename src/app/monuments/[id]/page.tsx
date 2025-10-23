@@ -67,6 +67,59 @@ interface Monument {
   isBookmarked?: boolean
 }
 
+// Type guard to check if data is a single monument object
+const isMonumentObject = (data: any): data is {
+  _id: string;
+  name: string;
+  description: string;
+  location: {
+    city: string;
+    state: string;
+    coordinates: {
+      latitude: number;
+      longitude: number;
+    }
+  };
+  category: string;
+  period?: string;
+  historicalPeriod?: {
+    era: string;
+  };
+  significance: string | {
+    historical: string;
+  };
+  images: string[];
+  stories: Array<{
+    _id: string;
+    title: string;
+    type: string;
+    readingTime: number;
+  }>;
+  ticketInfo: {
+    prices: {
+      indian: {
+        adult: number;
+      };
+      foreign: {
+        adult: number;
+      };
+    };
+    timings: {
+      openTime: string;
+      closeTime: string;
+    };
+    groupDiscounts: any[];
+  };
+  statistics: {
+    totalVisits: number;
+    averageRating: number;
+    totalRatings: number;
+    totalReviews: number;
+  };
+} => {
+  return data && typeof data === 'object' && '_id' in data && 'name' in data;
+};
+
 const MonumentDetailPage: React.FC = () => {
   const pathname = usePathname()
   const monumentId = pathname.split('/')[2]
@@ -79,9 +132,10 @@ const MonumentDetailPage: React.FC = () => {
     const loadMonument = async () => {
       try {
         const res = await apiCall(`/api/monuments/${monumentId}`)
-        const json = await res.json()
+        // The apiCall function returns mock data directly, not a Response object
+        const json = res
         
-        if (json.success && json.data) {
+        if (json.success && json.data && isMonumentObject(json.data)) {
           const m = json.data
           const mapped: Monument = {
             _id: m._id,
@@ -97,7 +151,7 @@ const MonumentDetailPage: React.FC = () => {
             },
             category: m.category,
             period: m.historicalPeriod?.era || m.period || 'Unknown',
-            significance: m.significance?.historical || m.significance || '',
+            significance: typeof m.significance === 'object' && m.significance !== null ? m.significance.historical : m.significance || '',
             images: (m.images || []).map((img: any) => img.url || img),
             virtualTours: [], // Will be populated from m.vrExperiences or m.arAssets
             stories: (m.stories || []).map((s: any) => ({

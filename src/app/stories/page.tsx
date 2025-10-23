@@ -143,7 +143,7 @@ const StorytellingHub: React.FC = () => {
       duration: 8,
       period: '8th Century AD',
       narrator: 'Ajay Tiwari',
-      imageUrl: '/images/sacred_places/Kedarnath.jpg',
+      imageUrl: '/sacred_places/Kedarnath.jpg',
       contentPreview: 'Nestled in the majestic Garhwal Himalayas at an altitude of 3,583 meters...'
     },
     {
@@ -155,7 +155,7 @@ const StorytellingHub: React.FC = () => {
       state: 'Uttarakhand',
       duration: 6,
       narrator: 'Ajay Tiwari',
-      imageUrl: '/images/sacred_places/Kedarnath.jpg',
+      imageUrl: '/sacred_places/Kedarnath.jpg',
       contentPreview: 'According to the Mahabharata, after the great war of Kurukshetra...'
     },
     {
@@ -168,7 +168,7 @@ const StorytellingHub: React.FC = () => {
       duration: 9,
       period: '8th Century AD',
       narrator: 'Ajay Tiwari',
-      imageUrl: '/images/sacred_places/Badrinath.jpg',
+      imageUrl: '/sacred_places/Badrinath.jpg',
       contentPreview: 'The Badrinath Temple, located in the picturesque town of Badrinath...'
     },
     {
@@ -180,7 +180,7 @@ const StorytellingHub: React.FC = () => {
       state: 'Uttarakhand',
       duration: 7,
       narrator: 'Ajay Tiwari',
-      imageUrl: '/images/sacred_places/Badrinath.jpg',
+      imageUrl: '/sacred_places/Badrinath.jpg',
       contentPreview: 'Badrinath is considered one of the holiest pilgrimage sites for Hindus...'
     },
     {
@@ -193,7 +193,7 @@ const StorytellingHub: React.FC = () => {
       duration: 12,
       period: '2nd Millennium BC',
       narrator: 'Ajay Tiwari',
-      imageUrl: '/images/sacred_places/Ayodhya.jpg',
+      imageUrl: '/sacred_places/Ayodhya.jpg',
       contentPreview: 'Ayodhya, located on the banks of the sacred Sarayu river...'
     },
     {
@@ -205,7 +205,7 @@ const StorytellingHub: React.FC = () => {
       state: 'Uttar Pradesh',
       duration: 15,
       narrator: 'Ajay Tiwari',
-      imageUrl: '/images/sacred_places/Ayodhya.jpg',
+      imageUrl: '/sacred_places/Ayodhya.jpg',
       contentPreview: 'The Ramayana, one of the greatest epics of ancient India...'
     },
     {
@@ -218,7 +218,7 @@ const StorytellingHub: React.FC = () => {
       duration: 10,
       period: '6th Century BC',
       narrator: 'Ajay Tiwari',
-      imageUrl: '/images/sacred_places/Mathura.jpg',
+      imageUrl: '/sacred_places/Mathura.jpg',
       contentPreview: 'Mathura, located on the banks of the Yamuna river...'
     },
     {
@@ -230,7 +230,7 @@ const StorytellingHub: React.FC = () => {
       state: 'Uttar Pradesh',
       duration: 8,
       narrator: 'Ajay Tiwari',
-      imageUrl: '/images/sacred_places/Mathura.jpg',
+      imageUrl: '/sacred_places/Mathura.jpg',
       contentPreview: 'Mathura is revered as the birthplace of Lord Krishna...'
     },
     {
@@ -243,7 +243,7 @@ const StorytellingHub: React.FC = () => {
       duration: 11,
       period: '8th Century AD',
       narrator: 'Ajay Tiwari',
-      imageUrl: '/images/sacred_places/Naina-Devi.jpg',
+      imageUrl: '/sacred_places/Naina-Devi.jpg',
       contentPreview: 'Perched on a hilltop on the borders with Punjab, Naina Devi is an important Shaktipeeth pilgrimage center...'
     },
     {
@@ -255,7 +255,7 @@ const StorytellingHub: React.FC = () => {
       state: 'Himachal Pradesh',
       duration: 9,
       narrator: 'Ajay Tiwari',
-      imageUrl: '/images/Naina-Devi.jpg',
+      imageUrl: '/sacred_places/Naina-Devi.jpg',
       contentPreview: 'Believers hold that as the dead body of Sati dismembered during an all consuming cosmic Tandav dance of Lord Shiva...'
     },
     {
@@ -268,7 +268,7 @@ const StorytellingHub: React.FC = () => {
       duration: 10,
       period: 'Ancient Times',
       narrator: 'Ajay Tiwari',
-      imageUrl: '/images/chintpurni.jpg',
+      imageUrl: '/sacred_places/chintpurni.jpg',
       contentPreview: 'A deeply revered Shaktipeeth township, Chintpurni is a major pilgrimage centre that attracts lakhs of people every year...'
     },
     {
@@ -280,7 +280,7 @@ const StorytellingHub: React.FC = () => {
       state: 'Himachal Pradesh',
       duration: 8,
       narrator: 'Ajay Tiwari',
-      imageUrl: '/images/chintpurni.jpg',
+      imageUrl: '/sacred_places/chintpurni.jpg',
       contentPreview: 'Believers hold that as the dead body of Sati dismembered during an all consuming cosmic Tandav dance of Lord Shiva...'
     },
     {
@@ -293,7 +293,7 @@ const StorytellingHub: React.FC = () => {
       duration: 10,
       period: 'Modern Era',
       narrator: 'Ajay Tiwari',
-      imageUrl: '/images/premmandir.jpg',
+      imageUrl: '/premmandir.jpg',
       contentPreview: 'Nestled in the sacred town of Vrindavan, Uttar Pradesh, Prem Mandir stands as a magnificent testament to divine love and devotion...'
     },
     {
@@ -306,7 +306,7 @@ const StorytellingHub: React.FC = () => {
       duration: 12,
       period: '13th Century AD',
       narrator: 'Ajay Tiwari',
-      imageUrl: '/images/konarksuntemple.jpg',
+      imageUrl: '/konarksuntemple.jpg',
       contentPreview: 'Rising majestically from the coastal plains of Odisha, the Konark Sun Temple stands as one of India\'s most spectacular architectural achievements...'
     },
     {
@@ -319,7 +319,7 @@ const StorytellingHub: React.FC = () => {
       duration: 11,
       period: '16th Century AD',
       narrator: 'Ajay Tiwari',
-      imageUrl: '/images/golderntemple.jpg',
+      imageUrl: '/golderntemple.jpg',
       contentPreview: 'The Golden Temple, officially known as Harmandir Sahib, stands as the most sacred shrine in Sikhism and one of the most revered religious sites in the world...'
     },
     {
@@ -332,7 +332,7 @@ const StorytellingHub: React.FC = () => {
       duration: 8,
       period: '17th Century',
       narrator: 'Narad AI',
-      imageUrl: '/images/bhangarhfort.jpg',
+      imageUrl: '/bhangarhfort.jpg',
       contentPreview: 'Bhangarh Fort, located in the Alwar district of Rajasthan, is known for its mysterious curse and is considered one of the most haunted places in India...'
     },
     {
@@ -345,7 +345,7 @@ const StorytellingHub: React.FC = () => {
       duration: 10,
       period: '17th Century',
       narrator: 'Ajay Tiwari',
-      imageUrl: '/images/bhangarhfort.jpg',
+      imageUrl: '/bhangarhfort.jpg',
       contentPreview: 'Bhangarh Fort was built in 1573 by Raja Bhagwant Das, the son of Raja Todar Mal, who was a minister in the court of Emperor Akbar...'
     }
 
@@ -1245,7 +1245,7 @@ function EditorsPicks() {
     const load = async () => {
       try {
         const res = await apiCall('/api/stories/featured')
-        const json = await res.json()
+        const json = res
         if (json.success) {
           const mapped = (json.data as any[]).map((s) => ({
             id: s._id,

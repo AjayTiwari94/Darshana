@@ -59,7 +59,7 @@ const NainaDeviTempleStory: React.FC = () => {
         >
           <div className="relative h-96">
             <motion.img 
-              src="/images/Naina-Devi.jpg" 
+              src="/sacred_places/Naina-Devi.jpg" 
               alt="Naina Devi Temple" 
               className="w-full h-full object-cover"
               initial={{ scale: 1.1 }}
@@ -192,7 +192,7 @@ const NainaDeviTempleStory: React.FC = () => {
                 transition={{ duration: 0.5, delay: 0.9 }}
               >
                 <img 
-                  src="/images/Naina-Devi.jpg" 
+                  src="/sacred_places/Naina-Devi.jpg" 
                   alt="Naina Devi Temple Architecture" 
                   className="w-full h-auto"
                 />

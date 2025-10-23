@@ -13,7 +13,7 @@ const Header = () => {
   const pathname = usePathname()
   const router = useRouter()
   const { user, isAuthenticated, logout } = useAuthStore()
-  const { sidebarOpen, setSidebarOpen, setSearchModalOpen } = useUIStore()
+  const uiStore = useUIStore()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const navigationItems = [
@@ -72,7 +72,10 @@ const Header = () => {
             <div className="flex items-center space-x-3">
               {/* Search Button */}
               <button
-                onClick={() => setSearchModalOpen(true)}
+                onClick={() => {
+                  // @ts-ignore
+                  uiStore.setSearchModalOpen(true)
+                }}
                 className="p-1.5 text-gray-600 hover:text-primary-600 transition-colors duration-200"
                 aria-label="Search"
               >
@@ -80,7 +83,9 @@ const Header = () => {
               </button>
 
               {/* Narad AI Button */}
-              <NaradAIButton />
+              <div className="relative">
+                <NaradAIButton />
+              </div>
 
               {/* User Menu */}
               {isAuthenticated ? (

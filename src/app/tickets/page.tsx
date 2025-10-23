@@ -113,7 +113,7 @@ const TicketBooking = () => {
           _id: '1',
           name: 'Taj Mahal',
           location: 'Agra, Uttar Pradesh',
-          images: ['/images/taj-mahal.jpg'],
+          images: ['/taj-mahal.jpg'],
           ticketPricing: {
             base: 50,
             student: 25,
@@ -127,7 +127,7 @@ const TicketBooking = () => {
           _id: '2',
           name: 'Red Fort',
           location: 'New Delhi, Delhi',
-          images: ['/images/red-fort.jpg'],
+          images: ['/red-fort.jpg'],
           ticketPricing: {
             base: 35,
             student: 18,
@@ -155,7 +155,7 @@ const TicketBooking = () => {
           _id: '4',
           name: 'Amer Fort',
           location: 'Jaipur, Rajasthan',
-          images: ['/images/amer-fort.jpg'],
+          images: ['/amer-fort.jpg'],
           ticketPricing: {
             base: 100,
             student: 50,
@@ -296,10 +296,10 @@ const TicketBooking = () => {
   // Helper function to get monument image
   const getMonumentImage = (monumentId: string): string => {
     const imageMap: { [key: string]: string } = {
-      '1': '/images/taj-mahal.jpg',
-      '2': '/images/red-fort.jpg', 
+      '1': '/taj-mahal.jpg',
+      '2': '/red-fort.jpg', 
       '3': '/images/hawa-mahal.jpg',
-      '4': '/images/amer-fort.jpg'
+      '4': '/amer-fort.jpg'
     }
     return imageMap[monumentId] || '/images/heritage-background.jpg'
   }

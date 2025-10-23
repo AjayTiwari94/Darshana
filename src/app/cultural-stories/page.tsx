@@ -233,8 +233,11 @@ const CulturalStoriesPage: React.FC = () => {
       startSession('cultural-stories-session')
     }
     
-    // Set initial input with a query about the story
-    setInitialInput("The user is browsing cultural stories about sacred places in India including Kedarnath, Badrinath, Ayodhya, Mathura, Naina Devi, and Chintpurni. These stories cover history, myths, and spiritual beliefs.")
+    // Only set initial input if there are no user messages yet
+    const hasUserMessages = messages.some(message => message.role === 'user');
+    if (!hasUserMessages) {
+      setInitialInput("The user is browsing cultural stories about sacred places in India including Kedarnath, Badrinath, Ayodhya, Mathura, Naina Devi, and Chintpurni. These stories cover history, myths, and spiritual beliefs.")
+    }
     
     // Open the AI chat
     setNaradAIOpen(true)
@@ -415,8 +418,11 @@ const CulturalStoriesPage: React.FC = () => {
                               startSession(`${place}-session`)
                             }
                             
-                            // Set initial input with a query about the story
-                            setInitialInput(`The user is interested in stories about ${place}, a sacred place in India.`)
+                            // Only set initial input if there are no user messages yet
+                            const hasUserMessages = messages.some(message => message.role === 'user');
+                            if (!hasUserMessages) {
+                              setInitialInput(`The user is interested in stories about ${place}, a sacred place in India.`)
+                            }
                             
                             // Open the AI chat
                             setNaradAIOpen(true)

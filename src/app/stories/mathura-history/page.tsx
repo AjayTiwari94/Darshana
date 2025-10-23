@@ -34,10 +34,10 @@ const MathuraHistoryPage = () => {
 
   // Sample images for the carousel
   const images = [
-    '/images/sacred_places/Mathura.jpg',
-    '/images/premmandir.jpg',
-    '/images/konarksuntemple.jpg',
-    '/images/golderntemple.jpg'
+    '/sacred_places/Mathura.jpg',
+    '/premmandir.jpg',
+    '/konarksuntemple.jpg',
+    '/golderntemple.jpg'
   ]
 
   // Update progress as user scrolls

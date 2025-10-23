@@ -109,7 +109,7 @@ const PremMandirHistoryStory: React.FC = () => {
         >
           <div className="relative h-96">
             <motion.img 
-              src="/images/premmandir.jpg" 
+              src="/premmandir.jpg" 
               alt="Prem Mandir Vrindavan" 
               className="w-full h-full object-cover"
               initial={{ scale: 1.1 }}
@@ -247,7 +247,7 @@ const PremMandirHistoryStory: React.FC = () => {
                 transition={{ duration: 0.5, delay: 0.9 }}
               >
                 <img 
-                  src="/images/premmandir.jpg" 
+                  src="/premmandir.jpg" 
                   alt="Prem Mandir Architecture" 
                   className="w-full h-auto"
                 />

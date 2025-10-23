@@ -18,8 +18,11 @@ const BadrinathHistoryStory: React.FC = () => {
       startSession('badrinath-history-session')
     }
     
-    // Set initial input with a query about the story
-    setInitialInput("Tell me more about the rich history of Badrinath Temple and its significance as one of the Char Dham pilgrimage sites")
+    // Only set initial input if there are no user messages yet
+    const hasUserMessages = messages.some(message => message.role === 'user');
+    if (!hasUserMessages) {
+      setInitialInput("Tell me more about the rich history of Badrinath Temple and its significance as one of the Char Dham pilgrimage sites")
+    }
     
     // Open the AI chat
     setNaradAIOpen(true)

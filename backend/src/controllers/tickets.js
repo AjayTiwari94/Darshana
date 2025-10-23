@@ -18,11 +18,12 @@ const getMonumentImagePath = (monumentId) => {
     '1': 'taj-mahal.jpg',
     '2': 'red-fort.jpg', 
     '3': 'hawa-mahal.jpg',
-    '4': 'amer-fort.jpg'
+    '4': 'amer-fort.jpg',
+    '5': 'bhangarhfort.jpg'
   }
   
   const imageName = imageMap[monumentId] || 'heritage-background.jpg'
-  return path.join(__dirname, '..', '..', 'Frontend', 'public', 'images', imageName)
+  return path.join(__dirname, '..', '..', 'public', imageName)
 }
 
 // Helper function to check if image exists

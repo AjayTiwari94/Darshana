@@ -38,8 +38,8 @@
         "src/types/*"
       ],
       "@/store": [
-        "src/store/index"
-      ],
+        "src/store"
+      ], // ✅ FIXED
       "@/store/*": [
         "src/store/*"
       ],
@@ -56,6 +56,11 @@
       }
     ]
   },
+  "plugins": [
+    {
+      "name": "next"
+    }
+  ],
   "include": [
     "next-env.d.ts",
     "**/*.ts",

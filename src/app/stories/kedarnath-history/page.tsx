@@ -109,7 +109,7 @@ const KedarnathHistoryStory: React.FC = () => {
         >
           <div className="relative h-96">
             <motion.img 
-              src="/images/Kedarnath.jpg" 
+              src="/sacred_places/Kedarnath.jpg" 
               alt="Kedarnath Temple" 
               className="w-full h-full object-cover"
               initial={{ scale: 1.1 }}

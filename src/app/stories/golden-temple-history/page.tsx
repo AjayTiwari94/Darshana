@@ -109,7 +109,7 @@ const GoldenTempleStory: React.FC = () => {
         >
           <div className="relative h-96">
             <motion.img 
-              src="/images/golderntemple.jpg" 
+              src="/golderntemple.jpg" 
               alt="Golden Temple Amritsar" 
               className="w-full h-full object-cover"
               initial={{ scale: 1.1 }}
@@ -247,7 +247,7 @@ const GoldenTempleStory: React.FC = () => {
                 transition={{ duration: 0.5, delay: 0.9 }}
               >
                 <img 
-                  src="/images/golderntemple.jpg" 
+                  src="/golderntemple.jpg" 
                   alt="Golden Temple Architecture" 
                   className="w-full h-auto"
                 />

@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { BookOpen, Clock, User, TrendingUp } from 'lucide-react'
+
   // Static home stories
   const stories = [
     {
@@ -14,7 +15,7 @@ import { BookOpen, Clock, User, TrendingUp } from 'lucide-react'
       monument: 'Bhangarh Fort',
       duration: '8 min read',
       author: 'Narad AI',
-      image: '/images/bhangarhfort.jpg',
+      image: '/bhangarhfort.jpg',
       description: "Discover the haunting legends that make Bhangarh one of India's most mysterious places.",
       trending: true
     },
@@ -25,7 +26,7 @@ import { BookOpen, Clock, User, TrendingUp } from 'lucide-react'
       monument: 'Kedarnath Temple',
       duration: '8 min read',
       author: 'Ajay Tiwari',
-      image: '/images/Kedarnath.jpg',
+      image: '/sacred_places/Kedarnath.jpg',
       description: 'Discover the ancient history of one of the twelve Jyotirlingas dedicated to Lord Shiva',
       trending: false
     },
@@ -36,7 +37,7 @@ import { BookOpen, Clock, User, TrendingUp } from 'lucide-react'
       monument: 'Kedarnath Temple',
       duration: '6 min read',
       author: 'Ajay Tiwari',
-      image: '/images/Kedarnath.jpg',
+      image: '/sacred_places/Kedarnath.jpg',
       description: 'The divine mythological tale of Lord Shiva and the Pandavas from the Mahabharata',
       trending: true
     }
@@ -92,6 +93,10 @@ const TrendingStories = () => {
                     fill
                     className="object-cover group-hover:scale-110 transition-transform duration-300"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = '/placeholder-story.jpg';
+                    }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                   

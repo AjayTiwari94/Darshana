@@ -134,7 +134,7 @@ Every year, the temple undergoes a unique ritual. During the winter months (Nove
         mediaAssets: [
           {
             type: 'image',
-            url: '/images/sacred_places/Kedarnath.jpg',
+            url: '/sacred_places/Kedarnath.jpg',
             caption: 'The majestic Kedarnath Temple in the Himalayas'
           }
         ],
@@ -211,7 +211,7 @@ Nestled in the backdrop of the majestic Neelkanth peak, the temple offers breath
         mediaAssets: [
           {
             type: 'image',
-            url: '/images/sacred_places/Badrinath.jpg',
+            url: '/sacred_places/Badrinath.jpg',
             caption: 'The majestic Badrinath Temple in the Himalayas'
           }
         ],
@@ -273,7 +273,7 @@ The Golden Temple holds immense spiritual significance for Sikhs worldwide as th
         mediaAssets: [
           {
             type: 'image',
-            url: '/images/golderntemple.jpg',
+            url: '/golderntemple.jpg',
             caption: 'The magnificent Golden Temple with its iconic golden dome'
           }
         ],
@@ -335,7 +335,7 @@ In recent years, Ayodhya has undergone significant development with the construc
         mediaAssets: [
           {
             type: 'image',
-            url: '/images/sacred_places/Ayodhya.jpg',
+            url: '/sacred_places/Ayodhya.jpg',
             caption: 'The sacred city of Ayodhya on the banks of the Sarayu river'
           }
         ],
@@ -401,7 +401,7 @@ The city comes alive during festivals like Janmashtami, celebrating Lord Krishna
         mediaAssets: [
           {
             type: 'image',
-            url: '/images/sacred_places/Mathura.jpg',
+            url: '/sacred_places/Mathura.jpg',
             caption: 'The sacred city of Mathura on the banks of the Yamuna river'
           }
         ],
@@ -467,7 +467,7 @@ The temple's location on a hilltop provides breathtaking views of the surroundin
         mediaAssets: [
           {
             type: 'image',
-            url: '/images/sacred_places/Naina-Devi.jpg',
+            url: '/sacred_places/Naina-Devi.jpg',
             caption: 'The sacred Naina Devi Temple on the hilltop'
           }
         ],
@@ -694,7 +694,7 @@ The journey to Kedarnath itself is considered a test of devotion, requiring pilg
       mediaAssets: [
         {
           type: 'image',
-          url: '/images/sacred_places/Kedarnath.jpg',
+          url: '/sacred_places/Kedarnath.jpg',
           caption: 'The majestic Kedarnath Temple in the Himalayas'
         }
       ],
@@ -751,7 +751,7 @@ The story of Rama's 14-year exile and his eventual return to Ayodhya after defea
       mediaAssets: [
         {
           type: 'image',
-          url: '/images/sacred_places/Ayodhya.jpg',
+          url: '/sacred_places/Ayodhya.jpg',
           caption: 'The sacred city of Ayodhya on the banks of the Sarayu river'
         }
       ],
@@ -808,7 +808,7 @@ The journey to Naina Devi Temple itself is considered a test of devotion, requir
       mediaAssets: [
         {
           type: 'image',
-          url: '/images/sacred_places/Naina-Devi.jpg',
+          url: '/sacred_places/Naina-Devi.jpg',
           caption: 'The sacred Naina Devi Temple on the hilltop'
         }
       ],
@@ -866,7 +866,7 @@ Every year, the temple undergoes a unique ritual. During the winter months (Nove
       mediaAssets: [
         {
           type: 'image',
-          url: '/images/sacred_places/Kedarnath.jpg',
+          url: '/sacred_places/Kedarnath.jpg',
           caption: 'The majestic Kedarnath Temple in the Himalayas'
         }
       ],
@@ -923,7 +923,7 @@ The temple remains open for six months, from the end of April to the beginning o
       mediaAssets: [
         {
           type: 'image',
-          url: '/images/sacred_places/Badrinath.jpg',
+          url: '/sacred_places/Badrinath.jpg',
           caption: 'The majestic Badrinath Temple in the Himalayas'
         }
       ],
@@ -980,7 +980,7 @@ The city comes alive during festivals like Janmashtami, celebrating Lord Krishna
       mediaAssets: [
         {
           type: 'image',
-          url: '/images/sacred_places/Mathura.jpg',
+          url: '/sacred_places/Mathura.jpg',
           caption: 'The sacred city of Mathura on the banks of the Yamuna river'
         }
       ],
@@ -1080,64 +1080,68 @@ The annual Chintpurni Fair, held during Navratri, attracts thousands of devotees
       try {
         // If the route param looks like a MongoDB ObjectId, fetch from backend
         if (/^[a-f0-9]{24}$/i.test(storyId)) {
-          const res = await apiCall(`/api/stories/${storyId}`)
-          const json = await res.json()
-          if (json.success && json.data) {
-            const s = json.data
-            const mapped: Story = {
-              _id: s._id,
-              title: s.title,
-              content: s.content,
-              type: s.type,
-              summary: s.summary,
-              excerpt: s.excerpt,
-              monument: {
-                _id: s.monument?._id || '',
-                name: s.monument?.name || '',
-                location: s.monument?.location?.state || ''
-              },
-              author: {
-                _id: s.author?._id || '',
-                name: s.author?.name || 'Darshana',
-                avatar: s.author?.avatar || '/placeholder-avatar.jpg'
-              },
-              mediaAssets: (s.mediaAssets || []).map((m: any) => ({
-                type: m.type,
-                url: m.url,
-                caption: m.caption || ''
-              })),
-              narrator: {
-                name: s.narrator?.name || 'Narad AI',
-                voice: s.narrator?.voice || 'ai',
-                bio: s.narrator?.bio || ''
-              },
-              readingTime: s.readingTime || 5,
-              audioLength: s.audioLength || 0,
-              themes: s.themes || [],
-              difficulty: s.difficulty || 'beginner',
-              ageRating: s.ageRating || 'all',
-              sources: s.sources || [],
-              statistics: {
-                views: s.statistics?.views || 0,
-                likes: s.statistics?.likes || 0,
-                shares: s.statistics?.shares || 0,
-                bookmarks: s.statistics?.bookmarks || 0,
-                averageRating: s.statistics?.averageRating || 0,
-                totalRatings: s.statistics?.totalRatings || 0
-              },
-              relatedStories: (s.relatedStories || []).map((r: any) => ({
-                _id: r._id,
-                title: r.title,
-                type: r.type,
-                summary: r.summary
-              })),
-              isLiked: false,
-              isBookmarked: false,
-              createdAt: s.createdAt
+          try {
+            const response = await fetch(`/api/stories/${storyId}`)
+            const json = await response.json()
+            if (json.success && json.data) {
+              const s = json.data
+              const mapped: Story = {
+                _id: s._id,
+                title: s.title,
+                content: s.content,
+                type: s.type,
+                summary: s.summary,
+                excerpt: s.excerpt,
+                monument: {
+                  _id: s.monument?._id || '',
+                  name: s.monument?.name || '',
+                  location: s.monument?.location?.state || ''
+                },
+                author: {
+                  _id: s.author?._id || '',
+                  name: s.author?.name || 'Darshana',
+                  avatar: s.author?.avatar || '/placeholder-avatar.jpg'
+                },
+                mediaAssets: (s.mediaAssets || []).map((m: any) => ({
+                  type: m.type,
+                  url: m.url,
+                  caption: m.caption || ''
+                })),
+                narrator: {
+                  name: s.narrator?.name || 'Narad AI',
+                  voice: s.narrator?.voice || 'ai',
+                  bio: s.narrator?.bio || ''
+                },
+                readingTime: s.readingTime || 5,
+                audioLength: s.audioLength || 0,
+                themes: s.themes || [],
+                difficulty: s.difficulty || 'beginner',
+                ageRating: s.ageRating || 'all',
+                sources: s.sources || [],
+                statistics: {
+                  views: s.statistics?.views || 0,
+                  likes: s.statistics?.likes || 0,
+                  shares: s.statistics?.shares || 0,
+                  bookmarks: s.statistics?.bookmarks || 0,
+                  averageRating: s.statistics?.averageRating || 0,
+                  totalRatings: s.statistics?.totalRatings || 0
+                },
+                relatedStories: (s.relatedStories || []).map((r: any) => ({
+                  _id: r._id,
+                  title: r.title,
+                  type: r.type,
+                  summary: r.summary
+                })),
+                isLiked: false,
+                isBookmarked: false,
+                createdAt: s.createdAt
+              }
+              setStory(mapped)
+              setLoading(false)
+              return
             }
-            setStory(mapped)
-            setLoading(false)
-            return
+          } catch (e) {
+            console.error('Failed to load story from backend, falling back to mock', e)
           }
         }
       } catch (e) {
