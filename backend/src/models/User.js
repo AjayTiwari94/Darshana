@@ -131,6 +131,10 @@ const UserSchema = new mongoose.Schema({
       enum: ['common', 'rare', 'epic', 'legendary'],
       default: 'common'
     },
+    relatedMonument: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Monument'
+    },
     earnedAt: {
       type: Date,
       default: Date.now
