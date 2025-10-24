@@ -2,7 +2,7 @@
 
 import React, { Suspense, useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { VRButton, XR, Controllers, Hands } from '@react-three/xr'
+import { VRButton, XR } from '@react-three/xr'
 import { OrbitControls, Sky, Environment, useTexture, Text } from '@react-three/drei'
 import * as THREE from 'three'
 
@@ -270,9 +270,7 @@ export default function VRExperience({ monumentId, monumentName, historicalPerio
       {/* 3D VR Canvas */}
       <Canvas>
         <XR>
-          {/* VR Controllers and Hands */}
-          <Controllers />
-          <Hands />
+          {/* VR Experience */}
 
           {/* Lighting */}
           <ambientLight intensity={0.3} />

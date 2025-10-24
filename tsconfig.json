@@ -20,34 +20,34 @@
     "baseUrl": ".",
     "paths": {
       "@/*": [
-        "src/*"
+        "./src/*"
       ],
       "@/components/*": [
-        "src/components/*"
+        "./src/components/*"
       ],
       "@/pages/*": [
-        "src/pages/*"
+        "./src/pages/*"
       ],
       "@/utils/*": [
-        "src/utils/*"
+        "./src/utils/*"
       ],
       "@/hooks/*": [
-        "src/hooks/*"
+        "./src/hooks/*"
       ],
       "@/types/*": [
-        "src/types/*"
+        "./src/types/*"
       ],
       "@/store": [
-        "src/store"
-      ], // ✅ FIXED
+        "./src/store"
+      ],
       "@/store/*": [
-        "src/store/*"
+        "./src/store/*"
       ],
       "@/lib/*": [
-        "src/lib/*"
+        "./src/lib/*"
       ],
       "@/lib/api": [
-        "src/lib/api"
+        "./src/lib/api"
       ]
     },
     "plugins": [

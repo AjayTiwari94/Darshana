@@ -67,7 +67,7 @@ const NaradAIButton = () => {
       
       {/* Icon */}
       <div className="relative z-10">
-        {naradAIStore.isChatOpen ? (
+        {naradAIStore.isOpen ? (
           <Bot size={20} className="animate-pulse" />
         ) : (
           <MessageCircle size={20} />
@@ -75,7 +75,7 @@ const NaradAIButton = () => {
       </div>
       
       {/* Active Indicator */}
-      {naradAIStore.isChatOpen && (
+      {naradAIStore.isOpen && (
         <motion.div
           className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-white"
           initial={{ scale: 0 }}

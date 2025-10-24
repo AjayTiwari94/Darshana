@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { useNaradAIStore, useUIStore } from '@/store'
+import { useNaradAIStore, useUIStore } from '@/store/index'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 

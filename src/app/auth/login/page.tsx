@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useAuthStore } from '@/store'
+import { useAuthStore } from '@/store/index'
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline'
 
 const LoginPage: React.FC = () => {

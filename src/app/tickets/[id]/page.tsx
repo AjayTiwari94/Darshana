@@ -112,7 +112,7 @@ const TicketDetailsPage: React.FC = () => {
         jsPDF: { 
           unit: 'mm', 
           format: 'a4', 
-          orientation: 'portrait',
+          orientation: 'portrait' as const,
           compress: true
         },
         pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }

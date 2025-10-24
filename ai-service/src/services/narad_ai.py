@@ -291,38 +291,19 @@ Guidelines:
                     'timestamp': datetime.now().isoformat()
                 }
             
-            # Build context-aware prompt
-            system_prompt = f"""
-{self.context_templates['greeting']}
-
-Current conversation context:
-- Language: {language_context}
-- User Language Preference: {user_language}
-
-IMPORTANT INSTRUCTIONS:
-1. BE CONCISE AND DIRECT - Answer only what is asked without unnecessary elaboration
-2. Keep responses under 200 words unless specifically asked for more details
-3. Use bullet points or numbered lists for places, features, or items
-4. Respond in the same language as the user's input
-5. CRITICAL: If user writes in English, respond entirely in English without mixing Hindi words
-6. NEVER use informal terms like "beta", "bro", "dude", "yaar", etc.
-7. Maintain a professional, respectful tone
-8. Use appropriate honorifics for deities and cultural figures
-9. Focus on the specific question asked, avoid tangents
-10. If listing places/items, provide key information only (name, brief significance)
-
-Conversation History:
-{self._format_conversation_history(conversation_history)}
-"""
+            # Build a simpler, more direct prompt
+            conversation_context = self._format_conversation_history(conversation_history) if conversation_history else "This is the start of the conversation."
             
-            # Create the full prompt
-            full_prompt = f"""
-{system_prompt}
+            full_prompt = f"""You are Narad AI, an expert guide on Indian culture, history, and heritage.
 
-User Message: "{message}"
+User asks: "{message}"
 
-Narad's Response:
-"""
+Provide a concise, informative response (under 200 words) about this topic. Use bullet points for clarity.
+
+Previous conversation:
+{conversation_context}
+
+Your response:"""
             
             logger.info(f"Full prompt: {full_prompt}")
             logger.info(f"Model ready: {self.model is not None}")
@@ -334,17 +315,34 @@ Narad's Response:
                     response = self.model.generate_content(
                         full_prompt,
                         generation_config=GenerationConfig(
-                            temperature=AI_CONFIG.get('temperature', 0.7),
-                            max_output_tokens=AI_CONFIG.get('max_tokens', 800)
+                            temperature=0.7,
+                            max_output_tokens=500,
+                            top_p=0.9,
+                            top_k=40
                         )
                     )
                     
                     logger.info(f"Gemini response received: {response}")
-                    ai_response = response.text.strip() if response.text else "I apologize, but I'm having trouble formulating a response right now. Could you please ask me something else?"
+                    # Handle multi-part responses
+                    if hasattr(response, 'text') and response.text:
+                        ai_response = response.text.strip()
+                    elif hasattr(response, 'parts') and response.parts:
+                        ai_response = ''.join([part.text for part in response.parts if hasattr(part, 'text')]).strip()
+                    elif hasattr(response, 'candidates') and response.candidates:
+                        ai_response = response.candidates[0].content.parts[0].text.strip()
+                    else:
+                        ai_response = "I apologize, but I'm having trouble formulating a response right now. Could you please ask me something else?"
                 except Exception as e:
-                    logger.error(f"Error generating response with Gemini API: {e}", exc_info=True)
-                    # Instead of fallback, generate a proper response about Jaipur
-                    ai_response = self._generate_contextual_response(message, user_language)
+                    logger.error(f"❌ GEMINI API ERROR: {e}", exc_info=True)
+                    logger.error(f"Error type: {type(e).__name__}")
+                    logger.error(f"Error details: {str(e)}")
+                    logger.error(f"Full exception: {repr(e)}")
+                    # Try to get more details about the response
+                    if hasattr(e, 'response'):
+                        logger.error(f"Response object: {e.response}")
+                    # Log error but provide a helpful message
+                    logger.error(f"Gemini failed, this should not happen now!")
+                    ai_response = "I apologize, but I encountered an error processing your request. Please try rephrasing your question."
             else:
                 logger.warning("Gemini model not initialized - generating contextual response")
                 # Generate a proper contextual response instead of generic fallback
@@ -717,6 +715,58 @@ Would you like detailed information about any specific place?"""
 - Jaisalmer (Golden City)
 
 Each city has unique charm and historical significance. Which one interests you most?"""
+        
+        # Holi Festival
+        elif 'holi' in message_lower:
+            return """**Holi - The Festival of Colors** 🎨
+
+Holi celebrates the victory of good over evil and the arrival of spring!
+
+**Key Legends:**
+
+**1. Prahlad & Holika:**
+• Prahlad was devoted to Lord Vishnu
+• His aunt Holika tried to burn him alive
+• Holika burned instead, Prahlad survived
+• Celebrated with bonfires (Holika Dahan)
+
+**2. Krishna & Radha:**
+• Young Krishna playfully colored Radha's face
+• Started the tradition of playing with colors
+• Celebrated grandly in Vrindavan & Mathura
+
+**Traditions:**
+• Throwing colored powder (gulal)
+• Water balloons & water guns
+• Special sweets: gujiya, thandai
+• Music, dance & celebration
+
+**When:** March (Phalguna Purnima)
+**Where:** Celebrated across India, especially in North India
+
+Would you like to know about other Indian festivals? 🌸"""
+        
+        # Diwali Festival
+        elif 'diwali' in message_lower or 'deepavali' in message_lower:
+            return """**Diwali - The Festival of Lights** 🪔
+
+Diwali celebrates the victory of light over darkness!
+
+**Key Stories:**
+• Lord Rama's return to Ayodhya after 14 years
+• Krishna defeating demon Narakasura
+• Goddess Lakshmi's birthday
+
+**Traditions:**
+• Lighting diyas (oil lamps)
+• Fireworks & crackers
+• Rangoli decorations
+• Sweets & gifts exchange
+• Lakshmi Puja for prosperity
+
+**When:** October/November (Kartik Amavasya)
+
+The festival lasts 5 days, each with special significance! ✨"""
         
         # General cultural query
         else:
