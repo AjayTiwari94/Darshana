@@ -25,6 +25,8 @@ export const useRequireAuth = (redirectUrl: string = '/auth/login') => {
 
   useEffect(() => {
     // Check for token in localStorage on mount
+    if (typeof window === 'undefined') return
+    
     const token = localStorage.getItem('token')
     
     if (!token && !isLoading) {

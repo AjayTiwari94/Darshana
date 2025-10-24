@@ -90,6 +90,9 @@ const UserDashboard: React.FC = () => {
 
   const fetchDashboardData = async () => {
     try {
+      // Check if we're in browser environment
+      if (typeof window === 'undefined') return
+      
       // Get token from localStorage
       const token = localStorage.getItem('token')
       

@@ -25,6 +25,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
   useEffect(() => {
     // Check for token on mount
+    if (typeof window === 'undefined') return
+    
     const token = localStorage.getItem('token')
     
     if (!token && !isLoading) {
@@ -51,13 +53,15 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   }
 
   // Show loading if no token
-  const token = localStorage.getItem('token')
-  if (!token) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <LoadingSpinner />
-      </div>
-    )
+  if (typeof window !== 'undefined') {
+    const token = localStorage.getItem('token')
+    if (!token) {
+      return (
+        <div className="min-h-screen flex items-center justify-center">
+          <LoadingSpinner />
+        </div>
+      )
+    }
   }
 
   // If requires admin and user is not admin, show loading

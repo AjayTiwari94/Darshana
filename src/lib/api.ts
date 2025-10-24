@@ -36,7 +36,7 @@ export async function apiCall(
   }
 
   // Add auth token if required
-  if (requireAuth) {
+  if (requireAuth && typeof window !== 'undefined') {
     const token = localStorage.getItem('token')
     if (token) {
       config.headers = {
