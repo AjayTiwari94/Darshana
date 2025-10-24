@@ -306,9 +306,17 @@ Your response:"""
             logger.info(f"Full prompt: {full_prompt}")
             logger.info(f"Model ready: {self.model is not None}")
             
-            # Generate response using Gemini
-            if self.model:
-                logger.info("Generating response with Gemini API")
+            # PRIMARY METHOD: Generate contextual response (always works, well-curated)
+            logger.info("Attempting contextual response first (primary method)")
+            contextual_response = self._generate_contextual_response(message, user_language)
+            
+            # Check if we got a generic fallback response
+            is_generic = "I'd be happy to help you explore" in contextual_response or "I'm here to share" in contextual_response
+            
+            # SECONDARY METHOD: Try to enhance with Gemini API if available and we got generic response
+            ai_response = contextual_response
+            if self.model and is_generic:
+                logger.info("Got generic response, attempting to enhance with Gemini API")
                 try:
                     # Use REST API instead of SDK to avoid v1beta issues
                     import requests
@@ -345,26 +353,19 @@ Your response:"""
                             if "content" in candidate and "parts" in candidate["content"]:
                                 parts = candidate["content"]["parts"]
                                 if len(parts) > 0 and "text" in parts[0]:
-                                    ai_response = parts[0]["text"].strip()
-                                else:
-                                    ai_response = "I apologize, but I'm having trouble formulating a response right now. Could you please ask me something else?"
-                            else:
-                                ai_response = "I apologize, but I'm having trouble formulating a response right now. Could you please ask me something else?"
+                                    api_text = parts[0]["text"].strip()
+                                    if api_text and len(api_text) > 20:
+                                        ai_response = api_text
+                                        logger.info("✅ Successfully enhanced response with API")
                         else:
-                            ai_response = "I apologize, but I'm having trouble formulating a response right now. Could you please ask me something else?"
+                            logger.info("No candidates in API response, using contextual response")
                     else:
-                        logger.error(f"API Error {response.status_code}: {response.text}")
-                        ai_response = "I apologize, but I encountered an error processing your request. Please try rephrasing your question."
+                        logger.warning(f"API Error {response.status_code}, using contextual response instead")
                         
                 except Exception as e:
-                    logger.error(f"❌ GEMINI API ERROR: {e}", exc_info=True)
-                    logger.error(f"Error type: {type(e).__name__}")
-                    logger.error(f"Error details: {str(e)}")
-                    ai_response = "I apologize, but I encountered an error processing your request. Please try rephrasing your question."
+                    logger.warning(f"⚠️ API call failed, using contextual response: {type(e).__name__}: {str(e)}")
             else:
-                logger.warning("Gemini model not initialized - generating contextual response")
-                # Generate a proper contextual response instead of generic fallback
-                ai_response = self._generate_contextual_response(message, user_language)
+                logger.info("✅ Using contextual response (primary method successful)")
             
             logger.info(f"AI response: {ai_response}")
             
