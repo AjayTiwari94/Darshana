@@ -87,18 +87,15 @@ class NaradAI:
             if api_key and api_key != 'your_gemini_api_key_here':
                 logger.info("Configuring Gemini API with provided key")
                 configure(api_key=api_key)
-                # Try gemini-1.5-flash-latest with SDK 0.8.5
-                self.model_name = os.getenv('MODEL_NAME', 'text-bison')
-                logger.info(f"Using model: {self.model_name} with SDK 0.8.5")
-                try:
-                    logger.info("Initializing Gemini model")
-                    self.model = GenerativeModel(self.model_name)
-                    logger.info(f"Gemini API configured successfully with model: {self.model_name}")
-                    logger.info(f"Model info: {self.model}")
-                except Exception as model_error:
-                    logger.error(f"Error initializing Gemini model {self.model_name}: {model_error}")
-                    logger.error(f"Model error type: {type(model_error)}")
-                    self.model = None
+                # Use REST API directly with v1 endpoint to bypass SDK v1beta limitation
+                self.model_name = os.getenv('MODEL_NAME', 'gemini-1.5-flash')
+                self.api_key = api_key
+                self.api_endpoint = "https://generativelanguage.googleapis.com/v1/models"
+                logger.info(f"Using model: {self.model_name} with REST API v1 endpoint")
+                logger.info(f"API Endpoint: {self.api_endpoint}")
+                logger.info("Gemini API configured successfully for REST calls")
+                # Set model to None since we'll use REST API
+                self.model = True  # Flag to indicate ready
             else:
                 self.model = None
                 logger.warning("No valid GEMINI_API_KEY found. AI responses will use fallback content.")
@@ -313,36 +310,56 @@ Your response:"""
             if self.model:
                 logger.info("Generating response with Gemini API")
                 try:
-                    response = self.model.generate_content(
-                        full_prompt,
-                        generation_config=GenerationConfig(
-                            temperature=0.7,
-                            max_output_tokens=500,
-                            top_p=0.9,
-                            top_k=40
-                        )
-                    )
+                    # Use REST API instead of SDK to avoid v1beta issues
+                    import requests
                     
-                    logger.info(f"Gemini response received: {response}")
-                    # Handle multi-part responses
-                    if hasattr(response, 'text') and response.text:
-                        ai_response = response.text.strip()
-                    elif hasattr(response, 'parts') and response.parts:
-                        ai_response = ''.join([part.text for part in response.parts if hasattr(part, 'text')]).strip()
-                    elif hasattr(response, 'candidates') and response.candidates:
-                        ai_response = response.candidates[0].content.parts[0].text.strip()
+                    url = f"{self.api_endpoint}/{self.model_name}:generateContent?key={self.api_key}"
+                    headers = {"Content-Type": "application/json"}
+                    payload = {
+                        "contents": [
+                            {
+                                "parts": [
+                                    {"text": full_prompt}
+                                ]
+                            }
+                        ],
+                        "generationConfig": {
+                            "temperature": 0.7,
+                            "maxOutputTokens": 500,
+                            "topP": 0.9,
+                            "topK": 40
+                        }
+                    }
+                    
+                    logger.info(f"Making REST API request to: {url}")
+                    response = requests.post(url, json=payload, headers=headers, timeout=30)
+                    logger.info(f"API Response Status: {response.status_code}")
+                    
+                    if response.status_code == 200:
+                        response_data = response.json()
+                        logger.info(f"API Response: {response_data}")
+                        
+                        # Extract text from response
+                        if "candidates" in response_data and len(response_data["candidates"]) > 0:
+                            candidate = response_data["candidates"][0]
+                            if "content" in candidate and "parts" in candidate["content"]:
+                                parts = candidate["content"]["parts"]
+                                if len(parts) > 0 and "text" in parts[0]:
+                                    ai_response = parts[0]["text"].strip()
+                                else:
+                                    ai_response = "I apologize, but I'm having trouble formulating a response right now. Could you please ask me something else?"
+                            else:
+                                ai_response = "I apologize, but I'm having trouble formulating a response right now. Could you please ask me something else?"
+                        else:
+                            ai_response = "I apologize, but I'm having trouble formulating a response right now. Could you please ask me something else?"
                     else:
-                        ai_response = "I apologize, but I'm having trouble formulating a response right now. Could you please ask me something else?"
+                        logger.error(f"API Error {response.status_code}: {response.text}")
+                        ai_response = "I apologize, but I encountered an error processing your request. Please try rephrasing your question."
+                        
                 except Exception as e:
                     logger.error(f"❌ GEMINI API ERROR: {e}", exc_info=True)
                     logger.error(f"Error type: {type(e).__name__}")
                     logger.error(f"Error details: {str(e)}")
-                    logger.error(f"Full exception: {repr(e)}")
-                    # Try to get more details about the response
-                    if hasattr(e, 'response'):
-                        logger.error(f"Response object: {e.response}")
-                    # Log error but provide a helpful message
-                    logger.error(f"Gemini failed, this should not happen now!")
                     ai_response = "I apologize, but I encountered an error processing your request. Please try rephrasing your question."
             else:
                 logger.warning("Gemini model not initialized - generating contextual response")
