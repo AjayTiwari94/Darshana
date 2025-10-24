@@ -88,7 +88,7 @@ class NaradAI:
                 logger.info("Configuring Gemini API with provided key")
                 configure(api_key=api_key)
                 # Use REST API directly with v1 endpoint to bypass SDK v1beta limitation
-                self.model_name = os.getenv('MODEL_NAME', 'gemini-pro')
+                self.model_name = os.getenv('MODEL_NAME', 'gemini-1.5-pro-latest')
                 self.api_key = api_key
                 self.api_endpoint = "https://generativelanguage.googleapis.com/v1/models"
                 logger.info(f"Using model: {self.model_name} with REST API v1 endpoint")
