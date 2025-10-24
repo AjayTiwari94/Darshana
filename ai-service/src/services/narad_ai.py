@@ -87,8 +87,8 @@ class NaradAI:
             if api_key and api_key != 'your_gemini_api_key_here':
                 logger.info("Configuring Gemini API with provided key")
                 configure(api_key=api_key)
-                # Use gemini-pro with SDK 0.8.5 (no models/ prefix needed)
-                self.model_name = os.getenv('MODEL_NAME', 'gemini-pro')
+                # Try gemini-1.5-flash-latest with SDK 0.8.5
+                self.model_name = os.getenv('MODEL_NAME', 'gemini-1.5-flash-latest')
                 logger.info(f"Using model: {self.model_name} with SDK 0.8.5")
                 try:
                     logger.info("Initializing Gemini model")
