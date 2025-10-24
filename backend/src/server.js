@@ -28,6 +28,9 @@ const ticketRoutes = require('./routes/tickets')
 const app = express()
 const httpServer = createServer(app)
 
+// Trust proxy for Railway/production deployment
+app.set('trust proxy', 1)
+
 // Socket.io setup for real-time features
 const io = new Server(httpServer, {
   cors: {
