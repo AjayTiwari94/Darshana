@@ -326,7 +326,7 @@ mongod.lock
 *.mng
 *.mts
 *.m2ts
-*.ts
+# *.ts # Commented out to allow TypeScript source files
 *.qt
 *.yuv
 *.rm
