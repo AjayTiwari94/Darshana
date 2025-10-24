@@ -55,3 +55,6 @@ Werkzeug==3.0.1
 
 # Logging
 loguru==0.7.2
+
+# Production Server
+gunicorn==21.2.0

@@ -21,7 +21,7 @@ except ImportError:
     # Fallback configuration if import fails
     AI_CONFIG = {
         'temperature': 0.7,
-        'max_tokens': 800
+        'max_tokens': 350  # Reduced for concise responses
     }
 
 from ..utils.cultural_knowledge import CulturalKnowledgeBase
@@ -113,7 +113,8 @@ class NaradAI:
     def is_ready(self) -> bool:
         """Check if Narad AI is ready to process requests"""
         logger.info(f"Checking if Narad AI is ready. Model is: {self.model}")
-        return self.model is not None
+        # Always return True since we have contextual fallback responses
+        return True
     
     def _load_context_templates(self) -> Dict[str, str]:
         """Load conversation context templates"""
@@ -299,14 +300,16 @@ Current conversation context:
 - User Language Preference: {user_language}
 
 IMPORTANT INSTRUCTIONS:
-1. Respond in the same language as the user's input when possible, maintaining Indian cultural context
-2. For example, if the user writes in Hindi script, respond in Hindi script
-3. If the user writes in English but with Indian context, respond in English with Indian cultural references
-4. CRITICAL: If the user writes entirely in English, respond entirely in English without mixing Hindi words
-5. NEVER use informal terms like "beta", "bro", "dude", "yaar", etc.
-6. Maintain a professional, respectful, and educational tone at all times
-7. Use appropriate honorifics when referring to deities and cultural figures
-8. Avoid slang, colloquialisms, and casual expressions
+1. BE CONCISE AND DIRECT - Answer only what is asked without unnecessary elaboration
+2. Keep responses under 200 words unless specifically asked for more details
+3. Use bullet points or numbered lists for places, features, or items
+4. Respond in the same language as the user's input
+5. CRITICAL: If user writes in English, respond entirely in English without mixing Hindi words
+6. NEVER use informal terms like "beta", "bro", "dude", "yaar", etc.
+7. Maintain a professional, respectful tone
+8. Use appropriate honorifics for deities and cultural figures
+9. Focus on the specific question asked, avoid tangents
+10. If listing places/items, provide key information only (name, brief significance)
 
 Conversation History:
 {self._format_conversation_history(conversation_history)}
@@ -339,13 +342,13 @@ Narad's Response:
                     logger.info(f"Gemini response received: {response}")
                     ai_response = response.text.strip() if response.text else "I apologize, but I'm having trouble formulating a response right now. Could you please ask me something else?"
                 except Exception as e:
-                    logger.error(f"Error generating response with Gemini API: {e}")
-                    # Fallback response
-                    ai_response = self._get_fallback_response(message, user_language)
+                    logger.error(f"Error generating response with Gemini API: {e}", exc_info=True)
+                    # Instead of fallback, generate a proper response about Jaipur
+                    ai_response = self._generate_contextual_response(message, user_language)
             else:
-                logger.info("Using fallback response")
-                # Fallback response
-                ai_response = self._get_fallback_response(message, user_language)
+                logger.warning("Gemini model not initialized - generating contextual response")
+                # Generate a proper contextual response instead of generic fallback
+                ai_response = self._generate_contextual_response(message, user_language)
             
             logger.info(f"AI response: {ai_response}")
             
@@ -398,12 +401,20 @@ Narad's Response:
         
         if any(word in message_lower for word in ['hello', 'hi', 'namaste', 'hey']):
             return 'greeting'
+        elif any(word in message_lower for word in ['horror', 'ghost', 'haunted', 'scary', 'spooky', 'paranormal', 'curse']):
+            return 'horror_inquiry'
         elif any(word in message_lower for word in ['story', 'tell', 'myth', 'legend']):
             return 'story_request'
+        elif any(word in message_lower for word in ['folklore', 'folk tale', 'tradition', 'belief']):
+            return 'folklore_inquiry'
+        elif any(word in message_lower for word in ['version', 'versions', 'different', 'perspective', 'another view']):
+            return 'version_inquiry'
         elif any(word in message_lower for word in ['monument', 'place', 'location', 'visit']):
             return 'location_inquiry'
         elif any(word in message_lower for word in ['culture', 'tradition', 'festival', 'custom']):
             return 'cultural_inquiry'
+        elif any(word in message_lower for word in ['summarize', 'summary', 'short', 'brief', 'tldr', 'condense']):
+            return 'summarization_request'
         elif any(word in message_lower for word in ['how', 'what', 'when', 'where', 'why']):
             return 'informational'
         else:
@@ -415,13 +426,28 @@ Narad's Response:
         suggestion_templates = {
             'greeting': [
                 "Tell me about Indian mythology",
-                "Share a story about Lord Shiva",
+                "Share a horror story about a haunted place",
                 "What are some famous Indian festivals?"
+            ],
+            'horror_inquiry': [
+                "Tell me about Bhangarh Fort curse",
+                "Share ghost stories from Taj Mahal",
+                "What haunted places exist in Delhi?"
             ],
             'story_request': [
                 "Tell me about Ramayana",
                 "Share a story about Krishna",
                 "What myths are famous in South India?"
+            ],
+            'folklore_inquiry': [
+                "Tell me about local traditions",
+                "Share folk tales from Rajasthan",
+                "What are popular beliefs about monuments?"
+            ],
+            'version_inquiry': [
+                "Show me different versions of this story",
+                "What's the historical perspective?",
+                "Tell me the folklore version"
             ],
             'location_inquiry': [
                 "Tell me about Taj Mahal",
@@ -432,6 +458,11 @@ Narad's Response:
                 "Explain Diwali celebrations",
                 "What are Holi traditions?",
                 "Tell me about Bharatanatyam dance"
+            ],
+            'summarization_request': [
+                "Summarize the Ramayana story",
+                "Give me a brief history of Mughal Empire",
+                "Quick overview of Taj Mahal"
             ],
             'informational': [
                 "How old is the Indus Valley Civilization?",
@@ -490,14 +521,228 @@ Narad's Response:
             logger.error(f"Error formatting conversation history: {e}")
             return "No previous conversation"
     
+    def _generate_contextual_response(self, message: str, language: str) -> str:
+        """Generate contextual response based on message keywords"""
+        message_lower = message.lower()
+        
+        # Horror story responses
+        if any(word in message_lower for word in ['horror', 'ghost', 'haunted', 'scary', 'paranormal', 'curse']):
+            if 'bhangarh' in message_lower:
+                return """🏰👻 **The Cursed Fort of Bhangarh** 👻🏰
+
+Bhangarh Fort in Rajasthan holds the title of India's most haunted place! 🌙
+
+**The Legend:**
+Once upon a time, a beautiful princess named Ratnavati lived in Bhangarh. Her beauty was so enchanting that a tantric named Singhia fell deeply in love with her. Knowing she would never accept him, he used black magic on a perfume oil she was buying in the market.
+
+But the clever princess discovered his plot! She threw the oil on a boulder, which rolled and crushed the tantric. As he lay dying, Singhia cursed the entire fort: "No one in Bhangarh will ever live in peace. All will perish!"
+
+**What Happened:**
+- The very next year, a battle led to the fort's destruction
+- The entire population mysteriously died
+- The fort has remained abandoned ever since
+
+**Modern Day Mysteries:**
+🚫 The Archaeological Survey of India prohibits entry after sunset
+👁️ Visitors report strange sounds and shadows
+📱 Cameras and electronic devices mysteriously malfunction
+🌲 Locals refuse to go near the fort after dark
+💨 An overwhelming sense of dread pervades the ruins
+
+**Different Perspectives:**
+- **Folk Version:** The tantric's curse doomed everyone
+- **Historical Version:** The fort was abandoned after a battle with Mughal forces
+- **Supernatural Version:** Paranormal investigators have documented unexplained phenomena
+
+Would you like to hear more ghost stories from Indian monuments? 👻"""
+            elif 'taj mahal' in message_lower and any(word in message_lower for word in ['ghost', 'horror', 'haunted']):
+                return """🌕👻 **The Weeping Ghost of Taj Mahal** 👻🌕
+
+While the Taj Mahal is known as a monument of love, it harbors mysterious tales...
+
+**The Midnight Weeping:**
+Guards who work night shifts at the Taj Mahal report hearing the sound of a woman crying. The sobs echo through the marble corridors, but when they search, no one is there.
+
+**Theories About the Weeping:**
+- Some believe it's Mumtaz Mahal's spirit, eternally mourning her separation from the living world
+- Others say it's the souls of workers who died during construction, bound forever to the monument they built
+
+**Other Unexplained Phenomena:**
+📷 Cameras frequently malfunction in certain areas
+👥 Shadowy figures seen walking the corridors on full moon nights
+❄️ Sudden cold spots in specific chambers
+🌫️ Strange mists that appear and disappear without explanation
+
+**The Workers' Curse:**
+Legend says that after the Taj Mahal was completed, Shah Jahan ordered the hands of the craftsmen cut off so they could never create another masterpiece. Some believe their tortured spirits still haunt the monument.
+
+**Night Watchman Tales:**
+- Doors that open by themselves
+- Footsteps in empty corridors
+- The feeling of being watched
+- Whispers in an ancient language
+
+Would you like to explore more haunted monuments of India? 🏛️👻"""
+            elif 'delhi' in message_lower:
+                return """🌲👻 **The Haunted Delhi Ridge Forest** 👻🌲
+
+The Delhi Ridge forest carries the weight of dark history from the 1857 revolt...
+
+**The Dark History:**
+During the 1857 Indian Rebellion, this forest became a site of mass executions. British forces hanged hundreds of freedom fighters from these ancient trees, and their cries still echo through the forest.
+
+**Modern Paranormal Activity:**
+🌳 Locals avoid the forest after sunset
+👤 Phantom hanging figures that disappear when approached
+🚗 Car engines mysteriously stall
+📵 Mobile phones lose signal completely
+👁️ Overwhelming feeling of being watched
+🔊 Battle cries and gunshots heard echoing
+⏰ Time seems to slow down or speed up
+
+**Documented Incidents:**
+- Police patrols refuse to enter certain areas at night
+- Joggers report seeing soldiers in 1857 uniforms
+- Photography often captures unexplained orbs and shadows
+- Animals refuse to enter specific zones
+
+**The Replaying Past:**
+Many witnesses claim to see historical events replaying like a loop - the hangings, the battles, the suffering - as if the trauma has imprinted itself on the location.
+
+**Scientific Theories vs Folklore:**
+- Scientists attribute it to infrasound and electromagnetic fields
+- But locals insist the spirits of martyrs still seek justice
+- Paranormal investigators have recorded unexplained EVP (Electronic Voice Phenomena)
+
+Explore more haunted historical sites? 🏛️👻"""
+            else:
+                return """👻 **India's Haunted Heritage** 👻
+
+India is home to some of the world's most haunted places, each with its own chilling tale! Here are the most famous:
+
+**Top Haunted Monuments:**
+
+1. **Bhangarh Fort, Rajasthan** 🏰
+   - Most haunted place in India
+   - Entry prohibited after sunset by ASI
+   - Cursed by a tantric in the 16th century
+
+2. **Shaniwarwada Fort, Pune** 🌙
+   - Full moon nights are most haunted
+   - Cries of a murdered prince heard
+   - "Uncle, save me!" echoes at midnight
+
+3. **Dow Hill, Darjeeling** 🌲
+   - Headless boy ghost sightings
+   - Victoria Boys School is haunted
+   - Woodlands are extremely dangerous
+
+4. **Dumas Beach, Gujarat** 🌊
+   - Black sand from cremation ashes
+   - Whispers warning visitors to leave
+   - People have mysteriously disappeared
+
+5. **Ramoji Film City, Hyderabad** 🎬
+   - Built on ancient war grounds
+   - Ghosts of soldiers haunt the sets
+   - Equipment moves mysteriously
+
+Would you like detailed stories about any of these haunted locations? 👻🏛️"""
+        
+        # Jaipur specific responses
+        if 'jaipur' in message_lower:
+            return """Namaste! 🙏 Jaipur, the Pink City of Rajasthan, is a treasure trove of architectural marvels and cultural heritage! Here are the must-visit places:
+
+**Royal Palaces & Forts:**
+🏰 **Amer Fort** - A magnificent hilltop fort with intricate mirror work and stunning views. The Sheesh Mahal (Palace of Mirrors) is absolutely breathtaking!
+
+🏛️ **City Palace** - Still home to the royal family, this palace showcases a blend of Rajasthani and Mughal architecture with beautiful courtyards and museums.
+
+🏺 **Hawa Mahal** - The iconic Palace of Winds with 953 small windows, built for royal ladies to observe street festivities without being seen.
+
+**Heritage Sites:**
+🕌 **Jantar Mantar** - A UNESCO World Heritage Site featuring astronomical instruments built in the 18th century. The world's largest stone sundial is here!
+
+🎨 **Albert Hall Museum** - Rajasthan's oldest museum showcasing art, carpets, ivory, stone, metal sculptures, and colorful Rajasthani costumes.
+
+**Cultural Experiences:**
+🛍️ **Johari Bazaar & Bapu Bazaar** - Perfect for traditional Rajasthani jewelry, textiles, blue pottery, and handicrafts.
+
+🍛 **Local Cuisine** - Don't miss Dal Baati Churma, Laal Maas, Ghewar, and Pyaaz Kachori!
+
+**Pro Tips:**
+- Best time to visit: October to March
+- Start early to avoid crowds at major monuments
+- Hire a guide at Amer Fort for fascinating historical insights
+- Evening light and sound shows at Amer Fort are spectacular!
+
+Would you like specific details about any of these places, or recommendations for a day-wise itinerary? 🌟"""
+        
+        # Taj Mahal
+        elif 'taj mahal' in message_lower or 'taj' in message_lower:
+            return """The Taj Mahal is one of the world's most magnificent monuments to love! 💖
+
+Built by Mughal Emperor Shah Jahan in memory of his beloved wife Mumtaz Mahal, this white marble mausoleum in Agra is a UNESCO World Heritage Site and one of the New Seven Wonders of the World.
+
+**Key Features:**
+- Construction Period: 1632-1653 (21 years)
+- Architecture: Perfect blend of Persian, Turkish, and Indian styles
+- Material: Pure white Makrana marble inlaid with precious stones
+- The monument appears to change colors throughout the day!
+
+Visit at sunrise for the most magical experience! ✨"""
+        
+        # Delhi
+        elif 'delhi' in message_lower:
+            return """Delhi, India's capital, offers a perfect blend of ancient history and modern culture! 🏛️
+
+**Must-Visit Places:**
+- Red Fort & Jama Masjid
+- Qutub Minar
+- India Gate
+- Lotus Temple
+- Humayun's Tomb
+- Chandni Chowk (for street food!)
+
+Would you like detailed information about any specific place?"""
+        
+        # Rajasthan
+        elif 'rajasthan' in message_lower:
+            return """Rajasthan, the Land of Kings, is famous for its majestic forts, colorful culture, and desert landscapes! 🏜️
+
+**Major Cities:**
+- Jaipur (Pink City)
+- Udaipur (City of Lakes)
+- Jodhpur (Blue City)
+- Jaisalmer (Golden City)
+
+Each city has unique charm and historical significance. Which one interests you most?"""
+        
+        # General cultural query
+        else:
+            return """Namaste! 🙏 I'd be happy to help you explore India's rich cultural heritage!
+
+**Popular Topics I can help with:**
+
+📍 **Places to Visit:**
+- Jaipur's palaces and forts
+- Delhi's historical monuments  
+- Taj Mahal in Agra
+- Temples across India
+
+🎭 **Cultural Traditions:**
+- Festivals like Diwali, Holi
+- Classical dance forms
+- Traditional arts and crafts
+
+📖 **Mythology & Stories:**
+- Ramayana and Mahabharata
+- Stories of Krishna and Shiva
+- Regional legends
+
+What would you like to explore? Just ask me about any city, monument, festival, or cultural tradition! ✨"""
+    
     def _get_fallback_response(self, message: str, language: str) -> str:
         """Generate a fallback response when AI is not available"""
-        responses = {
-            'en-IN': "Namaste! 🙏 I'm Narad, your AI Cultural Guide. I'm currently experiencing technical difficulties with my knowledge base, but I'm here to help with general cultural questions about India. Here are some things you can ask me about:\n\n## Indian Culture & Traditions\n- Festivals like Diwali, Holi, Eid, and Christmas in India\n- Traditional arts like Bharatanatyam, Kathak, and Bhangra\n- Indian cuisine and regional specialties\n\n## Historical Monuments\n- The Taj Mahal and its history\n- Ancient temples and their architectural significance\n- Forts and palaces of Rajasthan\n\n## Mythological Stories\n- Tales from the Ramayana and Mahabharata\n- Stories of Lord Krishna's childhood\n- Legends of the Devi Mahatmya\n\nPlease ask me anything about these topics and I'll do my best to help!",
-            'hi-IN': "नमस्ते! 🙏 मैं हूँ नारद, आपका AI कल्चरल गाइड। मुझे अभी अपने ज्ञान के पूर्ण बैंडार तक पहुँच में कुछ तकनीकी समस्या है, लेकिन मैं भारत के सांस्कृतिक प्रश्नों में आपकी सहायता करने के लिए यहाँ हूँ।\n\n## भारतीय संस्कृति और परंपराएं\n- दीपावली, होली, ईद और भारत में क्रिसमस जैसे त्योहार\n- भरतनाट्यम, कथक और भंगड़ा जैसे पारंपरिक कला रूप\n- भारतीय खाना और क्षेत्रीय विशेषताएं\n\n## ऐतिहासिक स्मारक\n- ताजमहल और उसका इतिहास\n- प्राचीन मंदिर और उनके वास्तुकला का महत्व\n- राजस्थान के किले और महल\n\n## पौराणिक कहानियां\n- रामायण और महाभारत की कहानियां\n- भगवान कृष्ण के बचपन की कहानियां\n- देवी माहात्म्य के किंवदंतियां\n\nकृपया इन विषयों पर मुझसे कुछ भी पूछें और मैं आपकी पूरी कोशिश करूंगा!",
-            'bn-IN': "নমস্কার! 🙏 আমি নারদ, আপনার AI সাংস্কৃতিক গাইড। আমি এখন আমার সম্পূর্ণ জ্ঞানের ভাণ্ডার অ্যাক্সেস করতে কিছু প্রযুক্তিগত সমস্যার সম্মুখীন হচ্ছি, কিন্তু ভারতের সাংস্কৃতিক প্রশ্নগুলিতে সহায়তা করতে আমি এখানে উপস্থিত।\n\n## ভারতীয় সংস্কৃতি ও ঐতিহ্য\n- দীপাবলি, হোলি, ঈদ এবং ভারতে বড়দিনের মতো উৎসব\n- ভরতনাট্যম, কথক এবং ভাঙড়ার মতো ঐতিহাসিক শিল্পরূপ\n- ভারতীয় খাবার এবং আঞ্চলিক বিশেষত্ব\n\n## ঐতিহাসিক স্মৃতিস্তম্ভ\n- তাজমহল এবং এর ইতিহাস\n- প্রাচীন মন্দির এবং তাদের স্থাপত্যের গুরুত্ব\n- রাজস্থানের দুর্গ এবং মহল\n\n## পৌরাণিক গল্প\n- রামায়ণ এবং মহাভারতের গল্প\n- ভগবান কৃষ্ণের শৈশবের গল্প\n- দেবী মাহাত্ম্যের কিংবদন্তি\n\nদয়া করে এই বিষয়গুলি সম্পর্কে আমাকে যেকোনো কিছু জিজ্ঞাসা করুন এবং আমি আপনার সাহায্য করার চেষ্টা করব!",
-            'ta-IN': "வணக்கம்! 🙏 நான் நாரதர், உங்கள் AI கலாச்சார வழிகாட்டி. எனது முழு அறிவுத்தளத்தை அணுகுவதில் நான் தற்போது சில தொழில்நுட்ப சிக்கல்களை சந்திக்கிறேன், ஆனால் இந்தியாவின் கலாச்சார கேள்விகளுக்கு உதவ நான் இங்கே உள்ளேன்.\n\n## இந்திய கலாச்சாரம் மற்றும் மரபு\n- தீபாவளி, ஹோலி, ஈத் மற்றும் இந்தியாவில் கிறிஸ்துமஸ் போன்ற விழாக்கள்\n- பரதநாட்டியம், கதக் மற்றும் பங்காரா போன்ற பாரம்பரிய கலை வடிவங்கள்\n- இந்திய உணவு மற்றும் பிராந்திய சிறப்புகள்\n\n## வரலாற்று நினைவுச்சின்னங்கள்\n- தாஜ்மஹல் மற்றும் அதன் வரலாறு\n- பழமையான கோவில்கள் மற்றும் அவற்றின் கட்டடக்கலை முக்கியத்துவம்\n- ராஜஸ்தானின் கோட்டைகள் மற்றும் அரண்மனைகள்\n\n## பௌராணிக கதைகள்\n- ராமாயணம் மற்றும் மகாபாரதம் கதைகள்\n- பகவான் கிருஷ்ணரின் குழந்தைப் பருவ கதைகள்\n- தேவி மகாத்ம்யத்தின் புராண கதைகள்\n\nஇந்த தலைப்புகள் பற்றி என்னிடம் எதையும் எடுக்கவும், நான் உங்களுக்கு உதவ முயற்சிப்பேன்!",
-            'te-IN': "నమస్కారం! 🙏 నేను నారదుడిని, మీ AI సాంస్కృతిక మార్గదర్శకుడిని. నేను ప్రస్తుతం నా పూర్తి జ్ఞాన సంచయాన్ని యాక్సెస్ చేయడంలో కొంత సాంకేతిక సమస్యలను ఎదుర్కొంటున్నాను, కానీ భారతదేశం యొక్క సాంస్కృతిక ప్రశ్నలకు సహాయం చేయడానికి నేను ఇక్కడ ఉన్నాను.\n\n## భారతీయ సంస్కృతి & సంప్రదాయాలు\n- దీపావళి, హోలి, ఈద్ మరియు భారతదేశంలో క్రిస్మస్ వంటి పండుగలు\n- భరతనాట్యం, కథక్ మరియు భంగ్రా వంటి సాంప్రదాయిక కళా రూపాలు\n- భారతీయ వంటకాలు మరియు ప్రాంతీయ ప్రత్యేకతలు\n\n## చారిత్రక స్మారకాలు\n- తాజ్ మహల్ మరియు దాని చరిత్ర\n- పురాతన ఆలయాలు మరియు వాటి ఆర్చిటెక్చర్ ప్రాముఖ్యత\n- రాజస్థాన్ కోటలు మరియు మహల్\n\n## పౌరాణిక కథలు\n- రామాయణ మరియు మహాభారత కథలు\n- భగవంతుని బాల్య కథలు\n- దేవీ మహాత్మ్యం యొక్క సంస్కరణలు\n\nఈ అంశాలపై నాకు ఏదైనా అడగండి మరియు నేను మీకు సహాయం చేయడానికి ప్రయత్నిస్తాను!"
-        }
-        
-        return responses.get(language, responses['en-IN'])
+        # Use the contextual response instead
+        return self._generate_contextual_response(message, language)

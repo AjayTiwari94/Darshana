@@ -1,0 +1,52 @@
+# Dependencies
+node_modules
+backend/node_modules
+ai-service/venv
+
+# Build outputs
+.next
+out
+backend/dist
+backend/build
+
+# Environment files (will be set in Vercel dashboard)
+.env
+.env.local
+.env*.local
+backend/.env
+ai-service/.env
+
+# Testing
+coverage
+*.test.js
+*.test.ts
+*.test.tsx
+
+# Logs
+*.log
+npm-debug.log*
+backend/logs
+
+# Database
+backend/data
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode
+.idea
+
+# Temporary files
+*.tmp
+*.temp
+
+# Scripts (not needed for deployment)
+*.bat
+*.sh
+
+# Documentation
+*.md
+!README.md
+

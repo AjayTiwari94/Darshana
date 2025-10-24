@@ -13,14 +13,14 @@ load_dotenv()
 AI_CONFIG: Dict[str, Any] = {
     # OpenAI settings
     'model': os.getenv('OPENAI_MODEL', 'gpt-3.5-turbo'),
-    'max_tokens': int(os.getenv('AI_MAX_TOKENS', '800')),
+    'max_tokens': int(os.getenv('AI_MAX_TOKENS', '350')),  # Reduced for concise responses
     'temperature': float(os.getenv('AI_TEMPERATURE', '0.7')),
     'top_p': float(os.getenv('AI_TOP_P', '0.9')),
     
     # Response settings
-    'max_response_length': int(os.getenv('MAX_RESPONSE_LENGTH', '800')),
+    'max_response_length': int(os.getenv('MAX_RESPONSE_LENGTH', '350')),  # Reduced for concise responses
     'summary_max_length': int(os.getenv('SUMMARY_MAX_LENGTH', '200')),
-    'min_response_length': int(os.getenv('MIN_RESPONSE_LENGTH', '500')),
+    'min_response_length': int(os.getenv('MIN_RESPONSE_LENGTH', '100')),  # Reduced minimum
     
     # Conversation settings
     'max_conversation_history': int(os.getenv('MAX_CONVERSATION_HISTORY', '20')),

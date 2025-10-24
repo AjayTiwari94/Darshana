@@ -22,7 +22,7 @@ import { User as UserType } from '@/types/user.types'
 
 const UserDropdown = () => {
   const router = useRouter()
-  const { user, logout, refreshUser } = useAuthStore()
+  const { user, logout } = useAuthStore()
   const [isOpen, setIsOpen] = useState(false)
   const [isLoggingOut, setIsLoggingOut] = useState(false)
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
@@ -32,12 +32,6 @@ const UserDropdown = () => {
   useEffect(() => {
     console.log('User data in UserDropdown:', user)
   }, [user])
-
-  // Refresh user data when component mounts
-  useEffect(() => {
-    console.log('Refreshing user data in UserDropdown')
-    refreshUser()
-  }, [refreshUser])
 
   // Close dropdown when clicking outside
   useEffect(() => {

@@ -13,6 +13,9 @@ const PopularMonuments = dynamic(() => import('../components/home/PopularMonumen
 const TrendingStories = dynamic(() => import('../components/home/TrendingStories'), {
   loading: () => <div className="h-96 bg-gray-100 animate-pulse rounded-lg" />
 })
+const PersonalizedRecommendations = dynamic(() => import('../components/common/PersonalizedRecommendations'), {
+  loading: () => <div className="h-96 bg-gray-100 animate-pulse rounded-lg" />
+})
 const ImageCarousel = dynamic(() => import('../components/home/ImageCarousel'), {
   loading: () => <div className="h-screen bg-red-500">Carousel Loading...</div>
 })
@@ -33,6 +36,7 @@ export default function Home() {
         <Hero />
         <Features />
         <PopularMonuments />
+        <PersonalizedRecommendations limit={6} />
         <TrendingStories />
       </main>
       <Footer />

@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import AuthProvider from '@/components/providers/AuthProvider'
 // import { ReactQueryDevtools } from 'react-query/devtools'
 
 const queryClient = new QueryClient({
@@ -17,7 +18,9 @@ const queryClient = new QueryClient({
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
-      {children}
+      <AuthProvider>
+        {children}
+      </AuthProvider>
       {/* <ReactQueryDevtools initialIsOpen={false} /> */}
     </QueryClientProvider>
   )

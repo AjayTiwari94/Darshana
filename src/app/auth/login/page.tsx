@@ -1,13 +1,15 @@
 'use client'
 
-import React, { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import React, { useState, useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useAuthStore } from '@/store'
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline'
 
 const LoginPage: React.FC = () => {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const { login, logout } = useAuthStore()
+  const redirectUrl = searchParams.get('redirect') || '/'
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -35,8 +37,10 @@ const LoginPage: React.FC = () => {
       
       console.log('Attempting login with email:', formData.email)
       await login(formData.email, formData.password)
-      console.log('Login successful, redirecting to home page')
-      router.push('/') // Redirect to home page
+      console.log('Login successful, redirecting to:', redirectUrl)
+      
+      // Redirect to the original page or dashboard
+      router.push(redirectUrl)
     } catch (err) {
       console.error('Login failed:', err)
       setError(err instanceof Error ? err.message : 'Login failed')

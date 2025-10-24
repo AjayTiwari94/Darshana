@@ -155,6 +155,48 @@ class CulturalKnowledgeBase:
                 'cultural_significance': 'Adds intrigue to historical narratives',
                 'historical_accuracy': 'folklore'
             },
+            'bhangarh_fort_horror': {
+                'title': 'The Cursed Fort of Bhangarh',
+                'type': 'horror',
+                'monument': 'bhangarh_fort',
+                'content': 'Bhangarh Fort in Rajasthan is known as India\'s most haunted place. Legend tells of Princess Ratnavati\'s beauty that caught the eye of a tantric who practiced dark magic. When the princess refused his advances, he cursed the fort, dooming it to destruction. The entire population perished mysteriously, and it\'s said their spirits still roam the ruins. The Archaeological Survey of India prohibits entry after sunset, and locals report strange sounds, shadows, and an overwhelming sense of dread after dark.',
+                'themes': ['horror', 'curse', 'supernatural', 'mystery', 'folklore'],
+                'cultural_significance': 'Most famous haunted location in India, reflects belief in tantric powers',
+                'historical_accuracy': 'folklore_based',
+                'versions': {
+                    'folk_version': 'A tantric\'s curse led to the fort\'s destruction',
+                    'historical_version': 'The fort was abandoned after a battle with Mughal forces',
+                    'supernatural_version': 'Paranormal activity and unexplained phenomena persist'
+                }
+            },
+            'taj_mahal_ghost': {
+                'title': 'The Weeping Ghost of Taj Mahal',
+                'type': 'horror',
+                'monument': 'taj_mahal',
+                'content': 'Late at night, guards at the Taj Mahal report hearing the sound of a woman weeping. Some believe it\'s the spirit of Mumtaz Mahal, eternally mourning her separation from the world. Others speak of workers who died during construction, their souls bound to the monument. On full moon nights, shadowy figures are seen walking the marble corridors, and cameras often malfunction in certain areas without explanation.',
+                'themes': ['ghost', 'love', 'tragedy', 'supernatural'],
+                'cultural_significance': 'Adds a supernatural dimension to the love story',
+                'historical_accuracy': 'folklore',
+                'versions': {
+                    'folk_version': 'Mumtaz Mahal\'s spirit haunts the monument',
+                    'historical_version': 'The monument was built as a mausoleum',
+                    'mystery_version': 'Unexplained phenomena reported by guards'
+                }
+            },
+            'delhi_ridge_forest_horror': {
+                'title': 'Spirits of Delhi Ridge',
+                'type': 'horror',
+                'monument': 'delhi_ridge',
+                'content': 'The Delhi Ridge forest has a dark history from the 1857 revolt when many were hanged from its trees. Locals avoid the forest after sunset, claiming to see hanging figures that disappear when approached. Car engines mysteriously stall, phones lose signal, and visitors report feeling watched. Some have heard battle cries and gunshots echoing through the trees, as if the past is replaying itself.',
+                'themes': ['haunted_forest', 'historical_trauma', 'supernatural', '1857_revolt'],
+                'cultural_significance': 'Connected to India\'s freedom struggle trauma',
+                'historical_accuracy': 'historically_based_folklore',
+                'versions': {
+                    'folk_version': 'Spirits of freedom fighters haunt the ridge',
+                    'historical_version': 'Site of executions during 1857 revolt',
+                    'supernatural_version': 'Paranormal hotspot with documented incidents'
+                }
+            },
             'kedarnath_pandavas': {
                 'title': 'The Pandavas and Lord Shiva',
                 'type': 'mythology',
@@ -336,7 +378,7 @@ class CulturalKnowledgeBase:
             intent_match = (
                 (intent == 'mythology_inquiry' and story['type'] == 'mythology') or
                 (intent == 'history_inquiry' and 'historical' in story['type']) or
-                (intent == 'horror_inquiry' and story['type'] == 'mystery') or
+                (intent == 'horror_inquiry' and story['type'] in ['mystery', 'horror']) or
                 intent == 'general_inquiry'
             )
             
@@ -351,6 +393,34 @@ class CulturalKnowledgeBase:
         # Sort by relevance and return top results
         relevant_stories.sort(key=lambda x: x['relevance_score'], reverse=True)
         return relevant_stories[:3]  # Return top 3 stories
+    
+    def get_story_versions(self, story_id: str) -> Dict[str, Any]:
+        """Get different versions/perspectives of a story"""
+        story = self.stories_db.get(story_id)
+        if not story:
+            return {}
+        
+        result = {
+            'title': story['title'],
+            'main_content': story['content'],
+            'versions': story.get('versions', {}),
+            'type': story['type']
+        }
+        
+        return result
+    
+    def get_horror_stories(self) -> List[Dict[str, Any]]:
+        """Get all horror/mystery stories"""
+        horror_stories = []
+        for story_id, story in self.stories_db.items():
+            if story['type'] in ['horror', 'mystery']:
+                horror_stories.append({
+                    'id': story_id,
+                    'title': story['title'],
+                    'content': story['content'],
+                    'themes': story['themes']
+                })
+        return horror_stories
     
     def get_related_monuments(self, monument_id: str) -> List[Dict[str, Any]]:
         """Get monuments related to the given monument"""

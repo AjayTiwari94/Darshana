@@ -36,6 +36,10 @@ const nextConfig = {
   },
   env: {
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000',
+    NEXT_PUBLIC_BACKEND_URL: process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000',
+    NEXT_PUBLIC_AI_SERVICE_URL: process.env.NEXT_PUBLIC_AI_SERVICE_URL || 'http://localhost:8000',
+    AI_SERVICE_URL: process.env.AI_SERVICE_URL || 'http://localhost:8000',
+    BACKEND_URL: process.env.BACKEND_URL || 'http://localhost:5000',
   },
   // Add webpack configuration to handle cache issues and path aliases
   webpack: (config, { isServer, dev }) => {

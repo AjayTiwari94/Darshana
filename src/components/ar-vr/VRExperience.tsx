@@ -1,0 +1,324 @@
+'use client'
+
+import React, { Suspense, useRef, useState } from 'react'
+import { Canvas, useFrame } from '@react-three/fiber'
+import { VRButton, XR, Controllers, Hands } from '@react-three/xr'
+import { OrbitControls, Sky, Environment, useTexture, Text } from '@react-three/drei'
+import * as THREE from 'three'
+
+interface VRExperienceProps {
+  monumentId: string
+  monumentName: string
+  historicalPeriod?: string
+}
+
+// Historical scene reconstruction
+function HistoricalScene({ monumentId }: { monumentId: string }) {
+  const groupRef = useRef<THREE.Group>(null)
+
+  useFrame((state) => {
+    if (groupRef.current) {
+      // Gentle ambient animation
+      groupRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.2) * 0.05
+    }
+  })
+
+  // Scene specific to monument
+  const getSceneElements = () => {
+    switch (monumentId) {
+      case 'taj_mahal':
+        return (
+          <>
+            {/* Taj Mahal Recreation */}
+            <group position={[0, 0, -10]}>
+              {/* Main structure */}
+              <mesh position={[0, 3, 0]}>
+                <boxGeometry args={[8, 6, 8]} />
+                <meshStandardMaterial color="#f8f8ff" metalness={0.3} roughness={0.1} />
+              </mesh>
+              
+              {/* Central dome */}
+              <mesh position={[0, 7, 0]}>
+                <sphereGeometry args={[3, 32, 32]} />
+                <meshStandardMaterial color="#ffffff" metalness={0.5} roughness={0.2} />
+              </mesh>
+              
+              {/* Minarets */}
+              {[[-5, 3, -5], [5, 3, -5], [-5, 3, 5], [5, 3, 5]].map((pos, i) => (
+                <group key={i} position={pos as [number, number, number]}>
+                  <mesh>
+                    <cylinderGeometry args={[0.5, 0.5, 8, 16]} />
+                    <meshStandardMaterial color="#f5f5dc" metalness={0.3} roughness={0.2} />
+                  </mesh>
+                  <mesh position={[0, 4.5, 0]}>
+                    <sphereGeometry args={[0.6, 16, 16, 0, Math.PI * 2, 0, Math.PI / 2]} />
+                    <meshStandardMaterial color="#ffd700" metalness={0.7} roughness={0.1} />
+                  </mesh>
+                </group>
+              ))}
+              
+              {/* Garden paths */}
+              <mesh position={[0, -2.9, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+                <planeGeometry args={[20, 20]} />
+                <meshStandardMaterial color="#90EE90" />
+              </mesh>
+            </group>
+
+            {/* Historical figures (simplified) */}
+            <group position={[-3, 0, -5]}>
+              <Text position={[0, 2, 0]} fontSize={0.3} color="white">
+                Shah Jahan
+              </Text>
+              <mesh position={[0, 1, 0]}>
+                <capsuleGeometry args={[0.3, 1.5, 4, 8]} />
+                <meshStandardMaterial color="#8B4513" />
+              </mesh>
+            </group>
+
+            <group position={[3, 0, -5]}>
+              <Text position={[0, 2, 0]} fontSize={0.3} color="white">
+                Mumtaz Mahal
+              </Text>
+              <mesh position={[0, 1, 0]}>
+                <capsuleGeometry args={[0.3, 1.5, 4, 8]} />
+                <meshStandardMaterial color="#FFB6C1" />
+              </mesh>
+            </group>
+          </>
+        )
+      
+      case 'red_fort':
+        return (
+          <>
+            {/* Red Fort Recreation */}
+            <group position={[0, 0, -10]}>
+              {/* Main walls */}
+              <mesh position={[0, 4, 0]}>
+                <boxGeometry args={[15, 8, 12]} />
+                <meshStandardMaterial color="#8B0000" roughness={0.7} />
+              </mesh>
+              
+              {/* Gate towers */}
+              {[[-8, 4, 0], [8, 4, 0]].map((pos, i) => (
+                <mesh key={i} position={pos as [number, number, number]}>
+                  <cylinderGeometry args={[1.5, 1.5, 10, 16]} />
+                  <meshStandardMaterial color="#A52A2A" roughness={0.6} />
+                </mesh>
+              ))}
+              
+              {/* Courtyard */}
+              <mesh position={[0, -3.9, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+                <planeGeometry args={[30, 30]} />
+                <meshStandardMaterial color="#DEB887" />
+              </mesh>
+            </group>
+
+            {/* Soldiers (historical scene) */}
+            {Array.from({ length: 5 }).map((_, i) => (
+              <group key={i} position={[-10 + i * 5, 0, -8]}>
+                <mesh position={[0, 1, 0]}>
+                  <capsuleGeometry args={[0.3, 1.5, 4, 8]} />
+                  <meshStandardMaterial color="#4B0082" />
+                </mesh>
+              </group>
+            ))}
+          </>
+        )
+      
+      default:
+        return (
+          <mesh position={[0, 2, -5]}>
+            <boxGeometry args={[3, 4, 3]} />
+            <meshStandardMaterial color="#ff6b6b" />
+          </mesh>
+        )
+    }
+  }
+
+  return (
+    <group ref={groupRef}>
+      {getSceneElements()}
+    </group>
+  )
+}
+
+// Time travel effect
+function TimeTravelEffect() {
+  const particlesRef = useRef<THREE.Points>(null)
+  
+  useFrame((state) => {
+    if (particlesRef.current) {
+      const time = state.clock.elapsedTime
+      const positions = particlesRef.current.geometry.attributes.position.array as Float32Array
+      
+      for (let i = 0; i < positions.length; i += 3) {
+        positions[i + 1] += Math.sin(time + i) * 0.01
+      }
+      
+      particlesRef.current.geometry.attributes.position.needsUpdate = true
+      particlesRef.current.rotation.y = time * 0.1
+    }
+  })
+
+  const particleCount = 500
+  const positions = new Float32Array(particleCount * 3)
+  const colors = new Float32Array(particleCount * 3)
+  
+  for (let i = 0; i < particleCount; i++) {
+    // Spiral pattern
+    const angle = (i / particleCount) * Math.PI * 10
+    const radius = (i / particleCount) * 20
+    
+    positions[i * 3] = Math.cos(angle) * radius
+    positions[i * 3 + 1] = (i / particleCount) * 10 - 5
+    positions[i * 3 + 2] = Math.sin(angle) * radius
+    
+    // Golden particles
+    colors[i * 3] = 1
+    colors[i * 3 + 1] = 0.8 + Math.random() * 0.2
+    colors[i * 3 + 2] = 0
+  }
+
+  return (
+    <points ref={particlesRef}>
+      <bufferGeometry>
+        <bufferAttribute
+          attach="attributes-position"
+          count={particleCount}
+          array={positions}
+          itemSize={3}
+        />
+        <bufferAttribute
+          attach="attributes-color"
+          count={particleCount}
+          array={colors}
+          itemSize={3}
+        />
+      </bufferGeometry>
+      <pointsMaterial 
+        size={0.1} 
+        vertexColors 
+        transparent 
+        opacity={0.8}
+        sizeAttenuation
+      />
+    </points>
+  )
+}
+
+// Interactive info panels in VR
+function InfoPanel({ position, title, content }: {
+  position: [number, number, number]
+  title: string
+  content: string
+}) {
+  return (
+    <group position={position}>
+      <mesh>
+        <planeGeometry args={[3, 2]} />
+        <meshBasicMaterial color="#000000" opacity={0.8} transparent />
+      </mesh>
+      <Text
+        position={[0, 0.6, 0.01]}
+        fontSize={0.2}
+        color="white"
+        anchorX="center"
+        maxWidth={2.5}
+      >
+        {title}
+      </Text>
+      <Text
+        position={[0, 0, 0.01]}
+        fontSize={0.12}
+        color="#cccccc"
+        anchorX="center"
+        maxWidth={2.5}
+      >
+        {content}
+      </Text>
+    </group>
+  )
+}
+
+export default function VRExperience({ monumentId, monumentName, historicalPeriod }: VRExperienceProps) {
+  const [vrSupported, setVrSupported] = useState(true)
+
+  return (
+    <div className="relative w-full h-full">
+      {/* VR Entry Button */}
+      <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-20">
+        {vrSupported ? (
+          <VRButton />
+        ) : (
+          <div className="bg-red-500 text-white px-4 py-2 rounded-lg">
+            VR not supported on this device
+          </div>
+        )}
+      </div>
+
+      {/* Info Panel */}
+      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-10 bg-black bg-opacity-70 text-white rounded-lg px-6 py-3 max-w-2xl text-center">
+        <h3 className="font-bold text-lg mb-2">{monumentName}</h3>
+        <p className="text-sm">
+          {historicalPeriod && `Travel back to ${historicalPeriod} and experience history come alive!`}
+        </p>
+        <p className="text-xs mt-2 text-gray-300">
+          🕶️ Use VR headset for best experience • 🎮 Controllers supported • 👋 Hand tracking available
+        </p>
+      </div>
+
+      {/* 3D VR Canvas */}
+      <Canvas>
+        <XR>
+          {/* VR Controllers and Hands */}
+          <Controllers />
+          <Hands />
+
+          {/* Lighting */}
+          <ambientLight intensity={0.3} />
+          <directionalLight position={[10, 10, 5]} intensity={1} castShadow />
+          <pointLight position={[0, 5, 0]} intensity={0.5} color="#ffd700" />
+
+          {/* Sky and Environment */}
+          <Sky sunPosition={[100, 10, 100]} />
+          <Environment preset="sunset" />
+
+          {/* Ground */}
+          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -4, 0]} receiveShadow>
+            <planeGeometry args={[100, 100]} />
+            <meshStandardMaterial color="#8B7355" roughness={0.9} />
+          </mesh>
+
+          {/* Historical Scene */}
+          <Suspense fallback={null}>
+            <HistoricalScene monumentId={monumentId} />
+          </Suspense>
+
+          {/* Time Travel Effect */}
+          <TimeTravelEffect />
+
+          {/* Information Panels */}
+          <InfoPanel
+            position={[-5, 2, -3]}
+            title="Historical Context"
+            content="Witness the monument as it appeared during its golden age"
+          />
+          <InfoPanel
+            position={[5, 2, -3]}
+            title="Cultural Significance"
+            content="Experience the rituals and ceremonies of ancient times"
+          />
+          <InfoPanel
+            position={[0, 2, -1]}
+            title="Architecture"
+            content="Explore the intricate details and craftsmanship"
+          />
+
+          {/* Non-VR Controls */}
+          <OrbitControls />
+        </XR>
+      </Canvas>
+    </div>
+  )
+}
+

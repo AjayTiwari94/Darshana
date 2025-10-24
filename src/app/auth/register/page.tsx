@@ -153,10 +153,16 @@ const RegisterPage = () => {
     try {
       const data: any = await apiCall('/api/auth/register', {
         method: 'POST',
-        body: JSON.stringify(formData)
+        body: formData
       })
       
       if (data.success) {
+        // Store token and user data if registration returns them
+        if (data.token) {
+          localStorage.setItem('token', data.token)
+          document.cookie = `token=${data.token}; path=/; max-age=${30 * 24 * 60 * 60}; SameSite=Lax`
+        }
+        // Redirect to login page
         router.push('/auth/login?message=Registration successful! Please log in.')
       } else {
         // Handle validation errors from backend
@@ -167,8 +173,11 @@ const RegisterPage = () => {
         }
       }
     } catch (err: any) {
+      console.error('Registration error:', err)
       if (err.response?.data?.message) {
         setError(err.response.data.message)
+      } else if (err.message) {
+        setError(err.message)
       } else {
         setError('Registration failed. Please try again.')
       }
