@@ -88,7 +88,7 @@ class NaradAI:
                 logger.info("Configuring Gemini API with provided key")
                 configure(api_key=api_key)
                 # Try gemini-1.5-flash-latest with SDK 0.8.5
-                self.model_name = os.getenv('MODEL_NAME', 'gemini-1.5-pro')
+                self.model_name = os.getenv('MODEL_NAME', 'text-bison')
                 logger.info(f"Using model: {self.model_name} with SDK 0.8.5")
                 try:
                     logger.info("Initializing Gemini model")

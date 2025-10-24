@@ -8,7 +8,7 @@ python-dotenv==1.0.0
 requests==2.31.0
 
 # Google Gemini AI (Main AI Engine) - Latest available stable version
-google-generativeai==0.13.0
+google-generativeai==0.8.5
 
 # Database
 pymongo==4.5.0
