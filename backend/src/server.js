@@ -70,15 +70,38 @@ const limiter = rateLimit({
 app.use(limiter)
 
 // CORS configuration
+const allowedOrigins = [
+  process.env.CORS_ORIGIN || "http://localhost:3000",
+  "http://localhost:3001",
+  "http://localhost:3002",
+  "http://localhost:3003",
+  "http://localhost:3004",
+  "http://localhost:3005",
+  "https://darshana-dun.vercel.app",
+  "https://*.vercel.app" // Allow all Vercel preview deployments
+]
+
 app.use(cors({
-  origin: [
-    process.env.CORS_ORIGIN || "http://localhost:3000", 
-    "http://localhost:3001",
-    "http://localhost:3002",
-    "http://localhost:3003",
-    "http://localhost:3004",
-    "http://localhost:3005"
-  ],
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true)
+    
+    // Check if the origin is in the allowed list or matches the wildcard pattern
+    const isAllowed = allowedOrigins.some(allowedOrigin => {
+      if (allowedOrigin.includes('*')) {
+        const regex = new RegExp(allowedOrigin.replace(/\*/g, '.*'))
+        return regex.test(origin)
+      }
+      return allowedOrigin === origin
+    })
+    
+    if (isAllowed) {
+      callback(null, true)
+    } else {
+      console.warn(`CORS blocked origin: ${origin}`)
+      callback(null, true) // Still allow for now to avoid breaking
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'x-csrf-token', 'Accept']

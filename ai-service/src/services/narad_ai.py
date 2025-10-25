@@ -87,15 +87,20 @@ class NaradAI:
             if api_key and api_key != 'your_gemini_api_key_here':
                 logger.info("Configuring Gemini API with provided key")
                 configure(api_key=api_key)
-                # Use latest Gemini API (October 2025) - v1beta endpoint with updated models
-                # Available models: gemini-2.0-flash-exp, gemini-1.5-pro, gemini-1.5-flash
-                self.model_name = os.getenv('MODEL_NAME', 'gemini-1.5-pro')
+                # Use LATEST Gemini API (Oct 2025) - Gemini 1.x/1.5.x DEPRECATED
+                # ONLY these models are currently supported:
+                # - models/gemini-pro-latest (RECOMMENDED - stable, always updated)
+                # - models/gemini-flash-latest (faster variant)
+                # - models/gemini-2.5-pro (specific version)
+                # - models/gemini-2.5-flash (specific version)
+                self.model_name = os.getenv('MODEL_NAME', 'models/gemini-pro-latest')
                 self.api_key = api_key
-                # CRITICAL: Use v1beta (not v1) - v1 is deprecated as of Oct 2025
+                # CRITICAL: Use v1beta endpoint - all current models require this
                 self.api_endpoint = "https://generativelanguage.googleapis.com/v1beta/models"
-                logger.info(f"Using model: {self.model_name} with REST API v1beta endpoint")
-                logger.info(f"API Endpoint: {self.api_endpoint}")
-                logger.info("Gemini API configured successfully for REST calls")
+                logger.info(f"🔧 Using model: {self.model_name} with REST API v1beta endpoint")
+                logger.info(f"🌐 API Endpoint: {self.api_endpoint}")
+                logger.info(f"✅ Gemini API configured successfully for REST calls")
+                logger.info(f"📝 Note: MODEL_NAME env var = {os.getenv('MODEL_NAME', 'NOT SET (using default)')}")
                 # Set model flag to indicate ready
                 self.model = True  # Flag to indicate ready
             else:

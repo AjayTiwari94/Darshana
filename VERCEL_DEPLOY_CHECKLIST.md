@@ -80,20 +80,25 @@
 
 ### Vercel (Frontend)
 ```
-NEXT_PUBLIC_BACKEND_URL=https://your-backend.up.railway.app
-NEXT_PUBLIC_AI_SERVICE_URL=https://your-ai-service.up.railway.app
+NEXT_PUBLIC_API_URL=https://your-backend.up.railway.app
 ```
+
+**CRITICAL:** This is the most important variable. Without it, you'll get "Failed to fetch" errors on the registration page!
 
 ### Railway - Backend
 ```
 PORT=5000
 MONGODB_URI=mongodb+srv://user:pass@cluster.mongodb.net/darshana
 JWT_SECRET=your_super_secret_jwt_key_minimum_32_characters
-CORS_ORIGIN=https://your-project.vercel.app
+CORS_ORIGIN=https://darshana-dun.vercel.app
 NODE_ENV=production
 RATE_LIMIT_WINDOW=15
 RATE_LIMIT_MAX=100
+GEMINI_API_KEY=your_gemini_api_key_from_google_ai_studio
+AI_SERVICE_URL=https://your-ai-service.up.railway.app
 ```
+
+**IMPORTANT:** Make sure to replace `https://darshana-dun.vercel.app` with your actual Vercel URL if different!
 
 ### Railway - AI Service
 ```
@@ -139,6 +144,46 @@ PORT=8000
 
 ## 🐛 COMMON ISSUES & FIXES
 
+### ⚠️ Issue: "Failed to fetch" on Registration Page (MOST COMMON)
+**Symptoms:**
+- Error appears when trying to register
+- Browser console shows: `Failed to fetch` or `TypeError: Failed to fetch`
+- Network tab shows request to `localhost:5000` (wrong!)
+
+**Root Causes:**
+1. `NEXT_PUBLIC_API_URL` not set in Vercel environment variables
+2. Backend not deployed or not accessible
+3. CORS misconfiguration
+
+**Fix:**
+1. **Set Environment Variable in Vercel:**
+   - Go to Vercel Dashboard → Your Project → Settings → Environment Variables
+   - Add: `NEXT_PUBLIC_API_URL` = `https://your-backend.up.railway.app`
+   - Click "Save"
+   - Go to Deployments tab → Click "Redeploy" on latest deployment
+
+2. **Deploy Backend First:**
+   - Backend MUST be deployed before frontend will work
+   - Follow STEP 2 above to deploy to Railway
+   - Test backend is working: `curl https://your-backend.up.railway.app/health`
+
+3. **Update Backend CORS:**
+   - Ensure `backend/src/server.js` includes your Vercel URL in CORS origins
+   - Already fixed if using the latest code (includes `https://darshana-dun.vercel.app`)
+   - Redeploy backend after changes
+
+**Testing:**
+```bash
+# Test backend is accessible
+curl https://your-backend.up.railway.app/health
+# Should return: {"status":"OK","timestamp":"..."}
+
+# Test from browser console on Vercel site
+fetch('https://your-backend.up.railway.app/health')
+  .then(r => r.json())
+  .then(console.log)
+```
+
 ### Issue: Frontend build fails on Vercel
 **Fix:** 
 - Check `package.json` has all dependencies
@@ -163,12 +208,13 @@ PORT=8000
 - Update `CORS_ORIGIN` in backend to match Vercel URL
 - Ensure no trailing slash in URLs
 - Redeploy backend after changes
+- Check backend logs for "CORS blocked origin" warnings
 
 ### Issue: Narad AI not responding
 **Fix:**
 - Check AI service is running
 - Verify `GEMINI_API_KEY` is correct
-- Check frontend has correct `NEXT_PUBLIC_AI_SERVICE_URL`
+- Update Gemini API model to `gemini-2.0-flash-exp` (newer version)
 - Test AI service health endpoint directly
 
 ---

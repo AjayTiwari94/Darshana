@@ -60,3 +60,5 @@ const HeritageCarousel: React.FC = () => {
 }
 
 export default HeritageCarousel
+
+
