@@ -244,3 +244,5 @@ If you still see issues:
 
 **🎉 All Gemini API errors and Navratri response issues are now fixed! The code is pushed to GitHub. Just redeploy to see the changes!**
 
+
+

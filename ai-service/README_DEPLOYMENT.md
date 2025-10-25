@@ -218,3 +218,5 @@ If you already deployed with old model names:
 **Last Updated**: October 2024  
 **Model Version**: Gemini 2.x (via v1beta API)
 
+
+

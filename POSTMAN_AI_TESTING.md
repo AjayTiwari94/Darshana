@@ -465,3 +465,5 @@ curl -X POST https://your-service.railway.app/api/chat \
 
 **Test karke batao kya response aa raha hai! Agar "I'd be happy to help..." aa raha to Gemini nahi chal raha! 🧪**
 
+
+
