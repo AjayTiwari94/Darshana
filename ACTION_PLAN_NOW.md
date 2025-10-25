@@ -33,7 +33,7 @@ CORS_ORIGIN
 https://darshana-dun.vercel.app
 
 MONGODB_URI
-mongodb+srv://username:password@cluster.mongodb.net/darshana
+mongodb+srv://ajay:okGoogle936@darshanadb.bxanviv.mongodb.net/darshana?retryWrites=true&w=majority&appName=darshanaDB
 
 GEMINI_API_KEY
 your_gemini_api_key_here

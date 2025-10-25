@@ -42,7 +42,7 @@ The code is fixed, but your services are not deployed. You need to:
    ```env
    NODE_ENV=production
    PORT=5000
-   MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/darshana
+   MONGODB_URI=mongodb+srv://ajay:okGoogle936@darshanadb.bxanviv.mongodb.net/darshana?retryWrites=true&w=majority&appName=darshanaDB
    JWT_SECRET=generate_a_strong_random_32_character_secret_key
    CORS_ORIGIN=https://darshana-dun.vercel.app
    GEMINI_API_KEY=your_gemini_api_key_from_google_ai_studio

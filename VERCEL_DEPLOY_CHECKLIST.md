@@ -88,7 +88,7 @@ NEXT_PUBLIC_API_URL=https://your-backend.up.railway.app
 ### Railway - Backend
 ```
 PORT=5000
-MONGODB_URI=mongodb+srv://user:pass@cluster.mongodb.net/darshana
+MONGODB_URI=mongodb+srv://ajay:okGoogle936@darshanadb.bxanviv.mongodb.net/darshana?retryWrites=true&w=majority&appName=darshanaDB
 JWT_SECRET=your_super_secret_jwt_key_minimum_32_characters
 CORS_ORIGIN=https://darshana-dun.vercel.app
 NODE_ENV=production

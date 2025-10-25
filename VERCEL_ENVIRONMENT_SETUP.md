@@ -35,7 +35,7 @@ Your Node.js backend needs to be deployed separately. Here are your options:
    ```env
    NODE_ENV=production
    PORT=5000
-   MONGODB_URI=your_mongodb_connection_string
+   MONGODB_URI=mongodb+srv://ajay:okGoogle936@darshanadb.bxanviv.mongodb.net/darshana?retryWrites=true&w=majority&appName=darshanaDB
    JWT_SECRET=your_jwt_secret_key_minimum_32_characters
    CORS_ORIGIN=https://darshana-dun.vercel.app
    GEMINI_API_KEY=your_gemini_api_key
