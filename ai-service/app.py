@@ -22,7 +22,7 @@ narad_ai = NaradAI()
 # CONFIG
 # =====================
 GEMINI_API_KEY = os.getenv('GEMINI_API_KEY', 'your-gemini-api-key-here')  # Add your Gemini API key to .env
-MODEL_NAME = os.getenv('MODEL_NAME', 'models/gemini-pro-latest')  # Using the latest stable Gemini model
+MODEL_NAME = os.getenv('MODEL_NAME', 'gemini-1.5-pro')  # Using the latest stable Gemini model
 
 app = Flask(__name__)
 # Update CORS to allow requests from the frontend (port 3000)
@@ -189,7 +189,7 @@ def test_gemini():
         try:
             # Try to list models to verify connectivity
             generative_model_class = getattr(genai, 'GenerativeModel')
-            model_name = os.getenv('MODEL_NAME', 'models/gemini-pro-latest')
+            model_name = os.getenv('MODEL_NAME', 'gemini-1.5-pro')
             model = generative_model_class(model_name)
             generation_config_class = GenerationConfig
             response = model.generate_content("Say 'hello' in one word", generation_config=generation_config_class(max_output_tokens=10))
@@ -308,7 +308,7 @@ def test_gemini_models():
         configure_func(api_key=api_key)
         
         # Test specific models with proper cleaning
-        test_models = ['models/gemini-pro-latest', 'models/gemini-flash-latest', 'models/gemini-2.5-pro', 'models/gemini-2.5-flash']
+        test_models = ['gemini-1.5-pro', 'gemini-1.5-flash', 'gemini-2.0-flash-exp']
         available_models = []
         unavailable_models = []
         

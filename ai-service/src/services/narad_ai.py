@@ -93,7 +93,7 @@ class NaradAI:
                 # - models/gemini-flash-latest (faster variant)
                 # - models/gemini-2.5-pro (specific version)
                 # - models/gemini-2.5-flash (specific version)
-                self.model_name = os.getenv('MODEL_NAME', 'models/gemini-pro-latest')
+                self.model_name = os.getenv('MODEL_NAME', 'gemini-1.5-pro')
                 self.api_key = api_key
                 # CRITICAL: Use v1beta endpoint - all current models require this
                 self.api_endpoint = "https://generativelanguage.googleapis.com/v1beta/models"
