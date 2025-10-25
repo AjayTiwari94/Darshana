@@ -794,6 +794,162 @@ Diwali celebrates the victory of light over darkness!
 
 The festival lasts 5 days, each with special significance! ✨"""
         
+        # Navratri Festival
+        elif 'navratri' in message_lower or 'navaratri' in message_lower:
+            return """**Navratri - Festival of Nine Nights** 🕉️✨
+
+Navratri celebrates the divine feminine power and victory of Goddess Durga over evil!
+
+**Meaning:**
+• Nava = Nine, Ratri = Nights
+• Nine days dedicated to nine forms of Goddess Durga
+• Celebrates triumph of good over evil
+
+**The Nine Goddesses (Navdurga):**
+1. **Day 1** - Shailaputri (Daughter of Mountains)
+2. **Day 2** - Brahmacharini (Devoted Student)
+3. **Day 3** - Chandraghanta (One with Moon on Forehead)
+4. **Day 4** - Kushmanda (Creator of Universe)
+5. **Day 5** - Skandamata (Mother of Kartikeya)
+6. **Day 6** - Katyayani (Warrior Goddess)
+7. **Day 7** - Kalaratri (Destroyer of Darkness)
+8. **Day 8** - Mahagauri (Goddess of Peace)
+9. **Day 9** - Siddhidatri (Giver of Perfection)
+
+**Main Celebrations:**
+
+🎭 **Gujarat Style:**
+• Garba & Dandiya Raas dances
+• Colorful traditional attire
+• All-night dance celebrations
+
+🙏 **North India Style:**
+• Durga Puja pandals (especially in Bengal)
+• Kanya Pujan (worship of young girls)
+• Fasting and prayers
+
+🎉 **South India Style:**
+• Golu - Display of dolls & figurines
+• Saraswati Puja on final day
+• Cultural programs
+
+**Traditions:**
+• Fasting during the nine days
+• Daily prayers and aarti
+• Special bhajans (devotional songs)
+• Decorating homes with flowers & lights
+• Wearing specific colors each day
+
+**Culmination:**
+• **Dussehra (Day 10):** Celebrates Lord Rama's victory over Ravana
+• Burning of Ravana effigies
+• Symbolizes victory of good over evil
+
+**When:** September/October (Ashwin month)
+**Where:** Celebrated across India with regional variations
+
+Gujarat's Garba nights are world-famous! Would you like to know about specific rituals or regional celebrations? 🌸"""
+        
+        # Ganesh Chaturthi
+        elif 'ganesh' in message_lower and ('chaturthi' in message_lower or 'festival' in message_lower):
+            return """**Ganesh Chaturthi - Festival of Lord Ganesha** 🐘🎉
+
+Celebrating the birthday of Lord Ganesha, the remover of obstacles!
+
+**The Story:**
+• Goddess Parvati created Ganesha from turmeric paste
+• Lord Shiva accidentally beheaded him
+• Ganesha was brought back with an elephant's head
+• Made leader of all celestial beings (Ganapati)
+
+**Celebrations:**
+• Installing clay Ganesha idols at homes & public pandals
+• Daily prayers and offerings of modaks (Ganesha's favorite sweet)
+• Cultural programs and competitions
+• Grand processions with music & dance
+• Immersion (Visarjan) in water bodies on the 10th day
+
+**Famous Celebrations:**
+• Mumbai's Lalbaugcha Raja
+• Pune's elaborate pandals
+• Maharashtra celebrates grandly!
+
+**When:** August/September (Bhadrapada month)
+
+**Eco-Friendly Tip:** Many now use clay idols that dissolve naturally, protecting our waters! 🌊
+
+Ganpati Bappa Morya! 🙏"""
+        
+        # Eid (Muslim festival)
+        elif 'eid' in message_lower:
+            return """**Eid - Festival of Joy & Brotherhood** 🌙✨
+
+Eid is one of Islam's most important celebrations!
+
+**Two Major Eids:**
+
+🌙 **Eid-ul-Fitr (Festival of Breaking Fast)**
+• Marks the end of Ramadan (holy month of fasting)
+• Special prayers at mosques
+• Wearing new clothes
+• Giving Zakat (charity) to the poor
+• Feasting with family & friends
+• Sweet dishes like Seviyan (vermicelli) & dates
+
+🐐 **Eid-ul-Adha (Festival of Sacrifice)**
+• Commemorates Prophet Ibrahim's willingness to sacrifice his son
+• Qurbani (ritual sacrifice) of goats/sheep
+• Meat distributed to family, friends, and the poor
+• Symbolizes devotion and charity
+
+**Traditions:**
+• Morning prayers at mosque (Eid namaz)
+• Greeting: "Eid Mubarak!" (Blessed Eid)
+• Visiting relatives and friends
+• Giving Eidi (gifts/money) to children
+• Special biryani, kebabs, and sweets
+
+**Spirit:** Gratitude, charity, and community harmony
+
+India's Eid celebrations blend Islamic traditions with local cultures! 🕌💫"""
+        
+        # Pongal/Makar Sankranti
+        elif any(word in message_lower for word in ['pongal', 'sankranti', 'makar sankranti', 'harvest']):
+            return """**Pongal / Makar Sankranti - Harvest Festival** 🌾☀️
+
+Celebrating the harvest season and thanking the Sun God!
+
+**Different Names Across India:**
+• **Pongal** (Tamil Nadu) - 4-day celebration
+• **Makar Sankranti** (North & West India)
+• **Lohri** (Punjab & Haryana)
+• **Bihu** (Assam)
+• **Uttarayan** (Gujarat) - Kite Flying Festival
+
+**Pongal Celebrations (Tamil Nadu):**
+
+🌾 **Day 1 - Bhogi:** Discard old items, welcome new beginnings
+🐄 **Day 2 - Thai Pongal:** Cook sweet Pongal (rice dish) in new pots
+🐮 **Day 3 - Mattu Pongal:** Honor cattle & farm animals
+🎨 **Day 4 - Kaanum Pongal:** Family gatherings & outings
+
+**Makar Sankranti Traditions:**
+• Flying colorful kites
+• Taking holy dips in rivers
+• Til-Gul (sesame-jaggery sweets) - "Speak sweetly!"
+• Celebrating the Sun's northward journey
+
+**Foods:**
+• Sweet Pongal (rice, jaggery, ghee)
+• Til Ladoo (sesame sweets)
+• Khichdi, Puran Poli
+
+**When:** Mid-January (Thai/Makar month)
+
+**Significance:** Gratitude to nature, farmers, and cattle for abundant harvest! 🙏
+
+Gujarat's skies fill with thousands of kites - it's a spectacular sight! 🪁"""
+        
         # General cultural query
         else:
             return """Namaste! 🙏 I'd be happy to help you explore India's rich cultural heritage!
