@@ -1,0 +1,340 @@
+{
+  "info": {
+    "name": "Narad AI - Darshana Testing",
+    "description": "Complete test suite for Narad AI API - Test if Gemini API is working or fallback responses are being used",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Health Check",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status is healthy\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.status).to.eql(\"healthy\");",
+              "});",
+              "",
+              "pm.test(\"Using correct model\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.model).to.include(\"gemini-pro-latest\");",
+              "});",
+              "",
+              "pm.test(\"Gemini is configured\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.gemini_configured).to.be.true;",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/health",
+          "host": ["{{base_url}}"],
+          "path": ["health"]
+        },
+        "description": "Check if AI service is healthy and using correct Gemini model"
+      },
+      "response": []
+    },
+    {
+      "name": "2. Test Chhath Puja (Critical Test)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status is success\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.status).to.eql(\"success\");",
+              "});",
+              "",
+              "pm.test(\"NOT generic fallback response\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.response).to.not.include(\"I'd be happy to help\");",
+              "});",
+              "",
+              "pm.test(\"Response mentions Chhath\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.response.toLowerCase()).to.include(\"chhath\");",
+              "});",
+              "",
+              "pm.test(\"Response time acceptable\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"message\": \"what is chhath puja\",\n  \"session_id\": \"test-chhath-123\",\n  \"context\": {\n    \"preferences\": {\n      \"language\": \"en\"\n    }\n  }\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/chat",
+          "host": ["{{base_url}}"],
+          "path": ["api", "chat"]
+        },
+        "description": "🔥 CRITICAL TEST: If this returns generic response, Gemini is NOT working!"
+      },
+      "response": []
+    },
+    {
+      "name": "3. Test Generic Query (Forces Gemini)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"NOT generic fallback\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.response).to.not.include(\"I'd be happy to help\");",
+              "});",
+              "",
+              "pm.test(\"Response is substantial\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.response.length).to.be.above(100);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"message\": \"explain the significance of sun worship in hinduism and its scientific benefits\",\n  \"session_id\": \"test-generic\",\n  \"context\": {\n    \"preferences\": {\n      \"language\": \"en\"\n    }\n  }\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/chat",
+          "host": ["{{base_url}}"],
+          "path": ["api", "chat"]
+        },
+        "description": "Tests if Gemini can handle complex queries that aren't hardcoded"
+      },
+      "response": []
+    },
+    {
+      "name": "4. Test Navratri (Known Festival)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"message\": \"tell me about navratri\",\n  \"session_id\": \"test-navratri\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/chat",
+          "host": ["{{base_url}}"],
+          "path": ["api", "chat"]
+        },
+        "description": "Should work even with hardcoded fallback"
+      },
+      "response": []
+    },
+    {
+      "name": "5. Test Holi Festival",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"message\": \"what is holi\",\n  \"session_id\": \"test-holi\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/chat",
+          "host": ["{{base_url}}"],
+          "path": ["api", "chat"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "6. Test Comparison Query",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"NOT generic response\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.response).to.not.include(\"I'd be happy to help\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"message\": \"compare holi and diwali celebrations\",\n  \"session_id\": \"test-compare\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/chat",
+          "host": ["{{base_url}}"],
+          "path": ["api", "chat"]
+        },
+        "description": "Complex query requiring Gemini AI"
+      },
+      "response": []
+    },
+    {
+      "name": "7. Test Monument Query",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"message\": \"tell me about konark sun temple\",\n  \"session_id\": \"test-monument\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/chat",
+          "host": ["{{base_url}}"],
+          "path": ["api", "chat"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "8. Test Hindi Language",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"message\": \"छठ पूजा क्या है\",\n  \"session_id\": \"test-hindi\",\n  \"context\": {\n    \"preferences\": {\n      \"language\": \"hi\"\n    }\n  }\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/chat",
+          "host": ["{{base_url}}"],
+          "path": ["api", "chat"]
+        },
+        "description": "Test Hindi language support"
+      },
+      "response": []
+    },
+    {
+      "name": "9. Test Unknown Festival (Onam)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"NOT generic fallback\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.response).to.not.include(\"I'd be happy to help\");",
+              "});",
+              "",
+              "pm.test(\"Mentions Onam\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.response.toLowerCase()).to.include(\"onam\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"message\": \"what is onam festival\",\n  \"session_id\": \"test-onam\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/chat",
+          "host": ["{{base_url}}"],
+          "path": ["api", "chat"]
+        },
+        "description": "🎯 KEY TEST: Onam is not hardcoded. Needs Gemini!"
+      },
+      "response": []
+    },
+    {
+      "name": "10. Test Conversation Memory",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"message\": \"when is it celebrated\",\n  \"session_id\": \"memory-test\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/chat",
+          "host": ["{{base_url}}"],
+          "path": ["api", "chat"]
+        },
+        "description": "Follow-up question. Run after asking about a festival first."
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://vivacious-upliftment-production.up.railway.app",
+      "type": "string"
+    }
+  ]
+}
+

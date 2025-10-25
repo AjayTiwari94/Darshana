@@ -313,16 +313,12 @@ Your response:"""
             logger.info(f"Full prompt: {full_prompt}")
             logger.info(f"Model ready: {self.model is not None}")
             
-            # PRIMARY METHOD: Generate contextual response (always works, well-curated)
-            logger.info("Attempting contextual response first (primary method)")
-            contextual_response = self._generate_contextual_response(message, user_language)
+            # FORCE GEMINI API - No hardcoded responses
+            logger.info("⚡ FORCING Gemini API - Hardcoded responses DISABLED")
+            ai_response = None
             
-            # Check if we got a generic fallback response
-            is_generic = "I'd be happy to help you explore" in contextual_response or "I'm here to share" in contextual_response
-            
-            # SECONDARY METHOD: Try to enhance with Gemini API if available and we got generic response
-            ai_response = contextual_response
-            if self.model and is_generic:
+            # Try to get response from Gemini API
+            if self.model:
                 logger.info("Got generic response, attempting to enhance with Gemini API")
                 try:
                     # Use REST API instead of SDK to avoid v1beta issues
@@ -367,14 +363,21 @@ Your response:"""
                         else:
                             logger.info("No candidates in API response, using contextual response")
                     else:
-                        logger.warning(f"API Error {response.status_code}, using contextual response instead")
+                        logger.error(f"❌ API Error {response.status_code}: {response.text}")
+                        ai_response = f"I apologize, I'm experiencing technical difficulties (API Error {response.status_code}). The AI service needs attention. Please ensure Gemini API is properly configured with the correct model."
                         
                 except Exception as e:
-                    logger.warning(f"⚠️ API call failed, using contextual response: {type(e).__name__}: {str(e)}")
+                    logger.error(f"❌ Gemini API call failed: {type(e).__name__}: {str(e)}")
+                    ai_response = f"I apologize, I encountered an error: {str(e)[:100]}. Please ensure Gemini API is configured correctly."
             else:
                 logger.info("✅ Using contextual response (primary method successful)")
             
-            logger.info(f"AI response: {ai_response}")
+            # Final check - if no response from Gemini, show error
+            if not ai_response or ai_response is None:
+                logger.error("❌ CRITICAL: Gemini API did not return any response! Hardcoded responses are DISABLED.")
+                ai_response = "⚠️ AI service is currently unavailable. Gemini API is not responding. Please check: 1) API key is valid, 2) Model is 'models/gemini-pro-latest', 3) Service has been redeployed with latest code."
+            
+            logger.info(f"✅ Final AI response: {ai_response[:100]}...")
             
             # Store conversation in memory
             self.conversation_memory.add_message(session_id, 'user', message)
@@ -949,6 +952,385 @@ Celebrating the harvest season and thanking the Sun God!
 **Significance:** Gratitude to nature, farmers, and cattle for abundant harvest! 🙏
 
 Gujarat's skies fill with thousands of kites - it's a spectacular sight! 🪁"""
+        
+        # Chhath Puja
+        elif any(word in message_lower for word in ['chhath', 'chhat', 'chhath puja', 'chhat puja']):
+            return """**Chhath Puja - Worship of Sun God** ☀️🙏
+
+One of the most ancient and sacred Hindu festivals, dedicated to Surya Dev (Sun God) and Chhathi Maiya!
+
+**What is Chhath Puja?**
+• 4-day rigorous festival
+• Mainly celebrated in Bihar, Jharkhand, UP, and Nepal
+• Devotees thank Sun God for sustaining life on Earth
+• Also worship Chhathi Maiya (Goddess Usha, Sun's wife)
+
+**The Four Days:**
+
+🌅 **Day 1 - Nahay Khay (Holy Bath)**
+• Devotees take holy bath in river/pond
+• Clean the house thoroughly
+• Prepare simple satvik food (no onion/garlic)
+• Only one meal for the day
+
+🌙 **Day 2 - Kharna (Fasting)**
+• Full day waterless fast (nirjala)
+• Break fast in evening after sunset
+• Eat kheer (rice pudding), roti, and fruits
+• No water or food after this till next day
+
+🌇 **Day 3 - Sandhya Arghya (Evening Offering)**
+• Most important day!
+• Prepare prasad: Thekua, fruits on bamboo baskets
+• Go to river/water body at sunset
+• Offer arghya (water) to setting sun
+• Stand in water and pray
+• Overnight fast continues
+
+🌄 **Day 4 - Usha Arghya (Morning Offering)**
+• Wake up before sunrise
+• Go to river again
+• Offer arghya to rising sun
+• Break the 36-hour fast
+• Distribute prasad to everyone
+
+**Special Features:**
+
+🌊 **River Ghats Transformation:**
+• Thousands gather at rivers (Ganga, Yamuna, etc.)
+• Beautiful sight of diyas and devotees
+• Family celebrates together in water
+
+🍪 **Special Prasad - Thekua:**
+• Sweet biscuit made with wheat flour, jaggery, ghee
+• Offered to Sun God
+• Distributed as prasad
+
+👭 **Women Power:**
+• Mainly observed by women
+• But men also participate
+• Extremely strict rituals and purity
+• No shoes worn during puja
+
+**Significance:**
+• Purifies body, mind, and soul
+• Thanks Sun God for energy and life
+• Removes sins and fulfills wishes
+• Scientific benefits: Detoxification, sun exposure boosts immunity
+• UV rays at sunrise/sunset are beneficial
+
+**Rituals:**
+• Complete vegetarian food (satvik)
+• No onion, garlic during entire 4 days
+• Fasting without water (36 hours)
+• Standing in water for long hours
+• Extreme devotion and discipline
+
+**Famous Locations:**
+• **Patna:** Ganga ghats packed with devotees
+• **Varanasi:** Ganga aarti during Chhath
+• **Ranchi:** Lakes and ponds decorated
+• **Delhi:** Yamuna banks and artificial ponds
+• **Mumbai:** Juhu Beach, Powai Lake
+
+**When:** 6 days after Diwali (October/November - Kartik month)
+
+**Beliefs:**
+• Cures diseases
+• Blesses with children
+• Brings prosperity
+• Sun God fulfills wishes
+
+**Environmental Aspect:**
+• Recently focus on eco-friendly celebrations
+• Avoid plastic, use natural materials
+• Keep rivers clean
+
+**Why So Strict?**
+• One of the toughest Hindu festivals
+• No shortcuts allowed
+• Complete dedication required
+• Purity of mind, body, and spirit
+
+Chhath Puja is unique - it's the only festival where you worship the setting sun too! Would you like to know about Chhath songs (geet) or prasad recipes? 🌅✨"""
+        
+        # Karva Chauth
+        elif any(word in message_lower for word in ['karva chauth', 'karwa chauth', 'karvachauth']):
+            return """**Karva Chauth - Festival of Married Women** 🌙💑
+
+A beautiful festival where married women fast for their husband's long life and prosperity!
+
+**What is Karva Chauth?**
+• Celebrated by married Hindu women in North India
+• Full-day fast without food or water (nirjala)
+• Break fast only after seeing moon and husband's face
+• Symbol of love, devotion, and marital bliss
+
+**The Story:**
+**Legend of Veeravati:**
+• A beautiful queen named Veeravati observed strict fast
+• Her seven brothers created fake moon with mirror
+• She broke her fast thinking moon rose
+• Her husband died immediately
+• Goddess Parvati blessed her devotion
+• Husband came back to life
+• Since then, women observe this fast
+
+**How It's Celebrated:**
+
+🌅 **Morning (Sargi):**
+• Women wake up before sunrise (around 4-5 AM)
+• Eat Sargi (meal prepared by mother-in-law)
+• Includes sweets, fruits, dry fruits, mathri
+• Last meal before starting fast
+
+🌞 **Daytime:**
+• Complete fast - no food, no water
+• Get ready in bridal attire
+• Wear red/pink saree, jewelry, mehendi
+• Apply beautiful mehendi on hands
+
+🌆 **Evening Puja:**
+• Women gather in groups
+• Sit in circle with puja thalis
+• Hear Karva Chauth katha (story)
+• Pass decorated karva (pot) 7 times
+• Sing traditional songs
+
+🌙 **Moon Sighting:**
+• Wait for moon to rise (8-9 PM)
+• See moon through sieve or dupatta
+• Offer water (arghya) to moon
+• Husband gives first sip of water
+• Touches wife's feet as respect
+• Breaks her fast with his hands
+• Exchange gifts
+
+**Special Traditions:**
+
+💝 **Sargi:**
+• Mother-in-law prepares special food
+• Shows love and care for daughter-in-law
+• Includes everything for energy
+
+🎨 **Mehendi:**
+• Intricate designs on hands
+• Husband's name hidden in design
+• Darker mehendi = more love!
+
+👗 **Bridal Look:**
+• Red/pink saree or lehenga
+• Full jewelry (solah shringar)
+• Bindi, sindoor, mangalsutra
+• Look like bride again!
+
+🎁 **Gifts:**
+• Husbands give gifts to wives
+• Mother-in-law gives sargi thali
+• Money, jewelry, clothes
+
+**Preparations:**
+
+**Days Before:**
+• Shopping for new clothes
+• Mehendi artist booking
+• Buying puja items
+
+**Puja Items Needed:**
+• Karva (earthen pot)
+• Sieve (chalni)
+• Decorated thali
+• Fruits, sweets
+• Diyas, incense sticks
+• Red chunri, sindoor
+
+**Regional Variations:**
+
+**Punjab:** Most elaborate celebrations
+**Rajasthan:** Traditional folk songs
+**UP/Delhi:** Combined puja gatherings
+**MP:** Unique local rituals
+
+**Modern Twist:**
+• Many husbands also fast now!
+• Equality in relationships
+• Some couples fast together
+
+**When:** 4th day after full moon in Kartik month (October/November)
+
+**Popular Items:**
+• Karva Chauth special thalis
+• Designer mehndi
+• Matching couple outfits
+• Special gift hampers
+
+**Why Women Love It:**
+• Celebrates marriage
+• Gets full attention from husband
+• Pampered by family
+• Festival with friends
+• Beautiful traditions
+• Strengthens bond
+
+**Scientific View:**
+• Detoxification of body
+• Mental strength test
+• Shows dedication
+
+Karva Chauth is more than fasting - it's about love, dedication, and celebration of marriage! Many modern couples make it special with romantic dinners after moon sighting! 💕
+
+Would you like Karva Chauth katha or sargi recipes? 🌙✨"""
+        
+        # Janmashtami / Krishna Jayanti
+        elif any(word in message_lower for word in ['janmashtami', 'krishna jayanti', 'gokulashtami', 'krishna birthday']):
+            return """**Janmashtami - Lord Krishna's Birthday** 🦚✨
+
+Celebrating the birth of Lord Krishna, the eighth avatar of Lord Vishnu!
+
+**When:** 8th day (Ashtami) of Krishna Paksha in Bhadrapada month (August/September)
+
+**The Divine Birth:**
+• Born at midnight in Mathura prison
+• Parents: Devaki & Vasudeva
+• Born to kill evil King Kansa
+• Secretly taken to Gokul (Nanda & Yashoda)
+• Entire childhood filled with miracles
+
+**Famous Legends:**
+
+🧈 **Makhan Chor (Butter Thief):**
+• Little Krishna loved butter
+• Would steal from every house
+• Formed group with friends
+• Made human pyramids to reach pots
+• Gopis complained but loved him!
+
+🐍 **Kaliya Daman:**
+• Poisonous snake in Yamuna
+• Krishna jumped in and danced on its hood
+• Defeated the snake, saved village
+
+🏔️ **Govardhan Parvat:**
+• Lifted entire mountain on little finger
+• Protected villagers from Indra's rain
+• For 7 days and nights
+
+💃 **Raas Leela:**
+• Divine dance with gopis
+• Played flute in Vrindavan
+• Symbol of divine love
+
+**How It's Celebrated:**
+
+🏛️ **Temples:**
+• Decorated beautifully
+• Krishna idols in cradles (jhulas)
+• Midnight celebrations (Krishna born at 12 AM)
+• Abhishekam (holy bath) to idol
+• Special bhajans and kirtans
+
+🏺 **Dahi Handi:**
+• Main event in Maharashtra & Gujarat
+• Pot (handi) filled with curd, butter, money
+• Hung high from buildings
+• Human pyramids formed to break it
+• Remembers Krishna stealing butter
+• Prize money for winners!
+
+🎭 **Ras Leela Performances:**
+• Dance-dramas depicting Krishna's life
+• Popular in Mathura, Vrindavan
+• Professional and local groups
+• Outdoor stages, beautiful costumes
+
+🍛 **Food & Prasad:**
+• **Panjiri** - Sweet made with dry fruits
+• **Makhana** - Fox nuts with milk
+• **Makhan Mishri** - Butter with sugar crystals
+• **56 Bhog** - 56 different food items
+• **Panchamrit** - 5 sacred ingredients
+• All served to Krishna at midnight
+
+👶 **Cradle Ceremony:**
+• Baby Krishna in decorated cradle
+• Devotees rock the cradle
+• Sing lullabies
+• Offer milk, butter, flowers
+
+**Regional Celebrations:**
+
+🏙️ **Mathura-Vrindavan (UP):**
+• Biggest celebrations worldwide
+• Week-long festivities
+• International visitors
+• Every temple celebrates
+• Raas Leela performances
+
+🌆 **Mumbai (Maharashtra):**
+• Dahi Handi competitions
+• Groups called "Govindas"
+• Prizes worth lakhs
+• Huge public events
+• Bollywood celebrities attend
+
+🏞️ **Gujarat:**
+• Dahi Handi in every locality
+• Makhan chor dressed children
+• Traditional songs and dances
+
+🎪 **ISKCON Temples:**
+• Grand celebrations globally
+• 24-hour kirtan
+• Free prasad distribution
+• Cultural programs
+• Midnight abhishekam
+
+**Fasting:**
+• Many observe nirjala fast (no water)
+• Break fast at midnight after puja
+• Some eat only fruits during day
+
+**Decorations:**
+• Baby footprints (Krishna's steps)
+• Peacock feathers
+• Flutes hanging
+• Flower rangolis
+• Cradle decorations
+
+**Popular Activities:**
+• Dress children as Krishna/Radha
+• Krishna fancy dress competitions
+• Janmashtami special plays
+• Community gatherings
+
+**Spiritual Significance:**
+• Birth of divine consciousness
+• Victory of good over evil
+• Dharma (righteousness) restored
+• Message of Bhagavad Gita
+
+**Why It's Special:**
+• Krishna is most beloved deity
+• Playful childhood stories
+• Represents joy and love
+• Accessible to all ages
+• Fun celebrations
+
+**Famous Krishna Temples:**
+• **Banke Bihari, Vrindavan**
+• **Dwarkadhish Temple, Dwarka**
+• **ISKCON Temples worldwide**
+• **Prem Mandir, Vrindavan**
+
+**Songs & Bhajans:**
+• "Govind Bolo Hari Gopal Bolo"
+• "Achyutam Keshavam"
+• "Hare Krishna Maha Mantra"
+• Regional folk songs
+
+Janmashtami is pure joy! From Dahi Handi competitions to midnight aarti, it celebrates Krishna's playful and divine nature! 
+
+Would you like to know about Krishna's life stories or Dahi Handi rules? 🦚✨"""
         
         # General cultural query
         else:
