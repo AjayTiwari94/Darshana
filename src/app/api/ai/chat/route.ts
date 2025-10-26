@@ -10,6 +10,11 @@ export async function POST(request: NextRequest) {
 
     console.log('[AI API] Received request:', { message: message?.substring(0, 50), sessionId })
     console.log('[AI API] AI Service URL:', AI_SERVICE_URL)
+    console.log('[AI API] Environment check:', {
+      NEXT_PUBLIC_AI_SERVICE_URL: process.env.NEXT_PUBLIC_AI_SERVICE_URL,
+      AI_SERVICE_URL: process.env.AI_SERVICE_URL,
+      fallback: 'http://localhost:8000'
+    })
 
     if (!message || message.trim() === '') {
       return NextResponse.json(
@@ -42,11 +47,18 @@ export async function POST(request: NextRequest) {
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}))
-      console.error('[AI API] AI service error:', errorData)
+      console.error('[AI API] AI service error:', {
+        status: response.status,
+        statusText: response.statusText,
+        errorData,
+        url: aiServiceEndpoint
+      })
       return NextResponse.json(
         { 
           error: 'AI service error', 
           details: errorData.message || response.statusText,
+          status: response.status,
+          url: aiServiceEndpoint,
           success: false
         },
         { status: response.status }
