@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 // Use the public env var (accessible at build time) or fallback to localhost
-const AI_SERVICE_URL = process.env.NEXT_PUBLIC_AI_SERVICE_URL || process.env.AI_SERVICE_URL || 'http://localhost:8000'
+const AI_SERVICE_URL = process.env.NEXT_PUBLIC_AI_SERVICE_URL || process.env.AI_SERVICE_URL || 'https://darshana-copy-production.up.railway.app'
 
 export async function POST(request: NextRequest) {
   try {
