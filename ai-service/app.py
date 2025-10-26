@@ -26,15 +26,17 @@ MODEL_NAME = os.getenv('MODEL_NAME', 'gemini-1.5-pro')  # Using the latest stabl
 
 app = Flask(__name__)
 # Update CORS to allow requests from the frontend (port 3000) and Vercel
+# Flexible CORS configuration for Vercel and local development
 CORS(app, origins=[
     "http://localhost:3000", 
     "http://localhost:3001", 
     "http://localhost:3002", 
     "http://localhost:3003", 
     "http://127.0.0.1:3000",
-    "https://*.vercel.app",  # Allow all Vercel deployments
-    "https://darshana-heritage.vercel.app"  # Your specific Vercel domain
-])
+    "https://darshana-chi.vercel.app",  # Your actual Vercel domain
+    "https://darshana-heritage.vercel.app",  # Backup domain
+    "https://darshana-chi-git-main-ajaytiwari94s-projects.vercel.app"  # Vercel preview URL
+], supports_credentials=True)
 
 # Log environment variables for debugging
 logger.info("Environment variables:")
