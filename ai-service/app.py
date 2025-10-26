@@ -25,8 +25,16 @@ GEMINI_API_KEY = os.getenv('GEMINI_API_KEY', 'your-gemini-api-key-here')  # Add 
 MODEL_NAME = os.getenv('MODEL_NAME', 'gemini-1.5-pro')  # Using the latest stable Gemini model
 
 app = Flask(__name__)
-# Update CORS to allow requests from the frontend (port 3000)
-CORS(app, origins=["http://localhost:3000", "http://localhost:3001", "http://localhost:3002", "http://localhost:3003", "http://127.0.0.1:3000"])
+# Update CORS to allow requests from the frontend (port 3000) and Vercel
+CORS(app, origins=[
+    "http://localhost:3000", 
+    "http://localhost:3001", 
+    "http://localhost:3002", 
+    "http://localhost:3003", 
+    "http://127.0.0.1:3000",
+    "https://*.vercel.app",  # Allow all Vercel deployments
+    "https://darshana-heritage.vercel.app"  # Your specific Vercel domain
+])
 
 # Log environment variables for debugging
 logger.info("Environment variables:")
