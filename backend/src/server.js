@@ -251,6 +251,9 @@ async function processNaradMessage(message, context) {
     }
   }
 }
+app.get("/", (req, res) => {
+  res.json({ message: "Darshana Backend Live ✅" });
+});
 
 const PORT = process.env.PORT || 5000
 
