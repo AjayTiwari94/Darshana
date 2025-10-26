@@ -24,7 +24,7 @@
   ],
   "env": {
     "NEXT_PUBLIC_API_URL": "https://darshana-backend.up.railway.app",
-    "NEXT_PUBLIC_AI_SERVICE_URL": "https://your-ai-service-url.railway.app"
+    "NEXT_PUBLIC_AI_SERVICE_URL": "https://darshana-copy-production.up.railway.app"
   }
 }
 
