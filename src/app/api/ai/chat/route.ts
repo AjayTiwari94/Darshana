@@ -116,12 +116,7 @@ export async function GET() {
       console.error('[AI API Health] AI service unreachable:', error)
       return null
     })
-    export async function GET() {
-      return Response.json({
-      status: 'healthy',
-      service: 'AI Service',
-      });
-    }
+    
 
     if (!response || !response.ok) {
       return NextResponse.json({ 
