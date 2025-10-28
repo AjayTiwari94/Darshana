@@ -254,7 +254,7 @@ const KedarnathHistoryStory: React.FC = () => {
                 transition={{ duration: 0.5, delay: 0.9 }}
               >
                 <img 
-                  src="/images/Kedarnath.jpg" 
+                  src="/public/sacred_places/Kedarnath.jpg"
                   alt="Kedarnath Temple Architecture" 
                   className="w-full h-auto"
                 />
