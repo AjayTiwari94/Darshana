@@ -59,7 +59,7 @@ const MathuraKrishnaJanmabhoomiStory: React.FC = () => {
         >
           <div className="relative h-96">
             <motion.img 
-              src="/images/Mathura.jpg" 
+              src="/Mathura.webp" 
               alt="Mathura Krishna Janmabhoomi" 
               className="w-full h-full object-cover"
               initial={{ scale: 1.1 }}
@@ -190,7 +190,7 @@ const MathuraKrishnaJanmabhoomiStory: React.FC = () => {
                 transition={{ duration: 0.5, delay: 0.9 }}
               >
                 <img 
-                  src="/images/Mathura.jpg" 
+                  src="/Mathura.webp" 
                   alt="Krishna Janmabhoomi Temple" 
                   className="w-full h-auto"
                 />
