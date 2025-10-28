@@ -109,7 +109,7 @@ const AyodhyaRamMandirStory: React.FC = () => {
         >
           <div className="relative h-96">
             <motion.img 
-              src="/sacred_places/Ayodhya.jpg" 
+              src="/Ayodhya.jpg" 
               alt="Ayodhya Ram Mandir" 
               className="w-full h-full object-cover"
               initial={{ scale: 1.1 }}
@@ -254,7 +254,7 @@ const AyodhyaRamMandirStory: React.FC = () => {
                 transition={{ duration: 0.5, delay: 0.9 }}
               >
                 <img 
-                  src="/images/Ayodhya.jpg" 
+                  src="/Ayodhya.jpg" 
                   alt="Ayodhya Ram Mandir Architecture" 
                   className="w-full h-auto"
                 />
