@@ -112,7 +112,7 @@ const AyodhyaMythsStory: React.FC = () => {
         >
           <div className="relative h-96">
             <motion.img 
-              src="/images/sacred_places/Ayodhya.jpg" 
+              src="/Ayodhya.jpg" 
               alt="Ayodhya and Lord Rama" 
               className="w-full h-full object-cover"
               initial={{ scale: 1.1 }}
@@ -250,7 +250,7 @@ const AyodhyaMythsStory: React.FC = () => {
                 transition={{ duration: 0.5, delay: 0.9 }}
               >
                 <img 
-                  src="/images/sacred_places/Ayodhya.jpg" 
+                  src="/Ayodhya.jpg" 
                   alt="Lord Rama's Birthplace" 
                   className="w-full h-auto"
                 />
