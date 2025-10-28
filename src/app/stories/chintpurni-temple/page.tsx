@@ -59,7 +59,7 @@ const ChintpurniTempleStory: React.FC = () => {
         >
           <div className="relative h-96">
             <motion.img 
-              src="/images/chintpurni.jpeg" 
+              src="/sacred_places/Chintpurni.jpg" 
               alt="Chintpurni Temple" 
               className="w-full h-full object-cover"
               initial={{ scale: 1.1 }}
@@ -192,7 +192,7 @@ const ChintpurniTempleStory: React.FC = () => {
                 transition={{ duration: 0.5, delay: 0.9 }}
               >
                 <img 
-                  src="/images/chintpurni.jpeg" 
+                  src="/sacred_places/Chintpurni.jpg" 
                   alt="Chintpurni Temple Architecture" 
                   className="w-full h-auto"
                 />
