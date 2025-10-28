@@ -67,7 +67,7 @@ const KedarnathMythsStory: React.FC = () => {
         <article className="bg-white rounded-2xl shadow-xl overflow-hidden">
           <div className="relative h-96">
             <img 
-              src="public/sacred_places/Kedarnath.jpg" 
+              src="public/Kedarnath.jpg" 
               alt="Kedarnath Temple" 
               className="w-full h-full object-cover"
             />
