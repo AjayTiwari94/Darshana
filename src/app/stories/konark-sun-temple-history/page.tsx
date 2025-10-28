@@ -109,7 +109,7 @@ const KonarkSunTempleHistoryStory: React.FC = () => {
         >
           <div className="relative h-96">
             <motion.img 
-              src="/images/konarksuntemple.jpg" 
+              src="/konarksuntemple.jpg" 
               alt="Konark Sun Temple" 
               className="w-full h-full object-cover"
               initial={{ scale: 1.1 }}
@@ -247,7 +247,7 @@ const KonarkSunTempleHistoryStory: React.FC = () => {
                 transition={{ duration: 0.5, delay: 0.9 }}
               >
                 <img 
-                  src="/images/konarksuntemple.jpg" 
+                  src="/konarksuntemple.jpg" 
                   alt="Konark Sun Temple Architecture" 
                   className="w-full h-auto"
                 />
