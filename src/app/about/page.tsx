@@ -31,12 +31,12 @@ const AboutPage = () => {
     {
       name: 'Ajay Tiwari',
       role: 'Founder & CEO',
-      image: '/app/about/professionalProfile.jpg'
+      image: '/about/professionalProfile.jpg'
     },
     {
       name: 'Darshana Team',
       role: 'Developers & Designers',
-      image: '/app/about/team.png'
+      image: '/about/team.png'
     }
   ]
 
@@ -73,7 +73,7 @@ const AboutPage = () => {
             </div>
             <div className="bg-gray-200 rounded-lg h-80 flex items-center justify-center">
               <img 
-                src="/app/about/Mission.jpg" 
+                src="/about/Mission.jpg" 
                 alt="Mission Visual" 
                 className="h-full w-full object-cover rounded-lg"
               />
@@ -105,7 +105,7 @@ const AboutPage = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="bg-gray-200 rounded-lg h-80 flex items-center justify-center order-2 lg:order-1">
              <img 
-                src="/app/about/story.webp" 
+                src="/about/story.webp" 
                 alt="Mission Visual" 
                 className="h-full w-full object-cover rounded-lg"
               />
