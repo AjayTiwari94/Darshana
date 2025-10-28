@@ -268,7 +268,7 @@ const StorytellingHub: React.FC = () => {
       duration: 10,
       period: 'Ancient Times',
       narrator: 'Ajay Tiwari',
-      imageUrl: '/sacred_places/chintpurni.jpg',
+      imageUrl: '/sacred_places/Chintpurni.jpg',
       contentPreview: 'A deeply revered Shaktipeeth township, Chintpurni is a major pilgrimage centre that attracts lakhs of people every year...'
     },
     {
@@ -280,7 +280,7 @@ const StorytellingHub: React.FC = () => {
       state: 'Himachal Pradesh',
       duration: 8,
       narrator: 'Ajay Tiwari',
-      imageUrl: '/sacred_places/chintpurni.jpg',
+      imageUrl: '/sacred_places/Chintpurni.jpg',
       contentPreview: 'Believers hold that as the dead body of Sati dismembered during an all consuming cosmic Tandav dance of Lord Shiva...'
     },
     {
