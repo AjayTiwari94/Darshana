@@ -34,10 +34,7 @@ const MathuraBeliefsPage = () => {
 
   // Sample images for the carousel
   const images = [
-    '/images/sacred_places/Mathura.jpg',
-    '/images/premmandir.jpg',
-    '/images/konarksuntemple.jpg',
-    '/images/golderntemple.jpg'
+    '/Mathura.webp'
   ]
 
   // Update progress as user scrolls
