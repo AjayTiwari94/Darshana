@@ -30,7 +30,6 @@ const BhangarhHistoryStory = () => {
     subtitle: "From Royal Residence to Haunted Ruins",
     image: "/bhangarhfort.jpg",
     images: [
-      "/images/bhangarhfort.jpg",
       "/bhangarhfort.jpg"
     ],
     duration: 10,
