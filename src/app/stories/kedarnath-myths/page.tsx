@@ -136,7 +136,7 @@ const KedarnathMythsStory: React.FC = () => {
               
               <div className="my-8 rounded-lg overflow-hidden shadow-lg">
                 <img 
-                  src="/sacred_places/Kedarnath.jpg" 
+                  src="public/Kedarnath.jpg" 
                   alt="Kedarnath Temple Interior" 
                   className="w-full h-64 object-cover"
                 />
