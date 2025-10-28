@@ -34,10 +34,7 @@ const ChintpurniBeliefsPage = () => {
 
   // Sample images for the carousel
   const images = [
-    '/images/chintpurni.jpg',
-    '/images/sacred_places/Naina-Devi.jpg',
-    '/images/Naina-Devi.jpg',
-    '/images/premmandir.jpg'
+    '/sacred_places/Chintpurni.jpg'
   ]
 
   // Update progress as user scrolls
