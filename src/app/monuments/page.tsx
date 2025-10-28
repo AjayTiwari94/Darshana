@@ -187,7 +187,7 @@ const MonumentsPage: React.FC = () => {
         category: 'Palace',
         period: 'Rajput Era (1799)',
         significance: 'Iconic Pink City Architecture',
-        images: ['/images/hawa-mahal.jpg', 'https://images.pexels.com/photos/9373897/pexels-photo-9373897.jpeg?auto=compress&cs=tinysrgb&w=800'],
+        images: ['monuments/hawa-mahal.jpg', 'https://images.pexels.com/photos/9373897/pexels-photo-9373897.jpeg?auto=compress&cs=tinysrgb&w=800'],
         virtualTours: [
           { _id: 'vt4', title: 'Window View Experience', type: '360_tour', duration: 12 }
         ],
@@ -354,7 +354,7 @@ const MonumentsPage: React.FC = () => {
       <div 
         className="relative h-64 bg-cover bg-center bg-no-repeat flex items-center justify-center"
         style={{
-          backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.3)), url('/images/heritage-background.jpg')"
+          backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.3)), url('/monuments/monuments-background.jpg')"
         }}
       >
         <div className="text-center text-white">
