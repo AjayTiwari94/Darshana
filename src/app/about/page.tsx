@@ -105,7 +105,7 @@ const AboutPage = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="bg-gray-200 rounded-lg h-80 flex items-center justify-center order-2 lg:order-1">
              <img 
-                src="/about/story.webp" 
+                src="src/app/about/story.webp" 
                 alt="Mission Visual" 
                 className="h-full w-full object-cover rounded-lg"
               />
