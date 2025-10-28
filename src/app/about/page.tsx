@@ -31,12 +31,12 @@ const AboutPage = () => {
     {
       name: 'Ajay Tiwari',
       role: 'Founder & CEO',
-      image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+      image: '/app/about/professionalProfile.jpg'
     },
     {
-      name: 'Narad AI',
-      role: 'Cultural Guide',
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+      name: 'Darshana Team',
+      role: 'Developers & Designers',
+      image: '/app/about/team.png'
     }
   ]
 
@@ -68,11 +68,15 @@ const AboutPage = () => {
               </p>
               <div className="flex items-center text-primary-600">
                 <Users className="h-6 w-6 mr-2" />
-                <span className="font-medium">Founded in 2024</span>
+                <span className="font-medium">Founded in 2025</span>
               </div>
             </div>
             <div className="bg-gray-200 rounded-lg h-80 flex items-center justify-center">
-              <Globe className="h-16 w-16 text-gray-400" />
+              <img 
+                src="/app/about/Mission.jpg" 
+                alt="Mission Visual" 
+                className="h-full w-full object-cover rounded-lg"
+              />
             </div>
           </div>
         </div>
@@ -100,7 +104,11 @@ const AboutPage = () => {
         <div className="bg-white rounded-lg shadow-sm p-8 mb-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="bg-gray-200 rounded-lg h-80 flex items-center justify-center order-2 lg:order-1">
-              <Award className="h-16 w-16 text-gray-400" />
+             <img 
+                src="/app/about/story.webp" 
+                alt="Mission Visual" 
+                className="h-full w-full object-cover rounded-lg"
+              />
             </div>
             <div className="order-1 lg:order-2">
               <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Story</h2>
